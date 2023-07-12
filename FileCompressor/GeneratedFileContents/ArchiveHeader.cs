@@ -9,6 +9,8 @@ namespace FileCompressor
 {
     class ArchiveHeader
     {
+        //TODO BUILD OWN EXCEPTION THAT IS THEN RECORDED FOR IN THE READER
+
         //is set as soon as the archive is beeing created
         public DateTime TimeOfCreation { get;}
         private int numberOfFilesInArchive;
@@ -98,7 +100,7 @@ namespace FileCompressor
             
 
         }
-
+        //TODO TODO TODO!!!!! THIS NEEDS TO BE SAFER --> PARITY BITS OR HASH FUNCTION, we havend learned yet hwo to create hashes so parity bits
         public ArchiveHeader(byte[] archiveHeaderAsBytes)
         {
             // Just to make sure the expected size is also found in the given argument
@@ -111,11 +113,43 @@ namespace FileCompressor
             long ticks = BitConverter.ToInt64(archiveHeaderAsBytes, 0);
             this.TimeOfCreation = new DateTime(ticks);
 
-            this.RLECompressionActive = BitConverter.ToBoolean(archiveHeaderAsBytes, 8);
+            //TODO CHECK TO SEE IF BOOL IS ONE OR ZERO; ELSE ERROR IN READING ARCHIVE HEADER
+
+
+            //another safty mechanism for the ArchiveHeader
+            try
+            {
+                this.RLECompressionActive = BitConverter.ToBoolean(archiveHeaderAsBytes, 8);
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("Arguments null!");
+                throw e;
+            }
+            catch(ArgumentOutOfRangeException e) 
+            {
+                Console.WriteLine("TODO ERROR IN ARGUMENTS");
+                throw e;
+            }
 
             this.NumberOfFilesInArchive = BitConverter.ToInt32(archiveHeaderAsBytes, 9);
 
             this.SizeOfFilesCombined = BitConverter.ToInt64(archiveHeaderAsBytes, 13);
+        }
+
+        public void PrintArchiveHeaderToConsole(string archiveName,string archivePath)
+        {
+            //this.TimeOfCreation = DateTime.Now;
+            //this.SizeOfFilesCombined = combinedSizeForAllFiles;
+            //this.NumberOfFilesInArchive = numberOfFilesInsideDirectory;
+            //this.RLECompressionActive = isRLECompressionActive;
+            Console.WriteLine($"Archive Name: {archiveName} ");
+            Console.WriteLine($"Archive Path: {archivePath} ");
+            Console.WriteLine(string.Empty);
+            Console.WriteLine($"Number of files contained: { this.NumberOfFilesInArchive}");
+            Console.WriteLine($"Size of File(kB): { this.SizeOfFilesCombined / 1024}");
+            Console.WriteLine($"RLE Compression active: { this.RLECompressionActive}");
+            Console.WriteLine($"Archive creation time: { this.TimeOfCreation}");
         }
     }
 }

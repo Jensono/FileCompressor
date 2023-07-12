@@ -11,8 +11,8 @@ namespace FileCompressor
     {
         //source and destination, source is a path to a directory that should be compressed. Destination is just a file name that needs a ending. but maybe one should just be able to sepcify a name only
         //TODO BOTH NEED TO BE CHECKED BEFORE STARTING THE CREATION PROCESS
-
-
+        //TODO THERE NEED TO BE A CHECK TO SEE IF ENOUGH DISK SPACE IS READY FOR THE ARCHIVE FILE
+        
         
         public CreateArchiveCommand(string sourcePathToDirectory, string destinationNameForTheFile,bool isRleCompressionActive) 
         {

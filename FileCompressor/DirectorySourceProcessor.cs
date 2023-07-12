@@ -10,6 +10,9 @@ namespace FileCompressor
     //this class is given a source and checks if the given string is a valid directory on the machine, if so it then can create a list of fileMetaInformation about the directory and give that information back
     class DirectorySourceProcessor
     {
+
+        //TODO CHECK IF THE NUMBER OF FILES IS SMALLER THAN INT; OR ELSE SHIT IS GONNA HIT THE FAN.
+
         //getter and setters TODO fields and properties
         //public List<FileMetaInformation> ContainedFileInfo { get; private set; }
         public string givenSourceDirectory { get; private set; }

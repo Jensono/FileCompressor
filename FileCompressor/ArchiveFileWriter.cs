@@ -56,9 +56,13 @@ namespace FileCompressor
                             {
                                 archiveFileStream.Write(buffer, 0, bytesRead);
                             }
+
+                            //is it  even necessary to close the streams when im ALREADY use using?
+                            fileStream.Close();
                         }
 
                     }
+                    archiveFileStream.Close();
                 }
             }
         }

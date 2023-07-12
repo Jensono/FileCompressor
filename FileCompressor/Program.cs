@@ -12,7 +12,13 @@ namespace FileCompressor
         {
 
             CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein","test.jth",false);
-            
+
+            ArchiveInfoCommand archiveInfoCommand = new ArchiveInfoCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
+
+            ListArchiveContentsCommand listArchiveContentsCommand = new ListArchiveContentsCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
+
+
+
             DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(@"C:\Users\Jensh\Desktop\Testdatein");
             var das = directorySourceProcessor.CreateFileMetaInfoListForDirectory();
             //var test = new ArchiveHeader(484,true,1278127318);
