@@ -73,6 +73,8 @@ namespace FileCompressor
 
             long ticks = this.TimeOfCreation.Ticks;
             byte[] dateTimeBytes = BitConverter.GetBytes(ticks);
+
+
             
 
 
