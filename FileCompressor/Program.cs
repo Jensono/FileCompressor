@@ -10,9 +10,14 @@ namespace FileCompressor
     {
         static void Main(string[] args)
         {
-            var test = new ArchiveHeader(484,true,1278127318);
-            byte[] archiveBytes = test.GetArchiveHeaderAsBytes();
-            var test2 = new ArchiveHeader(archiveBytes);
+
+            CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein","test.jth",false);
+            
+            DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(@"C:\Users\Jensh\Desktop\Testdatein");
+            var das = directorySourceProcessor.CreateFileMetaInfoListForDirectory();
+            //var test = new ArchiveHeader(484,true,1278127318);
+            //byte[] archiveBytes = test.GetArchiveHeaderAsBytes();
+            //var test2 = new ArchiveHeader(archiveBytes);
         }
     }
 }

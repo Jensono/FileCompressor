@@ -117,6 +117,35 @@ namespace FileCompressor
 
         }
 
+        public byte[] GetFileHeaderAsByteArray()      
+        {
+            // fileSIzeName(int)+ filename + filepathsize(INT) + FileRelativePath + filesizeoriginal (long) + filesizecompressed (long)
+            long sumOfNumberOfBytesForFileHeader = 4 + this.FileNameSize + 4 + this.FileRelativePathSize + 8 + 8;
+            byte[] fileHeaderAsBytes = new byte[sumOfNumberOfBytesForFileHeader];
+
+            byte[] fileNameSizeAsBytes = BitConverter.GetBytes(this.FileNameSize);
+            byte[] fileNameAsBytes = Encoding.UTF8.GetBytes(this.FileName);
+            byte[] filePathSizeAsBytes = BitConverter.GetBytes(this.FileRelativePathSize);
+            byte[] filePathAsBytes = Encoding.UTF8.GetBytes(this.FileRelativePath);
+            byte[] fileOriginialSizeAsBytes = BitConverter.GetBytes(this.FileSizeOriginal);
+            byte[] fileCompressionSizeAsBytes = BitConverter.GetBytes(this.FileSizeCompressed);
+
+            fileNameSizeAsBytes.CopyTo(fileHeaderAsBytes,0);
+            fileNameAsBytes.CopyTo(fileHeaderAsBytes, 4);
+            filePathSizeAsBytes.CopyTo(fileHeaderAsBytes, 4+this.FileNameSize);
+            filePathAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4);
+            fileOriginialSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4 + this.FileRelativePathSize);
+            fileCompressionSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4 + this.FileRelativePathSize + 8);
+
+            return fileHeaderAsBytes;
+
+
+
+
+
+
+        }
+
 
     }
 }

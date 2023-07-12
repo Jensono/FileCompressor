@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -56,19 +57,19 @@ namespace FileCompressor
         public byte[] GetArchiveHeaderAsBytes()
         {
 
-            //21 bytes - 8 for creation time, 1 for compression active or not, 
+            ////21 bytes - 8 for creation time, 1 for compression active or not, 
 
-            // HOW TO CONVERT FROM DATETIME TO BYTES AND BACK
-            ////var now = DateTime.Now;
-            ////long ticks = now.Ticks;
-            ////byte[] bytes = BitConverter.GetBytes(ticks);
+            //// HOW TO CONVERT FROM DATETIME TO BYTES AND BACK
+            //////var now = DateTime.Now;
+            //////long ticks = now.Ticks;
+            //////byte[] bytes = BitConverter.GetBytes(ticks);
 
-            ////var ticksrecorder = BitConverter.ToInt64(bytes, 0);
-            ////var then = DateTime.FromBinary(ticksrecorder);
-            ////Console.WriteLine(then.ToString());
+            //////var ticksrecorder = BitConverter.ToInt64(bytes, 0);
+            //////var then = DateTime.FromBinary(ticksrecorder);
+            //////Console.WriteLine(then.ToString());
 
 
-            //change this to the correct number of bytes in the header;
+            ////change this to the correct number of bytes in the header;
             byte[] archiveHeaderAsBytes = new byte[21];
 
             long ticks = this.TimeOfCreation.Ticks;
@@ -93,6 +94,8 @@ namespace FileCompressor
             combinedOriginalSizeOfFilesInArchive.CopyTo(archiveHeaderAsBytes, 13);
 
             return archiveHeaderAsBytes;
+
+            
 
         }
 
