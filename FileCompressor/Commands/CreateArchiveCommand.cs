@@ -17,8 +17,12 @@ namespace FileCompressor
         public CreateArchiveCommand(string sourcePathToDirectory, string destinationNameForTheFile,bool isRleCompressionActive) 
         {
 
+            // IF A PERSON OVERWRITTES AN ARCHIVE it first is inside the list but can never be read resulting in an error or a loop TODO FIX!! 
+            //first check if the given destionation name already exists in the directory, if it does and it is one of our own files (ArchiveHeader), delete it before continueing with the process
+            // TODO WHEN OVERWRITTING a file first needs to be safed under some kind of temporary name, if while the file should be overwritten there is an error both are lost!!!!!
             DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(sourcePathToDirectory);
             List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory();
+ 
 
             ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count,isRleCompressionActive,this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));
 
@@ -33,7 +37,7 @@ namespace FileCompressor
             long sum = 0;
             foreach (FileMetaInformation fileMetaInfo in fileList)
             {
-                sum += fileMetaInfo.FileInfo.Length;
+                sum += fileMetaInfo.Length;
 
             }
 

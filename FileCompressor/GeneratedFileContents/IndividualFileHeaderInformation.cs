@@ -101,7 +101,7 @@ namespace FileCompressor
         //TODO filepath and filename validity is not checked here
         // file path and name have to be converted to utf-8 before beeing processed
         //all Sizes are in Bytes
-        public IndividualFileHeaderInformation(string givenFileName,string givenFileRelativePath,long givenFileSizeOriginal)
+        public IndividualFileHeaderInformation(string givenFileName,string givenFileRelativePath,long givenFileSizeOriginal,long givenFileSizeCompressed)
         {
 
             this.FileName = givenFileName;

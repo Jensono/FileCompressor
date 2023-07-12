@@ -34,6 +34,7 @@ namespace FileCompressor
                 if (this.IsRleCompressionActive == true)
                 {
                     ///TODO RLE COMPRESSION
+                    /////file headers need to be adjusted after they are wirtten to include the true filesizewithCOMPRESSION!!!
                     throw new NotImplementedException();
                 }
                 else
@@ -41,12 +42,13 @@ namespace FileCompressor
                     foreach (var fileInfo in filesToBeWrittenIntoArchive)
                     {
                         // get the file header as a byte array and write it into the file
-                        byte[] fileHeaderBytes = new IndividualFileHeaderInformation(fileInfo.FileInfo.Name, fileInfo.RelativePathForArchive, fileInfo.FileInfo.Length).GetFileHeaderAsByteArray();
+                        byte[] fileHeaderBytes = new IndividualFileHeaderInformation(fileInfo.Name, fileInfo.RelativePathForArchive, fileInfo.Length, fileInfo.Length).GetFileHeaderAsByteArray();
                         archiveFileStream.Write(fileHeaderBytes, 0, fileHeaderBytes.Length);
 
 
-                        using (var fileStream = new FileStream(fileInfo.FileInfo.FullName, FileMode.Open, FileAccess.Read))
+                        using (var fileStream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
                         {
+                            
                             var buffer = new byte[1024]; // 1KB buffer
 
                             ///TODO look closer as how this actually functions.

@@ -8,5 +8,6 @@ namespace FileCompressor
 {
     class ExtractArchiveCommand
     {
+        //COPY MOST OF THE LISTING AND INFO SHIT HERE
     }
 }
