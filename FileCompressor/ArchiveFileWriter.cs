@@ -7,7 +7,7 @@ namespace FileCompressor
     internal class ArchiveFileWriter
     {
         //source and destination. Then it writes has a method for c
-
+        //TODO WRITE PROPERTIES AND FIELDS
         private string DestinationFolder;
         private string ArchiveName;
         private bool IsRleCompressionActive;
@@ -48,15 +48,25 @@ namespace FileCompressor
 
                         using (var fileStream = new FileStream(fileInfo.FullName, FileMode.Open, FileAccess.Read))
                         {
-                            
-                            var buffer = new byte[1024]; // 1KB buffer
+
+                            int standartBufferLength = 1048576; // 1MB buffer
+                            var buffer = new byte[standartBufferLength]; 
 
                             ///TODO look closer as how this actually functions.
                             int bytesRead;
 
+                            //todo remove this variable
+                            long mbsRead = 0;
                             while ((bytesRead = fileStream.Read(buffer, 0, buffer.Length)) > 0)
                             {
+                                mbsRead++;
                                 archiveFileStream.Write(buffer, 0, bytesRead);
+                                ////////////////////////REMOVE/////////////////////
+                                if (mbsRead%100 ==0)
+                                {
+                                    Console.WriteLine("read mbs already: " + mbsRead);
+                                }
+                                ////////////////////////////////////////////////////
                             }
 
                             //is it  even necessary to close the streams when im ALREADY use using?

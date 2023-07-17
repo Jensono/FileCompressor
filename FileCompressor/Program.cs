@@ -11,16 +11,13 @@ namespace FileCompressor
         static void Main(string[] args)
         {
 
-            //CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", false);
+            CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", false);
 
             ArchiveInfoCommand archiveInfoCommand = new ArchiveInfoCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
 
             ListArchiveContentsCommand listArchiveContentsCommand = new ListArchiveContentsCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
 
-
-
-            DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(@"C:\Users\Jensh\Desktop\Testdatein");
-            var das = directorySourceProcessor.CreateFileMetaInfoListForDirectory();
+            ExtractArchiveCommand extract = new ExtractArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth", @"C:\Users\Jensh\Desktop\new");
             //var test = new ArchiveHeader(484,true,1278127318);
             //byte[] archiveBytes = test.GetArchiveHeaderAsBytes();
             //var test2 = new ArchiveHeader(archiveBytes);

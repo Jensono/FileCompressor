@@ -151,5 +151,7 @@ namespace FileCompressor
             Console.WriteLine($"RLE Compression active: { this.RLECompressionActive}");
             Console.WriteLine($"Archive creation time: { this.TimeOfCreation}");
         }
+
+
     }
 }

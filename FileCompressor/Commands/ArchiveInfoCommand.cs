@@ -31,34 +31,8 @@ namespace FileCompressor
 
         private void ReadAndConvertArchiveHeader()
         {
-            byte[] buffer = new byte[21];
-
-            try
-            {
-                using (FileStream fs = new FileStream(this.archiveSource, FileMode.Open, FileAccess.Read))
-                {
-                    fs.Read(buffer, 0, buffer.Length);
-                }
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-
-            try
-            {
-                ArchiveHeader header = new ArchiveHeader(buffer);
-
-                FileInfo fileInfo = new FileInfo(this.archiveSource);
-                header.PrintArchiveHeaderToConsole(fileInfo.Name, fileInfo.DirectoryName);
-                
-            }
-            //TODO BUILD OWN EXCEPTION FOR ARCHIVE HEADER IF THERE WAS DATA THAT WAS NOT EXPECTED!
-            catch (Exception e)
-            {
-
-                throw;
-            }
+            ArchiveFileReader archiveReader = new ArchiveFileReader(this.archiveSource);
+            archiveReader.ReadArchiveHeaderAndPrintToConsole();
         }
     }
 }

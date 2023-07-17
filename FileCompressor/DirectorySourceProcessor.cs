@@ -98,11 +98,57 @@ namespace FileCompressor
             if (Directory.Exists(this.givenSourceDirectory))
             {
                 this.isSourceValid = true;
+
+
+
+                try
+                {
+                    // Try to get entries in the directory.
+                    Directory.GetFileSystemEntries(this.givenSourceDirectory);
+                    this.isSourceValid = true;
+                }
+                catch (UnauthorizedAccessException)
+                {
+                    Console.WriteLine($"Directory at {this.givenSourceDirectory} is not accessible");
+                    this.isSourceValid = false;
+                }
+                //TODO remove after testing:
+                catch(Exception e) 
+                {
+                    throw e;
+                }
             }
             else
             {
                 this.isSourceValid = false;
             }
+
+        }
+
+        public bool CheckForEnoughDriveSpace(long minimumRequiredSpace)
+        {
+            try
+            {
+                DriveInfo drive = new DriveInfo(this.givenSourceDirectory);
+
+                long availableSpace = drive.AvailableFreeSpace;
+                // Define a threshold for the minimum required space. This could be a specific number or a percentage of the total drive space.
+                
+                if (availableSpace < minimumRequiredSpace)
+                {//todo change text to errorcode 
+                    Console.WriteLine($"Not enough space on the drive to create a new file. Required: {minimumRequiredSpace}, Available: {availableSpace}");
+                    return false;
+                }
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                //todo change text to errorcode 
+                Console.WriteLine($"Error when checking free space for directory at {this.givenSourceDirectory}: {e.Message}");
+                return false;
+            }
+
 
         }
 

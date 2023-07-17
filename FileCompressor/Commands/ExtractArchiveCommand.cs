@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace FileCompressor
+﻿namespace FileCompressor
 {
-    class ExtractArchiveCommand
+    internal class ExtractArchiveCommand
     {
-        //COPY MOST OF THE LISTING AND INFO SHIT HERE
+        public ExtractArchiveCommand(string archiveSource, string destination)
+
+        {
+            ArchiveFileReader archiveReader = new ArchiveFileReader(archiveSource);
+            archiveReader.ExtractArchiveFiles(destination);
+        }
     }
 }
