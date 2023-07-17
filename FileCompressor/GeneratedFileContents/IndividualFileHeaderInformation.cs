@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileCompressor
 {
-    class IndividualFileHeaderInformation
+    public class IndividualFileHeaderInformation
     {
 
 
@@ -14,87 +14,87 @@ namespace FileCompressor
 
         //could also just use unsigned int to get more bytes
 
-        private string fileName;
-        public string FileName
+        private string name;
+        public string Name
         {
-            get { return this.fileName; }
+            get { return this.name; }
             set
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException($"{nameof(this.FileName)} cannot be null!");
+                    throw new ArgumentNullException($"{nameof(this.Name)} cannot be null!");
                 }
-                this.fileName = value;
+                this.name = value;
             }
         }
 
-        private string fileRelative;
-        public string FileRelativePath
+        private string relativePath;
+        public string RelativePath
         {
-            get { return this.fileRelative; }
+            get { return this.relativePath; }
             set
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException($"{nameof(this.FileRelativePath)} cannot be null!");
+                    throw new ArgumentNullException($"{nameof(this.RelativePath)} cannot be null!");
                 }
-                this.fileRelative = value;
+                this.relativePath = value;
             }
         }
 
-        private long fileSizeOriginal;
-        public long FileSizeOriginal
+        private long sizeOriginal;
+        public long SizeOriginal
         {
-            get { return this.fileSizeOriginal; }
+            get { return this.sizeOriginal; }
             set
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException($"{nameof(this.FileSizeOriginal)} cannot be negative!");
+                    throw new ArgumentOutOfRangeException($"{nameof(this.SizeOriginal)} cannot be negative!");
                 }
-                this.fileSizeOriginal = value;
+                this.sizeOriginal = value;
             }
         }
 
-        private long fileSizeCompressed;
-        public long FileSizeCompressed
+        private long sizeCompressed;
+        public long SizeCompressed
         {
-            get { return this.fileSizeCompressed; }
+            get { return this.sizeCompressed; }
             set
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException($"{nameof(this.FileSizeCompressed)} cannot be negative!");
+                    throw new ArgumentOutOfRangeException($"{nameof(this.SizeCompressed)} cannot be negative!");
                 }
-                this.fileSizeCompressed = value;
+                this.sizeCompressed = value;
             }
         }
 
-        private int fileNameSize;
-        public int FileNameSize
+        private int nameSize;
+        public int NameSize
         {
-            get { return this.fileNameSize; }
+            get { return this.nameSize; }
             set
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException($"{nameof(this.FileNameSize)} cannot be negative!");
+                    throw new ArgumentOutOfRangeException($"{nameof(this.NameSize)} cannot be negative!");
                 }
-                this.fileNameSize = value;
+                this.nameSize = value;
             }
         }
 
-        private int fileRelativePathSize;
-        public int FileRelativePathSize
+        private int relativePathSize;
+        public int RelativePathSize
         {
-            get { return this.fileRelativePathSize; }
+            get { return this.relativePathSize; }
             set
             {
                 if (value < 0)
                 {
-                    throw new ArgumentOutOfRangeException($"{nameof(this.FileRelativePathSize)} cannot be negative!");
+                    throw new ArgumentOutOfRangeException($"{nameof(this.RelativePathSize)} cannot be negative!");
                 }
-                this.fileRelativePathSize = value;
+                this.relativePathSize = value;
             }
         }
 
@@ -104,14 +104,14 @@ namespace FileCompressor
         public IndividualFileHeaderInformation(string givenFileName,string givenFileRelativePath,long givenFileSizeOriginal,long givenFileSizeCompressed)
         {
 
-            this.FileName = givenFileName;
-            this.FileRelativePath = givenFileRelativePath;
-            this.FileSizeOriginal = givenFileSizeOriginal;
+            this.Name = givenFileName;
+            this.RelativePath = givenFileRelativePath;
+            this.SizeOriginal = givenFileSizeOriginal;
             //the file size with compression is first set to the original size, where ever this object is created. there is a looop outside that that after writing the bytes to the .dat file, returns to the individualfile header and 
             // rewrites the correct size, given that we already use long there is no way a size bigger than that is created.
-            this.FileSizeCompressed = givenFileSizeOriginal;
-            this.FileNameSize = Encoding.UTF8.GetByteCount(givenFileName);
-            this.FileRelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);
+            this.SizeCompressed = givenFileSizeOriginal;
+            this.NameSize = Encoding.UTF8.GetByteCount(givenFileName);
+            this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);
 
 
 
@@ -120,22 +120,22 @@ namespace FileCompressor
         public byte[] GetFileHeaderAsByteArray()      
         {
             // fileSIzeName(int)+ filename + filepathsize(INT) + FileRelativePath + filesizeoriginal (long) + filesizecompressed (long)
-            long sumOfNumberOfBytesForFileHeader = 4 + this.FileNameSize + 4 + this.FileRelativePathSize + 8 + 8;
+            long sumOfNumberOfBytesForFileHeader = 4 + this.NameSize + 4 + this.RelativePathSize + 8 + 8;
             byte[] fileHeaderAsBytes = new byte[sumOfNumberOfBytesForFileHeader];
 
-            byte[] fileNameSizeAsBytes = BitConverter.GetBytes(this.FileNameSize);
-            byte[] fileNameAsBytes = Encoding.UTF8.GetBytes(this.FileName);
-            byte[] filePathSizeAsBytes = BitConverter.GetBytes(this.FileRelativePathSize);
-            byte[] filePathAsBytes = Encoding.UTF8.GetBytes(this.FileRelativePath);
-            byte[] fileOriginialSizeAsBytes = BitConverter.GetBytes(this.FileSizeOriginal);
-            byte[] fileCompressionSizeAsBytes = BitConverter.GetBytes(this.FileSizeCompressed);
+            byte[] fileNameSizeAsBytes = BitConverter.GetBytes(this.NameSize);
+            byte[] fileNameAsBytes = Encoding.UTF8.GetBytes(this.Name);
+            byte[] filePathSizeAsBytes = BitConverter.GetBytes(this.RelativePathSize);
+            byte[] filePathAsBytes = Encoding.UTF8.GetBytes(this.RelativePath);
+            byte[] fileOriginialSizeAsBytes = BitConverter.GetBytes(this.SizeOriginal);
+            byte[] fileCompressionSizeAsBytes = BitConverter.GetBytes(this.SizeCompressed);
 
             fileNameSizeAsBytes.CopyTo(fileHeaderAsBytes,0);
             fileNameAsBytes.CopyTo(fileHeaderAsBytes, 4);
-            filePathSizeAsBytes.CopyTo(fileHeaderAsBytes, 4+this.FileNameSize);
-            filePathAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4);
-            fileOriginialSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4 + this.FileRelativePathSize);
-            fileCompressionSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4 + this.FileRelativePathSize + 8);
+            filePathSizeAsBytes.CopyTo(fileHeaderAsBytes, 4+this.NameSize);
+            filePathAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize + 4);
+            fileOriginialSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize + 4 + this.RelativePathSize);
+            fileCompressionSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize + 4 + this.RelativePathSize + 8);
 
             return fileHeaderAsBytes;
 

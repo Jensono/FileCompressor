@@ -8,12 +8,16 @@ namespace FileCompressor
     //TODO FILEHEADER MUST MUST MUST BE CHECKED OR WEIRD ASS SHIT IS GOING TO HAPPEN, excpetions like arithemeticoperationinvalid already seen in here.
     internal class ArchiveFileReader
     {
+        //TODO PROPERTIES
         public string ArchiveSource { get; set; }
         public FixedVariables FixedVariables { get; set; }
-        public ArchiveFileReader(string source)
+        public ICompressionAlgorithm CompressionAlogrithmenUsed { get; private set; }
+
+        public ArchiveFileReader(string source,ICompressionAlgorithm compressionAlgorithm)
         {
             ArchiveSource = source;
             this.FixedVariables = new FixedVariables();
+            this.CompressionAlogrithmenUsed = compressionAlgorithm;
         }
 
         public List<string> ReadArchiveFileAndReturnEntries()
@@ -30,6 +34,7 @@ namespace FileCompressor
 
             if (!this.IsArchiveHeaderValid(out header))
             {
+                throw new Exception("CHANGE THIS SHIT TODO");
                 //this method must throw a exception, todo i dont know if i need to catch it here.
             }
 
@@ -46,45 +51,11 @@ namespace FileCompressor
 
                     for (int i = 0; i < numberOfFilesInFile; i++)
                     {
-                        byte[] stringNameSizeBuffer = new byte[4];
-                        // Skip the first 21 Bytes as these are the Archive Header
-                        filestream.Seek(currentPositionInFile, SeekOrigin.Begin);
-                        //read from the filestream the length of the filename
-                        filestream.Read(stringNameSizeBuffer, 0, stringNameSizeBuffer.Length);
-                        //Convert the size to int
-
-                        //TODO CHECK TO SEE IF POSITIV IF NOT END THE READ!
-                        int SizeOfNameInBytes = BitConverter.ToInt32(stringNameSizeBuffer, 0);
-
-                        byte[] fileNameBuffer = new byte[SizeOfNameInBytes];
-
-                        //get the file name from the fileheader
-                        filestream.Read(fileNameBuffer, 0, fileNameBuffer.Length);
-                        string fileName = Encoding.UTF8.GetString(fileNameBuffer);
-
-                        //Read the size of the pathname
-                        byte[] stringPathSizeBuffer = new byte[4];
-                        filestream.Read(stringPathSizeBuffer, 0, stringPathSizeBuffer.Length);
-                        int sizeOfPathInBytes = BitConverter.ToInt32(stringPathSizeBuffer, 0);
-                        byte[] filePathBuffer = new byte[sizeOfPathInBytes];
-
-                        //get the path name from the fileheader
-                        filestream.Read(filePathBuffer, 0, filePathBuffer.Length);
-                        string filePath = Encoding.UTF8.GetString(fileNameBuffer);
-
-                        byte[] fileSizeNoCompressionBuffer = new byte[8];
-
-                        filestream.Read(fileSizeNoCompressionBuffer, 0, fileSizeNoCompressionBuffer.Length);
-                        long fileSizeNoCompression = BitConverter.ToInt64(fileSizeNoCompressionBuffer, 0);
-
-                        byte[] fileSizeWithCompressionBuffer = new byte[8];
-                        filestream.Read(fileSizeWithCompressionBuffer, 0, fileSizeWithCompressionBuffer.Length);
-                        long fileSizeWithCompression = BitConverter.ToInt64(fileSizeWithCompressionBuffer, 0);
-
+                        IndividualFileHeaderInformation fileHeader = this.ReadIndividualFileHeader(filestream, currentPositionInFile);
                         //skip the file , we dont need that shit, we only need the information
-                        filestream.Seek(fileSizeWithCompression, SeekOrigin.Current);
+                        filestream.Seek(fileHeader.SizeCompressed, SeekOrigin.Current);
 
-                        foundFileInformationList.Add(new IndividualFileHeaderInformation(fileName, filePath, fileSizeNoCompression, fileSizeWithCompression));
+                        foundFileInformationList.Add(fileHeader);
                         currentPositionInFile = filestream.Position;
                     }
                 }
@@ -97,7 +68,7 @@ namespace FileCompressor
             //TODO just return a list of strings
             foreach (var item in foundFileInformationList)
             {
-                foundFileNames.Add(item.FileName);
+                foundFileNames.Add(item.Name);
             }
 
             return foundFileNames;
@@ -136,51 +107,11 @@ namespace FileCompressor
                 using (FileStream archiveFilestream = new FileStream(this.ArchiveSource, FileMode.Open, FileAccess.Read))
                 {
                     //by defoult we start where the archive header ends.
-                    long currentPositionInFile = this.FixedVariables.ArchiveHeaderLength ;
+                    long currentPositionInFile = this.FixedVariables.ArchiveHeaderLength;
 
                     for (int i = 0; i < numberOfFilesInFile; i++)
                     {
-
-
-                        ///TODO TODO TODO remove this part to a new function that just retunrs the content of the fileheader and where to start and end reading.
-
-
-                                    byte[] stringNameSizeBuffer = new byte[4];
-                                    // Skip the first 21 Bytes as these are the Archive Header
-                                    archiveFilestream.Seek(currentPositionInFile, SeekOrigin.Begin);
-                                    //read from the filestream the length of the filename
-                                    archiveFilestream.Read(stringNameSizeBuffer, 0, stringNameSizeBuffer.Length);
-                                    //Convert the size to int
-
-                                    //TODO CHECK TO SEE IF POSITIV IF NOT END THE READ!
-                                    int SizeOfNameInBytes = BitConverter.ToInt32(stringNameSizeBuffer, 0);
-
-                                    byte[] fileNameBuffer = new byte[SizeOfNameInBytes];
-
-                                    //get the file name from the fileheader
-                                    archiveFilestream.Read(fileNameBuffer, 0, fileNameBuffer.Length);
-                                    string fileName = Encoding.UTF8.GetString(fileNameBuffer);
-
-                                    //Read the size of the pathname
-                                    byte[] stringPathSizeBuffer = new byte[4];
-                                    archiveFilestream.Read(stringPathSizeBuffer, 0, stringPathSizeBuffer.Length);
-                                    int sizeOfPathInBytes = BitConverter.ToInt32(stringPathSizeBuffer, 0);
-                                    byte[] filePathBuffer = new byte[sizeOfPathInBytes];
-
-                                    //get the path name from the fileheader
-                                    archiveFilestream.Read(filePathBuffer, 0, filePathBuffer.Length);
-                                    string filePath = Encoding.UTF8.GetString(filePathBuffer);
-
-                                    byte[] fileSizeNoCompressionBuffer = new byte[8];
-
-                                    archiveFilestream.Read(fileSizeNoCompressionBuffer, 0, fileSizeNoCompressionBuffer.Length);
-                                    long fileSizeNoCompression = BitConverter.ToInt64(fileSizeNoCompressionBuffer, 0);
-
-                                    byte[] fileSizeWithCompressionBuffer = new byte[8];
-                                    archiveFilestream.Read(fileSizeWithCompressionBuffer, 0, fileSizeWithCompressionBuffer.Length);
-                                    long fileSizeWithCompression = BitConverter.ToInt64(fileSizeWithCompressionBuffer, 0);
-
-
+                        IndividualFileHeaderInformation fileHeader = this.ReadIndividualFileHeader(archiveFilestream, currentPositionInFile);
 
                         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         // TODO Repeat this for all files inside the archive.
@@ -188,57 +119,18 @@ namespace FileCompressor
                         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         ///
 
+                        // first we need to create a directory for the new directory , combinign the relative path with the given source
+                        string outputPath = Path.Combine(destination, fileHeader.RelativePath);
 
-                        // irst we need to create a directory for the new directory , combinign the relative path with the given source
-
-                        //todo check if the created path is correct and then delete this comment:
-                        //string outputPath = Path.Combine(destination, filePath, fileName);
-
-                        string outputPath = Path.Combine(destination, filePath);
-
+                        //DOES 
                         Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
 
-                        //CHANGE THIS SO 
-                        if (header.CompressionTypeCalling =="None")
-                        {
-                            // Writting the new file here.
-                            int standartBufferLength = 1024;
-                            byte[] buffer = new byte[standartBufferLength];
-                            using (FileStream extratedNewFileStream = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
-                            {
-                                // we read as long as we have found out we need to from the fileheader
-                                long bytesLeft = fileSizeWithCompression;
-                                //read the archive contents in kilobit chunks and only start reading with less when nearing the end. Eg less than the usual buffer is left.
-                                while (bytesLeft > standartBufferLength)
-                                {
-                                    
-                                    archiveFilestream.Read(buffer, 0, buffer.Length);
-                                    extratedNewFileStream.Write(buffer, 0, buffer.Length);
-                                    bytesLeft -= buffer.Length;
-                                }
-                                //read the last remaining bits before the filecontent ends in the archive.
-                                byte[] lastBuffer = new byte[bytesLeft];
-                                archiveFilestream.Read(lastBuffer, 0, lastBuffer.Length);
-                                extratedNewFileStream.Write(lastBuffer, 0, lastBuffer.Length);
+                        currentPositionInFile = archiveFilestream.Position;
 
-                            }
-                        }
-                        else
-                        {
-                            //TODO IMPLEMENT RLE DESERIALISING HERE.
-                            throw new NotImplementedException("implement rle Extraction here.");
-                        }
-                       
-
-
+                        this.CompressionAlogrithmenUsed.Decompress(archiveFilestream, outputPath,currentPositionInFile, fileHeader);
                         //set the position in the file to the last position read.
                         currentPositionInFile = archiveFilestream.Position;
                     }
-
-
-
-
-
                 }
             }
             catch (Exception e)
@@ -294,6 +186,48 @@ namespace FileCompressor
                 //return false;
                 throw e;
             }
+        }
+
+        public IndividualFileHeaderInformation ReadIndividualFileHeader(FileStream archiveFilestream, long currentPositionInFile)
+        {
+            //TODO EXCEPTIONS, maybe try catch
+
+            byte[] stringNameSizeBuffer = new byte[4];
+            // Skip the first 21 Bytes as these are the Archive Header
+            archiveFilestream.Seek(currentPositionInFile, SeekOrigin.Begin);
+            //read from the filestream the length of the filename
+            archiveFilestream.Read(stringNameSizeBuffer, 0, stringNameSizeBuffer.Length);
+            //Convert the size to int
+
+            //TODO CHECK TO SEE IF POSITIV IF NOT END THE READ!
+            int SizeOfNameInBytes = BitConverter.ToInt32(stringNameSizeBuffer, 0);
+
+            byte[] fileNameBuffer = new byte[SizeOfNameInBytes];
+
+            //get the file name from the fileheader
+            archiveFilestream.Read(fileNameBuffer, 0, fileNameBuffer.Length);
+            string fileName = Encoding.UTF8.GetString(fileNameBuffer);
+
+            //Read the size of the pathname
+            byte[] stringPathSizeBuffer = new byte[4];
+            archiveFilestream.Read(stringPathSizeBuffer, 0, stringPathSizeBuffer.Length);
+            int sizeOfPathInBytes = BitConverter.ToInt32(stringPathSizeBuffer, 0);
+            byte[] filePathBuffer = new byte[sizeOfPathInBytes];
+
+            //get the path name from the fileheader
+            archiveFilestream.Read(filePathBuffer, 0, filePathBuffer.Length);
+            string filePath = Encoding.UTF8.GetString(filePathBuffer);
+
+            byte[] fileSizeNoCompressionBuffer = new byte[8];
+
+            archiveFilestream.Read(fileSizeNoCompressionBuffer, 0, fileSizeNoCompressionBuffer.Length);
+            long fileSizeNoCompression = BitConverter.ToInt64(fileSizeNoCompressionBuffer, 0);
+
+            byte[] fileSizeWithCompressionBuffer = new byte[8];
+            archiveFilestream.Read(fileSizeWithCompressionBuffer, 0, fileSizeWithCompressionBuffer.Length);
+            long fileSizeWithCompression = BitConverter.ToInt64(fileSizeWithCompressionBuffer, 0);
+
+            return new IndividualFileHeaderInformation(fileName, filePath, fileSizeNoCompression, fileSizeWithCompression);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace FileCompressor
 
         public ArchiveInfoCommand(string source)
         {
+            
             this.archiveSource = source;
 
             if (File.Exists(this.archiveSource))
@@ -29,9 +30,11 @@ namespace FileCompressor
             }
         }
 
+        //for reading the file header we dont need a specific compressionAlogrithm as all headers are written the same, regardeless of compression
+
         private void ReadAndConvertArchiveHeader()
         {
-            ArchiveFileReader archiveReader = new ArchiveFileReader(this.archiveSource);
+            ArchiveFileReader archiveReader = new ArchiveFileReader(this.archiveSource,new NoCompressionAlgorithm());
             archiveReader.ReadArchiveHeaderAndPrintToConsole();
         }
     }

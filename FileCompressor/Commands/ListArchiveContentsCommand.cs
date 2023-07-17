@@ -28,7 +28,7 @@ namespace FileCompressor
         private void ReadArchiveFileAndListEntries()
         {
             //method only utilizes the filerader
-            ArchiveFileReader archiveReader = new ArchiveFileReader(this.archiveSource);
+            ArchiveFileReader archiveReader = new ArchiveFileReader(this.archiveSource, new NoCompressionAlgorithm()) ;
 
             List<string> entries = archiveReader.ReadArchiveFileAndReturnEntries();
 

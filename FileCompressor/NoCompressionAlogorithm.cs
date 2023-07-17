@@ -57,9 +57,35 @@ namespace FileCompressor
             return "None";
         }
 
-        public void Decompress(string inputOriginalFilePath, string outputArchiveFilePath, long archiveDecompressionStartPoint)
+        public void Decompress(FileStream archiveFilestream, string outputNewFilePath, long archiveDecompressionStartPoint, IndividualFileHeaderInformation fileHeader)
         {
-            throw new NotImplementedException();
+
+            // Writting the new file here.
+            int standartBufferLength = 1024;
+            byte[] buffer = new byte[standartBufferLength];
+            
+                //create a new file with the output path.
+                using (FileStream extratedNewFileStream = new FileStream(outputNewFilePath, FileMode.Create, FileAccess.Write))
+                {
+                    //IF ERRORS CHANGE THIS ; PRB THE CULPRIT
+                    archiveFilestream.Seek(archiveDecompressionStartPoint, SeekOrigin.Begin);
+
+                    // we read as long as we have found out we need to from the fileheader
+                    long bytesLeft = fileHeader.SizeCompressed;
+                    //read the archive contents in kilobit chunks and only start reading with less when nearing the end. Eg less than the usual buffer is left.
+
+                    while (bytesLeft > standartBufferLength)
+                    {
+                        archiveFilestream.Read(buffer, 0, buffer.Length);
+                        extratedNewFileStream.Write(buffer, 0, buffer.Length);
+                        bytesLeft -= buffer.Length;
+                    }
+                    //read the last remaining bits before the filecontent ends in the archive.
+                    byte[] lastBuffer = new byte[bytesLeft];
+                    archiveFilestream.Read(lastBuffer, 0, lastBuffer.Length);
+                    extratedNewFileStream.Write(lastBuffer, 0, lastBuffer.Length);
+                }
+            
         }
     }
 }

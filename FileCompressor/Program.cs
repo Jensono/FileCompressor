@@ -17,7 +17,7 @@ namespace FileCompressor
 
             ListArchiveContentsCommand listArchiveContentsCommand = new ListArchiveContentsCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
 
-            ExtractArchiveCommand extract = new ExtractArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth", @"C:\Users\Jensh\Desktop\new");
+            ExtractArchiveCommand extract = new ExtractArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth", @"C:\Users\Jensh\Desktop\new", new NoCompressionAlgorithm());
             //var test = new ArchiveHeader(484,true,1278127318);
             //byte[] archiveBytes = test.GetArchiveHeaderAsBytes();
             //var test2 = new ArchiveHeader(archiveBytes);

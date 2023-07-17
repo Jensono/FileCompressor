@@ -1,19 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace FileCompressor
-{   
-        public interface ICompressionAlgorithm 
-        {
-            void Compress(string inputOriginalFilePath, string outputArchiveFilePath);
-            void Decompress(string inputOriginalFilePath, string outputArchiveFilePath, long archiveDecompressionStartPoint);
+{
+    public interface ICompressionAlgorithm
+    {
+        void Compress(string inputOriginalFilePath, string outputArchiveFilePath);
+
+        void Decompress(FileStream archiveFileStream, string outputNewFilePath,long decompressionStartIndexInFile, IndividualFileHeaderInformation fileHeader);
 
         string CompressionTypeCalling();
-
-        }
-    
+    }
 }
