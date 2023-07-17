@@ -47,12 +47,15 @@
     <Compile Include="ArchiveFileWriter.cs" />
     <Compile Include="Commands\ArchiveInfoCommand.cs" />
     <Compile Include="Commands\ExtractArchiveCommand.cs" />
+    <Compile Include="FixedVariables.cs" />
     <Compile Include="GeneratedFileContents\ArchiveHeader.cs" />
     <Compile Include="Commands\CreateArchiveCommand.cs" />
     <Compile Include="DirectorySourceProcessor.cs" />
     <Compile Include="FileMetaInformation.cs" />
     <Compile Include="GeneratedFileContents\IndividualFileHeaderInformation.cs" />
     <Compile Include="Commands\ListArchiveContentsCommand.cs" />
+    <Compile Include="ICompressionAlgorithm.cs" />
+    <Compile Include="NoCompressionAlogorithm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

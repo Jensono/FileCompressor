@@ -5,13 +5,15 @@ using System.Text;
 
 namespace FileCompressor
 {
+    //TODO FILEHEADER MUST MUST MUST BE CHECKED OR WEIRD ASS SHIT IS GOING TO HAPPEN, excpetions like arithemeticoperationinvalid already seen in here.
     internal class ArchiveFileReader
     {
         public string ArchiveSource { get; set; }
-
+        public FixedVariables FixedVariables { get; set; }
         public ArchiveFileReader(string source)
         {
             ArchiveSource = source;
+            this.FixedVariables = new FixedVariables();
         }
 
         public List<string> ReadArchiveFileAndReturnEntries()
@@ -20,7 +22,7 @@ namespace FileCompressor
 
             // TODO TODO TODO !!! make a class that reads an archive, and but all the relevant parts in there: confirming validity, reading header, skipping header,reading file info, extracting file info,
 
-            byte[] initialBuffer = new byte[21];
+            byte[] initialBuffer = new byte[this.FixedVariables.ArchiveHeaderLength];
 
             // First try and check if the archive header is build normally, from the archive header we only need the number of items that is saved in the file.
             int numberOfFilesInFile = 0;
@@ -40,7 +42,7 @@ namespace FileCompressor
                 using (FileStream filestream = new FileStream(this.ArchiveSource, FileMode.Open, FileAccess.Read))
                 {
                     //by defoult we start where the archive header ends.
-                    long currentPositionInFile = 21;
+                    long currentPositionInFile = this.FixedVariables.ArchiveHeaderLength;
 
                     for (int i = 0; i < numberOfFilesInFile; i++)
                     {
@@ -134,7 +136,7 @@ namespace FileCompressor
                 using (FileStream archiveFilestream = new FileStream(this.ArchiveSource, FileMode.Open, FileAccess.Read))
                 {
                     //by defoult we start where the archive header ends.
-                    long currentPositionInFile = 21;
+                    long currentPositionInFile = this.FixedVariables.ArchiveHeaderLength ;
 
                     for (int i = 0; i < numberOfFilesInFile; i++)
                     {
@@ -181,9 +183,7 @@ namespace FileCompressor
 
 
                         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        //ADD extraction here, create new folders if they dont already exists, combine the destination path with the relative path and create the files there, with the same filename.
-                        //for now overwrite files if the filesnames are the same, then read the bytes in 1024 bit chunks until the amount of bites given for the file nearly reaches that of the bites that have been read for the
-                        //specific file that is beeing read right now. only read the remaning bites and commit them to the new file in the new destination.Repeat this for all files inside the archive.
+                        // TODO Repeat this for all files inside the archive.
                         //add a failsave that is triggered if there are fewer files found in the archive than expected or if there are more.
                         ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         ///
@@ -198,7 +198,8 @@ namespace FileCompressor
 
                         Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
 
-                        if (!header.RLECompressionActive)
+                        //CHANGE THIS SO 
+                        if (header.CompressionTypeCalling =="None")
                         {
                             // Writting the new file here.
                             int standartBufferLength = 1024;
@@ -263,7 +264,7 @@ namespace FileCompressor
 
         private bool IsArchiveHeaderValid(out ArchiveHeader header)
         {
-            byte[] buffer = new byte[21];
+            byte[] buffer = new byte[this.FixedVariables.ArchiveHeaderLength];
 
             try
             {
