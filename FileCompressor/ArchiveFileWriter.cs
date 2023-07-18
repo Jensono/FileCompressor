@@ -105,7 +105,7 @@ namespace FileCompressor
                 //is it  even necessary to close the streams when im ALREADY use using?
                
             }
-
+            /////////////////////////////////// REVISE THE ARCHIVE HEADER AFTER ALL FILES HAVE BEEN READ
            
         }
 
@@ -114,6 +114,8 @@ namespace FileCompressor
             this.WriteFileHeaderToArchive(archiveFilePath, fileInfo);
 
             this.CompressionAlgorithm.Compress(fileInfo.FullName, archiveFilePath);
+
+            //////////////////////////////////REVISE THE FILEHEADER TO CONTAIN ACCURATE INFORMATION ON THE FILE
         }
 
         private void WriteFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo)

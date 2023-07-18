@@ -11,7 +11,9 @@ namespace FileCompressor
         static void Main(string[] args)
         {
 
-            CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", new NoCompressionAlgorithm());
+            //CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", new NoCompressionAlgorithm());
+
+            CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", new RLECompressionAlgorithm()) ;
 
             ArchiveInfoCommand archiveInfoCommand = new ArchiveInfoCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
 

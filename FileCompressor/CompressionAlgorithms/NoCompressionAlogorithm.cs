@@ -31,18 +31,11 @@ namespace FileCompressor
                     ///TODO look closer as how this actually functions.
                     int bytesRead;
 
-                    //todo remove this variable
-                    long mbsRead = 0;
                     while ((bytesRead = originalFileFileStream.Read(buffer, 0, buffer.Length)) > 0)
                     {
-                        mbsRead++;
+                        
                         archiveFileStream.Write(buffer, 0, bytesRead);
-                        //////////////////////// TODO REMOVE/////////////////////
-                        if (mbsRead % 100 == 0)
-                        {
-                            Console.WriteLine("read mbs already: " + mbsRead);
-                        }
-                        ////////////////////////////////////////////////////
+                       
                     }
 
                     //is it  even necessary to close the streams when im ALREADY use using?

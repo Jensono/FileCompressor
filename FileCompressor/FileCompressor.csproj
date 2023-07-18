@@ -54,10 +54,11 @@
     <Compile Include="FileMetaInformation.cs" />
     <Compile Include="GeneratedFileContents\IndividualFileHeaderInformation.cs" />
     <Compile Include="Commands\ListArchiveContentsCommand.cs" />
-    <Compile Include="ICompressionAlgorithm.cs" />
-    <Compile Include="NoCompressionAlogorithm.cs" />
+    <Compile Include="CompressionAlgorithms\ICompressionAlgorithm.cs" />
+    <Compile Include="CompressionAlgorithms\NoCompressionAlogorithm.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CompressionAlgorithms\RLECompressionAlgorithm.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

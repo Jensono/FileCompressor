@@ -29,7 +29,7 @@ namespace FileCompressor
 
             ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count,compressionAlgorithm.CompressionTypeCalling(),this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));
 
-            ArchiveFileWriter archiveFileWriter = new ArchiveFileWriter(sourcePathToDirectory, destinationNameForTheFile, new NoCompressionAlgorithm());
+            ArchiveFileWriter archiveFileWriter = new ArchiveFileWriter(sourcePathToDirectory, destinationNameForTheFile, compressionAlgorithm);
             archiveFileWriter.CreateArchive(currentArchiveHeader,fileMetaInfoList);
 
             
