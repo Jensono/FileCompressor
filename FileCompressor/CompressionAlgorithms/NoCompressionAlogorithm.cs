@@ -80,5 +80,21 @@ namespace FileCompressor
                 }
             
         }
+
+        public long ReturnExpectedDataSizeCompressed(string inputOriginalFilePath)
+        {
+            try
+            {
+                FileInfo fileInfo = new FileInfo(inputOriginalFilePath);
+                return fileInfo.Length;
+            }
+            //TODO SPECIFIY EXCEPTION
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+            
+        }
     }
 }

@@ -34,7 +34,7 @@ namespace FileCompressor
 
         private void ReadAndConvertArchiveHeader()
         {
-            ArchiveFileReader archiveReader = new ArchiveFileReader(this.archiveSource,new NoCompressionAlgorithm());
+            ArchiveFileReader archiveReader = new ArchiveFileReader(this.archiveSource);
             archiveReader.ReadArchiveHeaderAndPrintToConsole();
         }
     }

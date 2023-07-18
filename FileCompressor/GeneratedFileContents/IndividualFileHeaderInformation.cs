@@ -109,7 +109,7 @@ namespace FileCompressor
             this.SizeOriginal = givenFileSizeOriginal;
             //the file size with compression is first set to the original size, where ever this object is created. there is a looop outside that that after writing the bytes to the .dat file, returns to the individualfile header and 
             // rewrites the correct size, given that we already use long there is no way a size bigger than that is created.
-            this.SizeCompressed = givenFileSizeOriginal;
+            this.SizeCompressed = givenFileSizeCompressed;
             this.NameSize = Encoding.UTF8.GetByteCount(givenFileName);
             this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);
 

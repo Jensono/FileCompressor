@@ -24,7 +24,7 @@ namespace FileCompressor
 
             //TODO TODO TODO check if the archive can even be written--> DISK SPACE
             DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(sourcePathToDirectory);
-            List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory();
+            List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(compressionAlgorithm);
  
 
             ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count,compressionAlgorithm.CompressionTypeCalling(),this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));

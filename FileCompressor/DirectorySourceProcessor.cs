@@ -43,8 +43,10 @@ namespace FileCompressor
 
         //TODO maybe remove all the returning nulls
 
-        public List<FileMetaInformation> CreateFileMetaInfoListForDirectory()
+        public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(ICompressionAlgorithm compressionAlgorithm)
         {
+
+           
             this.CheckForDirectoryValidity();
             if (!this.isSourceValid)
             {

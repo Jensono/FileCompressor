@@ -11,13 +11,19 @@ namespace FileCompressor
         //TODO PROPERTIES
         public string ArchiveSource { get; set; }
         public FixedVariables FixedVariables { get; set; }
+
+        
+
         public ICompressionAlgorithm CompressionAlogrithmenUsed { get; private set; }
 
-        public ArchiveFileReader(string source,ICompressionAlgorithm compressionAlgorithm)
+        public ArchiveFileReader(string source)
         {
             ArchiveSource = source;
             this.FixedVariables = new FixedVariables();
-            this.CompressionAlogrithmenUsed = compressionAlgorithm;
+
+            this.CompressionAlogrithmenUsed = new FixedVariables().GetCompressionAlgorithmFromCalling(this.ReturnArchiveHeader().CompressionTypeCalling);
+
+
         }
 
         public List<string> ReadArchiveFileAndReturnEntries()
@@ -83,16 +89,17 @@ namespace FileCompressor
 
             // First try and check if the archive header is build normally, from the archive header we only need the number of items that is saved in the file.
             // We also need to check for enough disk space for when extracting.
-            int numberOfFilesInFile = 0;
+            int numberOfFilesInArchive = 0;
             long sizeOfDecompressedFiles = 0;
             ArchiveHeader header;
 
             if (!this.IsArchiveHeaderValid(out header))
             {
+                throw new InvalidOperationException("header is corrupted or used invalid file!");
                 //this method must throw a exception, todo i dont know if i need to catch it here.
             }
 
-            numberOfFilesInFile = header.NumberOfFilesInArchive;
+            numberOfFilesInArchive = header.NumberOfFilesInArchive;
             sizeOfDecompressedFiles = header.SizeOfFilesCombined;
 
             //this class alone already checks if a given directory is valid
@@ -109,7 +116,7 @@ namespace FileCompressor
                     //by defoult we start where the archive header ends.
                     long currentPositionInFile = this.FixedVariables.ArchiveHeaderLength;
 
-                    for (int i = 0; i < numberOfFilesInFile; i++)
+                    for (int i = 0; i < numberOfFilesInArchive; i++)
                     {
                         IndividualFileHeaderInformation fileHeader = this.ReadIndividualFileHeader(archiveFilestream, currentPositionInFile);
 
@@ -150,6 +157,22 @@ namespace FileCompressor
             else
             {
                 Console.WriteLine("given filepath was invalid");
+                //TODO errorcode and exception should be here
+            }
+        }
+
+        //Does and should not need a compression algorithm as all data is stored the same way in the archive header, is used to also find out which compression was used and rectify the class itself!.
+        public ArchiveHeader ReturnArchiveHeader()
+        {
+            ArchiveHeader header;
+            if (this.IsArchiveHeaderValid(out header))
+            {
+                return header;
+            }
+            else
+            {
+                Console.WriteLine("given filepath was invalid cant generate ArchiveHeader");
+                throw new Exception("some shit happend here dat should not have happend.");
                 //TODO errorcode and exception should be here
             }
         }

@@ -70,6 +70,19 @@ namespace FileCompressor
                 
         }
 
+        //this constructor is used for appending files to a archive, and to modfiy the existing  ArchiveHeader
+        public ArchiveHeader(DateTime oldDate,int numberOfFilesInsideDirectory, string compressionTypeCalling, long combinedSizeForAllFiles)
+        {
+
+            this.TimeOfCreation = oldDate;
+            this.SizeOfFilesCombined = combinedSizeForAllFiles;
+            this.NumberOfFilesInArchive = numberOfFilesInsideDirectory;
+            this.CompressionTypeCalling = compressionTypeCalling;
+            this.FixedVariables = new FixedVariables();
+
+
+        }
+
         public byte[] GetArchiveHeaderAsBytes()
         {
 

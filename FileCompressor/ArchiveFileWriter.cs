@@ -77,12 +77,38 @@ namespace FileCompressor
         //    }
         //}
 
-        public void AppendToArchive(string archiveFilePath , List<FileMetaInformation> filesToBeWrittenIntoArchive)
+        public void AppendToArchive(string archiveFilePath, List<FileMetaInformation> filesToBeWrittenIntoArchive,ArchiveHeader newModifiedArchiveHeader)
         {
-            // one could even make a method that just appends a lot of files
-            foreach (var fileInfo in filesToBeWrittenIntoArchive)
+            long[] expectedFileSizes = this.ReturnCompressedSizeForFilesAsArray(filesToBeWrittenIntoArchive);
+
+            if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive,expectedFileSizes))
             {
-                this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo);
+                //TODO ERRORCODE 1
+                throw new InvalidOperationException("Not enough diskspace to create the archive!");
+            }
+
+           
+
+            // one could even make a method that just appends a lot of files
+            for (int i = 0; i < filesToBeWrittenIntoArchive.Count; i++)
+            {
+                FileMetaInformation fileInfo = filesToBeWrittenIntoArchive[i];
+                this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo,expectedFileSizes[i]);
+            }
+
+
+            this.ChangeArchiveHeaderToNewHeader(archiveFilePath, newModifiedArchiveHeader);
+            
+        }
+
+        private void ChangeArchiveHeaderToNewHeader(string archiveFilePath, ArchiveHeader newModifiedArchiveHeader)
+        {
+            byte[] newArchiveHeaderAsBytes = newModifiedArchiveHeader.GetArchiveHeaderAsBytes();
+
+            //Just overwrite the old ArchiveHeader
+            using (FileStream fs = new FileStream(archiveFilePath, FileMode.Open, FileAccess.Write))
+            {
+                fs.Write(newArchiveHeaderAsBytes, 0, newArchiveHeaderAsBytes.Length);
             }
 
         }
@@ -90,6 +116,14 @@ namespace FileCompressor
         public void CreateArchive(ArchiveHeader archiveHeader, List<FileMetaInformation> filesToBeWrittenIntoArchive)
         {
             string archiveFilePath = Path.Combine(DestinationFolder, ArchiveName);
+
+            long[] expectedFileSizes = this.ReturnCompressedSizeForFilesAsArray(filesToBeWrittenIntoArchive);
+            //CHECKING FOR DISK SPACE ON THE DISK that houses the desired archive directory
+            if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive,expectedFileSizes))
+            {
+                //TODO ERRORCODE 1
+                throw new InvalidOperationException("Not enough diskspace to create the archive!");
+            }
 
             // creating a new file or overwritting the old one with this filemode
 
@@ -99,29 +133,28 @@ namespace FileCompressor
             //write the archive header to the file
             this.WriteArchiveHeaderToFile(archiveFilePath, archiveHeader);
 
-            foreach (var fileInfo in filesToBeWrittenIntoArchive)
+            for (int i = 0; i < filesToBeWrittenIntoArchive.Count; i++)
             {
-                this.AppendFileWithFileHeaderToArchive(archiveFilePath,fileInfo);
+                FileMetaInformation fileInfo = filesToBeWrittenIntoArchive[i];
+                this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo,expectedFileSizes[i]);
                 //is it  even necessary to close the streams when im ALREADY use using?
-               
             }
             /////////////////////////////////// REVISE THE ARCHIVE HEADER AFTER ALL FILES HAVE BEEN READ
-           
         }
 
-        private void AppendFileWithFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo) 
+        private void AppendFileWithFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo,long compressedSizeOfFile)
         {
-            this.WriteFileHeaderToArchive(archiveFilePath, fileInfo);
+            this.WriteFileHeaderToArchive(archiveFilePath, fileInfo,compressedSizeOfFile);
 
             this.CompressionAlgorithm.Compress(fileInfo.FullName, archiveFilePath);
 
             //////////////////////////////////REVISE THE FILEHEADER TO CONTAIN ACCURATE INFORMATION ON THE FILE
         }
 
-        private void WriteFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo)
+        private void WriteFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo, long compressedFileSize)
         {
             // get the file header as a byte array and write it into the file
-            byte[] fileHeaderBytes = new IndividualFileHeaderInformation(fileInfo.Name, fileInfo.RelativePathForArchive, fileInfo.Length, fileInfo.Length).GetFileHeaderAsByteArray();
+            byte[] fileHeaderBytes = new IndividualFileHeaderInformation(fileInfo.Name, fileInfo.RelativePathForArchive, fileInfo.Length, compressedFileSize).GetFileHeaderAsByteArray();
             using (var archiveFileStream = new FileStream(archiveFilePath, FileMode.Append))
             {
                 archiveFileStream.Write(fileHeaderBytes, 0, fileHeaderBytes.Length);
@@ -133,11 +166,55 @@ namespace FileCompressor
             //TODO CHECK IF FILE ALREADY EXISTS MAYBE?
             using (var archiveFileStream = new FileStream(archiveFilePath, FileMode.Create))
             {
-                
                 byte[] archiveHeaderBytes = archiveHeader.GetArchiveHeaderAsBytes();
                 archiveFileStream.Write(archiveHeaderBytes, 0, archiveHeaderBytes.Length);
             }
         }
+
+        //returns true if the destination folder contains enough space for the compression.
+        private bool CheckExpectedFileSizeForAppend(List<FileMetaInformation> fileMetaInformationList,long[] expectedSizesForFiles)
+        {
+            long sumExpectedFileSize = 0;
+
+            //add the archiveheadersize
+
+            long counter = 0;
+            sumExpectedFileSize += new FixedVariables().ArchiveHeaderLength;
+            foreach (var item in fileMetaInformationList)
+            {
+                //get the length of each individual file header
+                IndividualFileHeaderInformation header = new IndividualFileHeaderInformation(item.Name, item.RelativePathForArchive, item.Length, item.Length);
+                byte[] headerArray = header.GetFileHeaderAsByteArray();
+                sumExpectedFileSize += headerArray.Length;
+
+                sumExpectedFileSize += expectedSizesForFiles[counter];
+                counter++;
+            }
+
+            string driveLetter = Path.GetPathRoot(this.DestinationFolder).Substring(0, 1);
+            DriveInfo driveInfo = new DriveInfo(driveLetter);
+
+            if (driveInfo.AvailableFreeSpace > sumExpectedFileSize)
+            {
+                return true;
+            }
+
+            return false;
+        }
+
+        private long[] ReturnCompressedSizeForFilesAsArray(List<FileMetaInformation> fileMetaInformationList)
+        {
+            long[] expectedSize = new long[fileMetaInformationList.Count];
+
+            //add the archiveheadersize
+
+            for (int i = 0; i < fileMetaInformationList.Count; i++)
+            {
+                expectedSize[i] = this.CompressionAlgorithm.ReturnExpectedDataSizeCompressed(fileMetaInformationList[i].FullName);
+            }
+
+            return expectedSize;
         
+        }
     }
 }

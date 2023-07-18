@@ -9,6 +9,7 @@ namespace FileCompressor
     //TODO THIS NEEDS TO CHANGE TO SOMETHING ELse, ITS IMPORTANT THAT I have all of the information in somekind of class but its kinda retarded
     class FixedVariables
     {
+   
         public int ArchiveHeaderLength { get; private set; }
         public int ArchiveHeaderDateTimeStartByteIndex { get; private set; }
         public int ArchiveHeaderCompressionTypeStartByteIndex { get; private set; } 
@@ -27,6 +28,9 @@ namespace FileCompressor
             this.ArchiveHeaderNumberOfFilesStartByteIndex = 18;
             this.ArchiveHeaderSumOfFileSizeStartByteIndex = 22;
             this.ArchiveHeaderLengthOfCompressionCalling = this.ArchiveHeaderSumOfFileSizeStartByteIndex - this.ArchiveHeaderCompressionTypeStartByteIndex;
+
+            //add to the compressioncalling siwtch case down below if this is ever expenet, its the only dependency
+
             this.CompressionCallingTypeNoCompression = "None";
             this.CompressionCallingTypeRLECompression = "RLE";
             this.ArchiveHeaderCompressionCallingFillerByte = 0;
@@ -51,6 +55,26 @@ namespace FileCompressor
             //////fileCompressionSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4 + this.FileRelativePathSize + 8);
 
             //////return fileHeaderAsBytes;
+
+
+        }
+
+        public ICompressionAlgorithm GetCompressionAlgorithmFromCalling(string calling)
+        {
+            //TODO EXCEPTIONS
+            switch (calling)
+            {
+                case "RLE":
+                    return new RLECompressionAlgorithm();
+                    
+
+                case "None":
+                    return new RLECompressionAlgorithm();
+                    
+
+                default:
+                    return null;
+            }
 
 
         }

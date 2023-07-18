@@ -2,10 +2,12 @@
 {
     internal class ExtractArchiveCommand
     {
-        public ExtractArchiveCommand(string archiveSource, string destination,ICompressionAlgorithm compressionAlgorithm)
+        public ExtractArchiveCommand(string archiveSource, string destination)
 
         {
-            ArchiveFileReader archiveReader = new ArchiveFileReader(archiveSource,compressionAlgorithm);
+
+            ArchiveFileReader archiveReader = new ArchiveFileReader(archiveSource);
+                      
             archiveReader.ExtractArchiveFiles(destination);
         }
     }
