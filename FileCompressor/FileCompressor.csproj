@@ -43,6 +43,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ArgumentParsing\CommandParameters.cs" />
+    <Compile Include="ArgumentParsing\ICommandLineCommand.cs" />
+    <Compile Include="ArgumentParsing\CommandLineProductiveCommand.cs" />
+    <Compile Include="ArgumentParsing\IParameterInformation.cs" />
+    <Compile Include="ArgumentParsing\ParameterParsing\RequiredParameterInformation.cs" />
     <Compile Include="Commands\ArchiveAppendCommand.cs" />
     <Compile Include="ArchiveFileReader.cs" />
     <Compile Include="ArchiveFileWriter.cs" />
@@ -57,6 +62,7 @@
     <Compile Include="Commands\ListArchiveContentsCommand.cs" />
     <Compile Include="CompressionAlgorithms\ICompressionAlgorithm.cs" />
     <Compile Include="CompressionAlgorithms\NoCompressionAlogorithm.cs" />
+    <Compile Include="ArgumentParsing\ParameterParsing\OptionalParameterInformation.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CompressionAlgorithms\RLECompressionAlgorithm.cs" />
@@ -64,5 +70,6 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

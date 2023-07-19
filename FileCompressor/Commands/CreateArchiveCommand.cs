@@ -14,7 +14,7 @@ namespace FileCompressor
         //TODO THERE NEED TO BE A CHECK TO SEE IF ENOUGH DISK SPACE IS READY FOR THE ARCHIVE FILE
         
         
-        public CreateArchiveCommand(string sourcePathToDirectory, string destinationNameForTheFile,ICompressionAlgorithm compressionAlgorithm) 
+        public CreateArchiveCommand(string sourcePathToDirectory, string destinationNameForTheFile,ICompressionAlgorithm compressionAlgorithm ) 
         {
 
             // IF A PERSON OVERWRITTES AN ARCHIVE it first is inside the list but can never be read resulting in an error or a loop TODO FIX!! 

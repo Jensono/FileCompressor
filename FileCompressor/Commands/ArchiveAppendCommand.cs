@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileCompressor
 {
-    class ArchiveAppendCommand
+    class ArchiveAppendCommand 
     {
 
         public ArchiveAppendCommand(string sourcePathToDirectory, string archiveFilePath)
