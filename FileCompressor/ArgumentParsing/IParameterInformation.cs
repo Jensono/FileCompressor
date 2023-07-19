@@ -7,7 +7,7 @@ namespace FileCompressor
         string LongParameterName { get; set; }
         string ShortParameterName { get; set; }
 
-        Func<string,bool> CheckSpecificationForValidity { get; set; }
+        Func<string[],bool> CheckSpecificationAfterParameterForValidity { get; set; }
 
         ///TODO a parameter either must,can or doesnt support a argument after itself, the argument itself ALWAYS is a specific type eg. string for paths or int for number of retries and waittime.
         /// There are other restritions too like a retries only support numbers between 1 and 10 , same for wait , 

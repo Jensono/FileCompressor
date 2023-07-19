@@ -48,11 +48,13 @@
     <Compile Include="ArgumentParsing\CommandLineProductiveCommand.cs" />
     <Compile Include="ArgumentParsing\IParameterInformation.cs" />
     <Compile Include="ArgumentParsing\ParameterParsing\RequiredParameterInformation.cs" />
+    <Compile Include="CommandLineArgumentParser.cs" />
     <Compile Include="Commands\ArchiveAppendCommand.cs" />
     <Compile Include="ArchiveFileReader.cs" />
     <Compile Include="ArchiveFileWriter.cs" />
     <Compile Include="Commands\ArchiveInfoCommand.cs" />
     <Compile Include="Commands\ExtractArchiveCommand.cs" />
+    <Compile Include="CurrentlyWorkingCommandsForArchiver.cs" />
     <Compile Include="FixedVariables.cs" />
     <Compile Include="GeneratedFileContents\ArchiveHeader.cs" />
     <Compile Include="Commands\CreateArchiveCommand.cs" />

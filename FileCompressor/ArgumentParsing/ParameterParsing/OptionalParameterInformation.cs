@@ -30,14 +30,14 @@ namespace FileCompressor
                 this.shortParameterName = value;
             }
         }
-        public OptionalParameterInformation(string shortParameterName, string longParameterName, Func<string, bool> checkForValidityFunction)
+        public OptionalParameterInformation(string shortParameterName, string longParameterName, Func<string[], bool> checkForValidityFunction)
         {
             this.ShortParameterName = shortParameterName;
             this.LongParameterName = longParameterName;
-            this.CheckSpecificationForValidity = checkForValidityFunction;
+            this.CheckSpecificationAfterParameterForValidity = checkForValidityFunction;
         }
 
-        public Func<string, bool> CheckSpecificationForValidity
+        public Func<string[], bool> CheckSpecificationAfterParameterForValidity
         {
             get
             {
@@ -49,6 +49,6 @@ namespace FileCompressor
             }
         }
 
-        private Func<string, bool> checkFunctionForParameterValidity;
+        private Func<string[], bool> checkFunctionForParameterValidity;
     }
 }

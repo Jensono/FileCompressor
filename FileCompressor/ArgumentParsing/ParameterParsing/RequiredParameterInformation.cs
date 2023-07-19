@@ -31,7 +31,7 @@ namespace FileCompressor
             }
         }
 
-        public Func<string, bool> CheckSpecificationForValidity {
+        public Func<string[], bool> CheckSpecificationAfterParameterForValidity {
             get
             {
                 return this.checkFunctionForParameterValidity;
@@ -42,10 +42,10 @@ namespace FileCompressor
             }
         }
 
-        private Func<string, bool> checkFunctionForParameterValidity;
-        public RequiredParameterInformation(string shortParameterName, string longParameterName, Func<string,bool> checkForValidityFunction)
+        private Func<string[], bool> checkFunctionForParameterValidity;
+        public RequiredParameterInformation(string shortParameterName, string longParameterName, Func<string[],bool> checkForValidityFunction)
         {
-         this.CheckSpecificationForValidity = checkForValidityFunction;
+         this.CheckSpecificationAfterParameterForValidity = checkForValidityFunction;
             this.ShortParameterName = shortParameterName;
             this.LongParameterName = longParameterName;
         }
