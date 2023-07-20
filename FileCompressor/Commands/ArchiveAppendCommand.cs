@@ -6,39 +6,20 @@ using System.Threading.Tasks;
 
 namespace FileCompressor
 {
-    class ArchiveAppendCommand 
+
+    /// <summary>
+    /// // BIG ASS TODO this command needs to first create a copy of the file that needs to be appended and then delete the original file after the append happend. Otherwise the weirdest shit could happen while appending.
+    /// </summary>
+    class ArchiveAppendCommand :IArchiveCommand 
     {
+        public string SourcePathToDirectory { get; set; }
+        public string ArchiveFilePath { get; set; }
+
 
         public ArchiveAppendCommand(string sourcePathToDirectory, string archiveFilePath)
         {
-            ////////////////////////////// COMPRESSIONALGORITHM NEEDS TO BE READ FROM FILEHEADER VIA FILEREADER
-
-
-            // IF A PERSON OVERWRITTES AN ARCHIVE it first is inside the list but can never be read resulting in an error or a loop TODO FIX!! 
-            //first check if the given destionation name already exists in the directory, if it does and it is one of our own files (ArchiveHeader), delete it before continueing with the process
-            // TODO WHEN OVERWRITTING a file first needs to be safed under some kind of temporary name, if while the file should be overwritten there is an error both are lost!!!!!
-
-
-            //TODO TODO TODO check if the archive can even be written--> DISK SPACE
-           
-            ArchiveFileReader archiveFileReader = new ArchiveFileReader(archiveFilePath);
-            ICompressionAlgorithm compressionAlgorithm = archiveFileReader.CompressionAlogrithmenUsed;
-
-
-                 DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(sourcePathToDirectory);
-            List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(compressionAlgorithm);
-
-
-            ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count, compressionAlgorithm.CompressionTypeCalling(), this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));
-            ArchiveFileWriter archiveFileWriter = new ArchiveFileWriter(sourcePathToDirectory, archiveFilePath, compressionAlgorithm);
-
-            ArchiveHeader newArchiveHeader = this.ModifyArchiveHeaderForAdditionalFiles(archiveFileReader.ReturnArchiveHeader(), fileMetaInfoList);
-            
-            //read the archiveheader and modify it to fit more files.
-
-            archiveFileWriter.AppendToArchive(archiveFilePath, fileMetaInfoList, newArchiveHeader);
-
-
+            this.ArchiveFilePath = archiveFilePath;
+            this.SourcePathToDirectory = sourcePathToDirectory;
 
         }
         private ArchiveHeader ModifyArchiveHeaderForAdditionalFiles(ArchiveHeader archiveHeader, List<FileMetaInformation> fileMetaInformationList)
@@ -65,6 +46,47 @@ namespace FileCompressor
             }
 
             return sum;
+        }
+
+        public bool Execute()
+        {
+
+            ////////////////////////////// COMPRESSIONALGORITHM NEEDS TO BE READ FROM FILEHEADER VIA FILEREADER
+
+
+            // IF A PERSON OVERWRITTES AN ARCHIVE it first is inside the list but can never be read resulting in an error or a loop TODO FIX!! 
+            //first check if the given destionation name already exists in the directory, if it does and it is one of our own files (ArchiveHeader), delete it before continueing with the process
+            // TODO WHEN OVERWRITTING a file first needs to be safed under some kind of temporary name, if while the file should be overwritten there is an error both are lost!!!!!
+
+
+            //TODO TODO TODO check if the archive can even be written--> DISK SPACE
+            try
+            {
+                ArchiveFileReader archiveFileReader = new ArchiveFileReader(this.ArchiveFilePath);
+                ICompressionAlgorithm compressionAlgorithm = archiveFileReader.CompressionAlogrithmenUsed;
+
+
+                DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(this.SourcePathToDirectory);
+                List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(compressionAlgorithm);
+
+
+                ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count, compressionAlgorithm.CompressionTypeCalling(), this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));
+                ArchiveFileWriter archiveFileWriter = new ArchiveFileWriter(this.SourcePathToDirectory, this.ArchiveFilePath, compressionAlgorithm);
+
+                ArchiveHeader newArchiveHeader = this.ModifyArchiveHeaderForAdditionalFiles(archiveFileReader.ReturnArchiveHeader(), fileMetaInfoList);
+
+                //read the archiveheader and modify it to fit more files.
+
+                archiveFileWriter.AppendToArchive(this.ArchiveFilePath, fileMetaInfoList, newArchiveHeader);
+            }
+            catch (ArchiveErrorCodeException e)
+            {
+                return false;
+                throw e;
+            }
+
+            return true;
+
         }
     }
 }

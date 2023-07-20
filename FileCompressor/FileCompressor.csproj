@@ -46,7 +46,7 @@
     <Compile Include="ArgumentParsing\CommandParameters.cs" />
     <Compile Include="ArgumentParsing\ICommandLineCommand.cs" />
     <Compile Include="ArgumentParsing\CommandLineProductiveCommand.cs" />
-    <Compile Include="ArgumentParsing\IParameterInformation.cs" />
+    <Compile Include="ArgumentParsing\IParameter.cs" />
     <Compile Include="ArgumentParsing\ParameterParsing\RequiredParameterInformation.cs" />
     <Compile Include="CommandLineArgumentParser.cs" />
     <Compile Include="Commands\ArchiveAppendCommand.cs" />
@@ -65,6 +65,7 @@
     <Compile Include="CompressionAlgorithms\ICompressionAlgorithm.cs" />
     <Compile Include="CompressionAlgorithms\NoCompressionAlogorithm.cs" />
     <Compile Include="ArgumentParsing\ParameterParsing\OptionalParameterInformation.cs" />
+    <Compile Include="IArchiveCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CompressionAlgorithms\RLECompressionAlgorithm.cs" />

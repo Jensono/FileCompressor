@@ -5,7 +5,7 @@ using System.Text;
 
 namespace FileCompressor
 {
-    public class ListArchiveContentsCommand
+    public class ListArchiveContentsCommand : IArchiveCommand
     {
         private string archiveSource;
 
@@ -13,16 +13,32 @@ namespace FileCompressor
         {
             this.archiveSource = source;
 
+           
+        }
+
+        public bool Execute()
+        {
             if (File.Exists(this.archiveSource))
             {
-                ReadArchiveFileAndListEntries();
+                try
+                {
+                    ReadArchiveFileAndListEntries();
+                }
+                catch (ArchiveErrorCodeException e)
+                {
+                    //Command failed during exectuion
+                    return false;
+                    throw e;
+                }
+                
             }
             else
             {
                 //TODO CONVERT TO ERROR CODE
-                Console.WriteLine("Error Code 1, given source does not exists");
-                throw new FileNotFoundException($"The file at {this.archiveSource} was not found. ");
+                Console.WriteLine($"Error Code 1,{this.archiveSource} given source does not exists");
+                return false;
             }
+            return true;
         }
 
         private void ReadArchiveFileAndListEntries()

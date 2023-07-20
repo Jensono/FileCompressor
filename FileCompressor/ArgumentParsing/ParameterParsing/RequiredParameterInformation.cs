@@ -2,7 +2,7 @@
 
 namespace FileCompressor
 {
-    public class RequiredParameterInformation : IParameterInformation
+    public class RequiredParameterInformation : IParameter
     {
         private string shortParameterArgument { get; set; }
         private string longParameterArgument { get; set; }
@@ -31,7 +31,7 @@ namespace FileCompressor
             }
         }
 
-        public Func<string[], bool> CheckSpecificationAfterParameterForValidity {
+        public Func<string[], bool> CheckParameterSpecificationForValidity {
             get
             {
                 return this.checkFunctionForParameterValidity;
@@ -45,7 +45,7 @@ namespace FileCompressor
         private Func<string[], bool> checkFunctionForParameterValidity;
         public RequiredParameterInformation(string shortParameterName, string longParameterName, Func<string[],bool> checkForValidityFunction)
         {
-         this.CheckSpecificationAfterParameterForValidity = checkForValidityFunction;
+         this.CheckParameterSpecificationForValidity = checkForValidityFunction;
             this.ShortParameterName = shortParameterName;
             this.LongParameterName = longParameterName;
         }

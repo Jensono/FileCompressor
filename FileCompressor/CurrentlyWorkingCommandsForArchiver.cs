@@ -81,6 +81,12 @@ namespace FileCompressor
 
             };
 
+            //we look what parameterinformation matches the entries (starting at the second entry = 1 ) of the second layer list and look at the first element in the string array. This must now contain the small name parameter argument.
+            //we split the rest of the parameter arguments and send them to the Function that validates a parameters arguments.If any of the parameter specifiers are wrong we send Errorcode 1.
+            //if the parameter was validated we can put it in the commandparameters,or we could do that after the whole second layer list was validated.
+            //BUT STILL BIUG QUESTION NOW how do we know in which order to put the parameters into the CommandParameterCalss. Do we just make fields inside the class that checks these and fill them with the values as the parameter specifications are verfied?
+            // this would make the whole process not modular and very static. If any new Command was added to the system the parser would need to be updated.
+            
 
             OptionalParameterInformation optionalRLECompressionType = new OptionalParameterInformation("-rle", "--rleCompress", checkForRLECopmressionParameterValidity);
             OptionalParameterInformation optionalWaitTimeBetweenTriesType = new OptionalParameterInformation("-w", "--wait", checkForWaitAndRetryParameterValidity);

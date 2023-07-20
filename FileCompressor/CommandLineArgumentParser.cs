@@ -67,11 +67,15 @@ namespace FileCompressor
                 //maybe remove the other errorcodes that are thrown, its being checked here anyway
                 throw new ArgumentException("ERRORCODE 1 todo here");
             }
-            //the commands were first split by their commands , now we furhter split them by the parameters 
-            List<string[,]> commandsSplitIntoLogicalUnitsWithParametersSplit = this.SplitCommandListArrayFurtherIntoParametersLogicalUnits(commandStringArrays);
-            
+            //the commands were first split by their commands , now we furhter split them by the parameters, but still grouping commands with parameters logical units,
+            //as the first entry in the list of a list is always the command by itself
 
-            //now split the string[] into the parameters
+            List<List<string[]>> commandsSplitIntoLogicalUnitsWithParametersSplit = this.SplitCommandListArrayFurtherIntoParametersLogicalUnits(commandStringArrays);
+            
+            //now we actually process the list of lists, and all the CommandParamters must be build.
+
+
+            
             //Check if there are any strings left that arent needed flase-->errorcode
             //false--> errorcode
 
@@ -86,9 +90,73 @@ namespace FileCompressor
 
         }
 
-        private List<string[,]> SplitCommandListArrayFurtherIntoParametersLogicalUnits(List<string[]> commandStringArrays)
+
+        /// <summary>
+        /// Returns a List of List of String Arrays, inside the string arrays are string that were found between spaces when the user started the application, the first list layer groups commands toegther for example:
+        /// -c -d [] -s [] ..... the list belowe that only contains parameters or the command itself so |-c | or |-d []| and groups them together. These logical units can later be testes for validity by themself. 
+        /// </summary>
+        /// <param name="commandStringArrays"></param>
+        /// <returns></returns>
+        private List<List<string[]>> SplitCommandListArrayFurtherIntoParametersLogicalUnits(List<string[]> commandStringArrays)
         {
-            List<string[,]> returnListSplitByParameter = new List<string[,]>
+            List<List<string[]>> returnListSplitByParameter = new List<List<string[]>>();
+
+            //for every entry in the list
+            for (int i = 0; i < commandStringArrays.Count; i++)
+            {
+                //for every string array, skipping the first entry as it is the command itself
+                List<string[]> currentCommandListSplitAtParameters = new List<string[]>();
+
+                string[] commandEntry = new string[] { commandStringArrays[i][0] };
+                currentCommandListSplitAtParameters.Add(commandEntry);
+
+                int currentParameterStartIndex = 1;
+
+                for (int j=currentParameterStartIndex ; j < commandStringArrays[i].Length; j++)
+                {               
+                    //If the current string is a parameter and not the first string in its scope, split the array from the current commandStartIndex until this index
+
+                    if (this.IsStringParameterShortName(commandStringArrays[i][j]) && currentParameterStartIndex!=1)
+                    {
+                        string[] parameterGrouping = new string[j - currentParameterStartIndex];
+                        //start copying the array from the commandstartindex of the smallnameCommands, for the length that was calculated in the commandGrouping
+                        Array.Copy(commandStringArrays[i], currentParameterStartIndex, parameterGrouping, 0, parameterGrouping.Length);
+                        currentCommandListSplitAtParameters.Add(parameterGrouping);
+                        currentParameterStartIndex = j;
+                    }
+
+                }
+
+                // if there are any commands left  at the end of the string array, i can handle it by just converting the end to a grouping too
+                if (currentParameterStartIndex < commandStringArrays[i].Length)
+                {
+                    string[] lastParameterGrouping = new string[commandStringArrays[i].Length - currentParameterStartIndex];
+                    Array.Copy(commandStringArrays[i], currentParameterStartIndex, lastParameterGrouping, 0, lastParameterGrouping.Length);
+                    currentCommandListSplitAtParameters.Add(lastParameterGrouping);
+                }
+
+                returnListSplitByParameter.Add(currentCommandListSplitAtParameters);
+
+
+
+            }
+            return returnListSplitByParameter;
+
+
+        }
+
+        private bool IsStringParameterShortName(string userInput)
+        {
+            List<IParameter> currentParameters = this.BuildAvailableParameterList(this.CurrentlyUsableCommands);
+
+            for (int i = 0; i < currentParameters.Count; i++)
+            {
+                if (userInput.Equals(currentParameters[i].ShortParameterName))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         private bool CheckForRequiredParameters(List<string[]> commandStringArrays)
@@ -255,7 +323,7 @@ namespace FileCompressor
 
             //build a reportiar for parameter long and associated long names 
 
-            List<IParameterInformation> availableParameters = this.BuildAvailableParameterList(this.CurrentlyUsableCommands);
+            List<IParameter> availableParameters = this.BuildAvailableParameterList(this.CurrentlyUsableCommands);
 
             for (int i = 0; i < oldArguments.Length; i++)
             {
@@ -280,13 +348,13 @@ namespace FileCompressor
 
         }
 
-        private List<IParameterInformation> BuildAvailableParameterList(List<ICommandLineCommand> currentlyUsableCommands)
+        private List<IParameter> BuildAvailableParameterList(List<ICommandLineCommand> currentlyUsableCommands)
         {
-            List<IParameterInformation> returnListParameters = new List<IParameterInformation>();
+            List<IParameter> returnListParameters = new List<IParameter>();
             //add all the optional and required parameter list
             foreach (ICommandLineCommand item in currentlyUsableCommands)
             {
-                foreach (IParameterInformation entry in item.RequiredParamters)
+                foreach (IParameter entry in item.RequiredParamters)
                 {
                     if (!returnListParameters.Contains(entry))
                     {
@@ -295,7 +363,7 @@ namespace FileCompressor
                     }
                 }
 
-                foreach (IParameterInformation entry in item.OptionalParameters)
+                foreach (IParameter entry in item.OptionalParameters)
                 {
                     if (!returnListParameters.Contains(entry))
                     {
@@ -318,7 +386,6 @@ namespace FileCompressor
             return false;
         }
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////MOVE THIS SHIT NOW /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
     }

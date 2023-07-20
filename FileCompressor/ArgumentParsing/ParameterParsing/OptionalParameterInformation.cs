@@ -2,7 +2,7 @@
 
 namespace FileCompressor
 {
-    public class OptionalParameterInformation : IParameterInformation
+    public class OptionalParameterInformation : IParameter
     {
         private string shortParameterName { get; set; }
         private string longParameterName { get; set; }
@@ -34,10 +34,10 @@ namespace FileCompressor
         {
             this.ShortParameterName = shortParameterName;
             this.LongParameterName = longParameterName;
-            this.CheckSpecificationAfterParameterForValidity = checkForValidityFunction;
+            this.CheckParameterSpecificationForValidity = checkForValidityFunction;
         }
 
-        public Func<string[], bool> CheckSpecificationAfterParameterForValidity
+        public Func<string[], bool> CheckParameterSpecificationForValidity
         {
             get
             {
