@@ -72,8 +72,8 @@ namespace FileCompressor
 
             List<List<string[]>> commandsSplitIntoLogicalUnitsWithParametersSplit = this.SplitCommandListArrayFurtherIntoParametersLogicalUnits(commandStringArrays);
 
-
-            /////////////////////////////////////////////////////////////////////////////////////////////////////////////// READ THIS TOMOROOW //////////////////////////////////////////////////////////////////////////////
+            AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIMGOINGSUPERSAYAINAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////// READ THIS TOMORrOW //////////////////////////////////////////////////////////////////////////////
             /////now we actually process the list of lists, nnde build a list of IParameters, which can be send to the CommandExecuterclass. That class generates a ICommand object and from the parameterlist and excecutes it. it does this in a 
             //for loop outisde which contains the wait and the retries parameter values, if there were given any
 

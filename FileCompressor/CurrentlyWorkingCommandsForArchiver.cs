@@ -102,9 +102,8 @@ namespace FileCompressor
             List<IParameter> listInfoCommandRequiredParameters = new List<IParameter>() { sourceParameter };
 
             List<ICommandLineCommand> commandLineCommands = new List<ICommandLineCommand>();
-            CommandParameters createCommandParameters = new CommandParameters(@"C:\Users\Jensh\Desktop\Testdatein", @"test.jth", new RLECompressionAlgorithm());
 
-
+            aaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaa List<IParameter> //add this shit into the actions , inside the actions we will filter
             Action<CommandParameters> createAction = (parameter) =>
             {
 

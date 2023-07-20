@@ -9,7 +9,7 @@ namespace FileCompressor
     //command that actually does something
     class CommandLineProductiveCommand : ICommandLineCommand
     {
-        private Action<CommandParameters> executeCommandAction;
+        private Action<List<IParameter>> executeCommandAction;
         private List<IParameter> optionalParameters;
         private List<IParameter> requiredParameters;
         private string longCommandArgument;
@@ -18,7 +18,7 @@ namespace FileCompressor
         public CommandLineProductiveCommand(
             string shortCommand,
             string longCommand,
-            Action<CommandParameters> executionAction,
+            Action<List<IParameter>> executionAction,
             List<IParameter> allowedOptionalParameters,
             List<IParameter> requiredOptionalParameters)
         {
@@ -30,7 +30,7 @@ namespace FileCompressor
         }
 
         // null checks maybe also 
-        public Action<CommandParameters> ExecuteCommandAction
+        public Action<List<IParameter>> ExecuteCommandAction
         {
             get
             {

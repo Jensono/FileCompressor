@@ -6,7 +6,7 @@ namespace FileCompressor
     public interface ICommandLineCommand
     {
         
-        Action<CommandParameters> ExecuteCommandAction { get; set; }
+        Action<List<IParameter>> ExecuteCommandAction { get; set; }
 
         List<IParameter> OptionalParameters { get; set; }
         List<IParameter> RequiredParamters { get; set; }
