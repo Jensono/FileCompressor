@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace FileCompressor
 {
+   
     class CurrentlyWorkingCommandsForArchiver
     {
         //small todo, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
@@ -13,10 +14,11 @@ namespace FileCompressor
         public CurrentlyWorkingCommandsForArchiver() { }
 
 
-        //////////////////////////////////////////////////////////////////////////////////////////////////////MOVE THIS SHIT NOW /////////////////////////////////////////////////////////////////////////////////////////////////
-        //initialize the optional parameters //TODO DO THIS SOMEWHERE ELSE PLEASE, even fixedVariables is better than in main
+        
 
-        public List<CommandLineProductiveCommand> ReturnCurrentlyWokringCommandList()
+
+        //TODO CHECK TO SEE IF ALL THE COMMANDS HAVE DIFFRENT LONG AND SHORTNAMES; THEY NEED TO BE UNIQUE FOR THIS TO WORK
+        public List<ICommandLineCommand> ReturnCurrentlyWokringCommandList()
         {
             /// Create all the functions that are used inside the ParameterInformation
 
@@ -169,7 +171,7 @@ namespace FileCompressor
 
 
 
-            List<CommandLineProductiveCommand> currentlyWorkingCommandLineArguments = new List<CommandLineProductiveCommand>() { createCommand, appendCommand, extractCommand, infoCommand, listCommand };
+            List<ICommandLineCommand> currentlyWorkingCommandLineArguments = new List<ICommandLineCommand>() { createCommand, appendCommand, extractCommand, infoCommand, listCommand };
 
 
             return currentlyWorkingCommandLineArguments;
