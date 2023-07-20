@@ -71,18 +71,27 @@ namespace FileCompressor
             //as the first entry in the list of a list is always the command by itself
 
             List<List<string[]>> commandsSplitIntoLogicalUnitsWithParametersSplit = this.SplitCommandListArrayFurtherIntoParametersLogicalUnits(commandStringArrays);
-            
-            //now we actually process the list of lists, and all the CommandParamters must be build.
 
 
-            
+            /////////////////////////////////////////////////////////////////////////////////////////////////////////////// READ THIS TOMOROOW //////////////////////////////////////////////////////////////////////////////
+            /////now we actually process the list of lists, nnde build a list of IParameters, which can be send to the CommandExecuterclass. That class generates a ICommand object and from the parameterlist and excecutes it. it does this in a 
+            //for loop outisde which contains the wait and the retries parameter values, if there were given any
+
+            //we look what parameterinformation matches the entries (starting at the second entry = 1 ) of the second layer list and look at the first element in the string array. This must now contain the small name parameter argument.
+            //we split the rest of the parameter arguments and send them to the Function that validates a parameters arguments.If any of the parameter specifiers are wrong we send Errorcode 1.
+            //if the parameter was validated we can put it in the commandparameters,or we could do that after the whole second layer list was validated.
+
+
+
+
+
             //Check if there are any strings left that arent needed flase-->errorcode
             //false--> errorcode
 
             //generate a commandParameter object from all the parameters that were found
             // connect the commands with the commandparameters and invoke them one by one
 
-           
+
 
 
 
@@ -175,7 +184,7 @@ namespace FileCompressor
                     throw new ArgumentException("ERRORCODE 1 todo here");
                 }
 
-                List<RequiredParameterInformation> requiredParameters = currentCommand.RequiredParamters;
+                List<IParameter> requiredParameters = currentCommand.RequiredParamters;
 
                 bool[] foundRequiredParameters = new bool[requiredParameters.Count];
                 //create an array with the same number of reuiqred parameters and fill them with true if the parameter was found

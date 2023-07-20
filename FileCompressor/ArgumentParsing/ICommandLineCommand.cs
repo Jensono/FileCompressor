@@ -8,8 +8,8 @@ namespace FileCompressor
         
         Action<CommandParameters> ExecuteCommandAction { get; set; }
 
-        List<OptionalParameterInformation> OptionalParameters { get; set; }
-        List<RequiredParameterInformation> RequiredParamters { get; set; }
+        List<IParameter> OptionalParameters { get; set; }
+        List<IParameter> RequiredParamters { get; set; }
 
         string LongCommandName { get; set; }
         string ShortCommandName { get; set; }

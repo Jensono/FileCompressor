@@ -21,11 +21,6 @@ namespace FileCompressor
             
         }
 
-        public override bool Equals(object obj)
-        {
-            return obj is ArchiveInfoCommand command &&
-                   ArchiveSource == command.ArchiveSource;
-        }
 
         public bool Execute()
         {
@@ -44,10 +39,12 @@ namespace FileCompressor
                 
             }
             else
-            {
-                return false;
-                //TODO CONVERT TO ERROR CODE
+
+            { //TODO CONVERT TO ERROR CODE
                 Console.WriteLine("Error Code 1, given source does not exists");
+                return false;
+               
+                
                 throw new FileNotFoundException($"The file at {this.ArchiveSource} was not found. ");
             }
            

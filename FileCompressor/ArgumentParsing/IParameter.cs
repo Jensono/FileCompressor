@@ -7,7 +7,7 @@ namespace FileCompressor
         string LongParameterName { get; set; }
         string ShortParameterName { get; set; }
 
-        Func<string[],bool> CheckParameterSpecificationForValidity { get; set; }
+        Func<string[],bool> CheckParameterSpecificationForValidity { get;  set; }
 
         
 

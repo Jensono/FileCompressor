@@ -47,7 +47,6 @@
     <Compile Include="ArgumentParsing\ICommandLineCommand.cs" />
     <Compile Include="ArgumentParsing\CommandLineProductiveCommand.cs" />
     <Compile Include="ArgumentParsing\IParameter.cs" />
-    <Compile Include="ArgumentParsing\ParameterParsing\RequiredParameterInformation.cs" />
     <Compile Include="CommandLineArgumentParser.cs" />
     <Compile Include="Commands\ArchiveAppendCommand.cs" />
     <Compile Include="ArchiveFileReader.cs" />
@@ -55,6 +54,7 @@
     <Compile Include="Commands\ArchiveInfoCommand.cs" />
     <Compile Include="Commands\ExtractArchiveCommand.cs" />
     <Compile Include="CurrentlyWorkingCommandsForArchiver.cs" />
+    <Compile Include="Parameters\DestinationParameter.cs" />
     <Compile Include="FixedVariables.cs" />
     <Compile Include="GeneratedFileContents\ArchiveHeader.cs" />
     <Compile Include="Commands\CreateArchiveCommand.cs" />
@@ -64,15 +64,20 @@
     <Compile Include="Commands\ListArchiveContentsCommand.cs" />
     <Compile Include="CompressionAlgorithms\ICompressionAlgorithm.cs" />
     <Compile Include="CompressionAlgorithms\NoCompressionAlogorithm.cs" />
-    <Compile Include="ArgumentParsing\ParameterParsing\OptionalParameterInformation.cs" />
     <Compile Include="IArchiveCommand.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CompressionAlgorithms\RLECompressionAlgorithm.cs" />
+    <Compile Include="Parameters\RLECompressionParameter.cs" />
+    <Compile Include="Parameters\RetriesParameter.cs" />
+    <Compile Include="Parameters\SourceParameter.cs" />
+    <Compile Include="Parameters\WaitTimeParameter.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="ArgumentParsing\ParameterParsing\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

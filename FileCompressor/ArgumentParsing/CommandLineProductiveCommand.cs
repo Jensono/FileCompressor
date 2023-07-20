@@ -10,8 +10,8 @@ namespace FileCompressor
     class CommandLineProductiveCommand : ICommandLineCommand
     {
         private Action<CommandParameters> executeCommandAction;
-        private List<OptionalParameterInformation> optionalParameters;
-        private List<RequiredParameterInformation> requiredParameters;
+        private List<IParameter> optionalParameters;
+        private List<IParameter> requiredParameters;
         private string longCommandArgument;
         private string shortCommandArgument;
 
@@ -19,8 +19,8 @@ namespace FileCompressor
             string shortCommand,
             string longCommand,
             Action<CommandParameters> executionAction,
-            List<OptionalParameterInformation> allowedOptionalParameters,
-            List<RequiredParameterInformation> requiredOptionalParameters)
+            List<IParameter> allowedOptionalParameters,
+            List<IParameter> requiredOptionalParameters)
         {
             this.ShortCommandName = shortCommand;
             this.LongCommandName = longCommand;
@@ -41,7 +41,7 @@ namespace FileCompressor
                 this.executeCommandAction = value;
             }
         }
-        public List<OptionalParameterInformation> OptionalParameters
+        public List<IParameter> OptionalParameters
         {
             get
             {
@@ -52,7 +52,7 @@ namespace FileCompressor
                 this.optionalParameters = value;
             }
         }
-        public List<RequiredParameterInformation> RequiredParamters
+        public List<IParameter> RequiredParamters
         {
             get
             {
