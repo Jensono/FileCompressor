@@ -6,7 +6,7 @@ namespace FileCompressor
     {
         private string shortParameterArgument;
         private string longParameterArgument;
-
+        private object value;
         private Func<string[], bool> checkFunctionForParameterValidity;
 
         private Func<string[], object> parseArgumentSpecificationAsValue;
@@ -47,15 +47,15 @@ namespace FileCompressor
             }
         }
 
-        public Func<string[], object> ParseArgumentSpecificationAsValue
+        public object Value
         {
             get
             {
-                return this.parseArgumentSpecificationAsValue;
+                return this.value;
             }
             set
-            {
-                this.parseArgumentSpecificationAsValue = value;
+            { //mabye add checks for this but not sure
+                this.value = value;
             }
         }
 
@@ -84,10 +84,17 @@ namespace FileCompressor
 
             };
 
-            this.ParseArgumentSpecificationAsValue = (parameter) =>
+            
+        }
+
+        public bool TryParseValueAndSetIt(string[] array)
+        {
+            if (this.CheckParameterSpecificationForValidity(array))
             {
-                return parameter[0];
-            };
+                this.Value = array[0];
+                return true;
+            }
+            return false;
         }
     }
 }

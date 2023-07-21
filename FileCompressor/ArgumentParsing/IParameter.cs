@@ -9,9 +9,11 @@ namespace FileCompressor
 
         Func<string[],bool> CheckParameterSpecificationForValidity { get;  set; }
 
-        
 
-        Func<string[], object> ParseArgumentSpecificationAsValue { get; set; }
+
+        bool TryParseValueAndSetIt(string[] array);
+
+        object Value { get; set; }
 
         ///TODO a parameter either must,can or doesnt support a argument after itself, the argument itself ALWAYS is a specific type eg. string for paths or int for number of retries and waittime.
         /// There are other restritions too like a retries only support numbers between 1 and 10 , same for wait , 

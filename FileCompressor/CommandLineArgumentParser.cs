@@ -71,11 +71,19 @@ namespace FileCompressor
             //as the first entry in the list of a list is always the command by itself
 
             List<List<string[]>> commandsSplitIntoLogicalUnitsWithParametersSplit = this.SplitCommandListArrayFurtherIntoParametersLogicalUnits(commandStringArrays);
+            // we create a list of commandparameters, commandparameters just hold a list of Iparameters and the commands short names that is associated with the parameters.
+           
+            List<CommandParameters> readParameteSpecification = this.CreateCommandParametersFromCommandListListArray(commandsSplitIntoLogicalUnitsWithParametersSplit);
+
+
 
             AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIMGOINGSUPERSAYAINAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////// READ THIS TOMORrOW //////////////////////////////////////////////////////////////////////////////
             /////now we actually process the list of lists, nnde build a list of IParameters, which can be send to the CommandExecuterclass. That class generates a ICommand object and from the parameterlist and excecutes it. it does this in a 
             //for loop outisde which contains the wait and the retries parameter values, if there were given any
+
+                // we need to link the iparameter lits to the same entry as the command itself, then try catch the execution for all entries, if a errorcode is thrown throw it up and send it to the console, as this is the last class used 
+                // in main
 
             //we look what parameterinformation matches the entries (starting at the second entry = 1 ) of the second layer list and look at the first element in the string array. This must now contain the small name parameter argument.
             //we split the rest of the parameter arguments and send them to the Function that validates a parameters arguments.If any of the parameter specifiers are wrong we send Errorcode 1.
@@ -96,6 +104,61 @@ namespace FileCompressor
 
 
 
+
+        }
+
+        private List<CommandParameters> CreateCommandParametersFromCommandListListArray(List<List<string[]>> commandsListListArray)
+        {
+            List<CommandParameters> foundCommandParameters = new List<CommandParameters>();
+            //for every command
+            foreach (List<string[]> item in commandsListListArray)
+            {
+                List<IParameter> parameterList = new List<IParameter>();
+
+                // short command name is always the first entry in the string array in the first entry in the list
+                string currentCommandShortName = item[0][0];
+                //Extract the commandshort name that is in the beginning
+
+                //for each part of one command that isnt the command itself
+                for (int i = 1; i < item.Count; i++)
+                {
+                    IParameter currentParameter = this.BuildIParameterForListEntry(item[i]);
+                    if (currentParameter == null)
+                    {
+                        throw new InvalidOperationException("There was a problem with the parameter, that should never occur");
+                    }
+
+
+                    parameterList.Add(currentParameter);
+                }
+
+
+                CommandParameters currentCommandParameters = new CommandParameters( parameterList, currentCommandShortName);
+                foundCommandParameters.Add(currentCommandParameters);
+            }
+            return foundCommandParameters;
+
+
+
+        }
+        //before using this method we also validated that the given first entry is a available command so no checking
+        private IParameter BuildIParameterForListEntry(string[] stringArray)
+        {
+
+            List<IParameter> availableParamters = this.BuildAvailableParameterList(this.CurrentlyUsableCommands);
+            foreach (IParameter item in availableParamters)
+            {
+                if (stringArray[0].Equals(item.ShortParameterName))
+                {
+                    //we need deep copys of the IParameter classes used, i think i will create a new method for IParameters called cloning to achieve this.
+                    return item.Clone();
+
+                }
+            }
+
+            return null;
+           //read the first entry in the string array and find the corrseponding ParameterType from the List.
+           //create a new object from that IParameter object, validate the given rest of the string and create the value for the parameter, then return the parameter
 
         }
 

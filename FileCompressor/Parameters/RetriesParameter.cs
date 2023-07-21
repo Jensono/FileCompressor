@@ -4,6 +4,7 @@ namespace FileCompressor
 {
     public class RetriesParameter : IParameter
     {
+        private object value;
         private string shortParameterArgument;
         private string longParameterArgument;
 
@@ -47,15 +48,16 @@ namespace FileCompressor
             }
         }
 
-        public Func<string[], object> ParseArgumentSpecificationAsValue
+        
+        public object Value
         {
             get
             {
-                return this.parseArgumentSpecificationAsValue;
+                return this.value;
             }
             set
-            {
-                this.parseArgumentSpecificationAsValue = value;
+            { //mabye add checks for this but not sure
+                this.value = value;
             }
         }
         public RetriesParameter(string shortCommandName, string longCommandName)
@@ -88,31 +90,28 @@ namespace FileCompressor
                 return true;
             };
 
-            this.ParseArgumentSpecificationAsValue = (parameter) =>
+           
+        }
+
+        public bool ParseValueAndSetIt(string[] argumentArray)
+        {
+            if (!this.CheckParameterSpecificationForValidity(argumentArray))
             {
-                if (parameter.Length >= 2)
-                {
-                    return 1;
-                }
-                // if there is no extra argument then its also valid, taking the value of 1
-                if (parameter.Length == 0)
-                {
-                    return 1;
-                }
+                return false;
+            }
 
-                int potentialRepeatArgument;
-                if (!int.TryParse(parameter[0], out potentialRepeatArgument))
-                {
-                    return 1;
-                }
-
-                if (potentialRepeatArgument < 0 || potentialRepeatArgument > 10)
-                {
-                    return 1;
-                }
-                //only lands here if the lenght of the array is one and the string is a integer between
-                return potentialRepeatArgument;
-            };
+            if (argumentArray.Length == 0)
+            {
+                this.Value = 1;
+                return true;
+            }
+            //must be a string array with one entry and parseable as an int
+            else 
+            {
+                this.Value = int.Parse(argumentArray[0]);
+                return true;
+            }
+            
         }
     }
 }

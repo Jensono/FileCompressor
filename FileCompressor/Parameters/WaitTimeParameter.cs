@@ -6,7 +6,7 @@ namespace FileCompressor
     {
         private string shortParameterArgument;
         private string longParameterArgument;
-
+        private object value;
         private Func<string[], bool> checkFunctionForParameterValidity;
 
         private Func<string[], object> parseArgumentSpecificationAsValue;
@@ -47,15 +47,16 @@ namespace FileCompressor
             }
         }
 
-        public Func<string[], object> ParseArgumentSpecificationAsValue
+      
+        public object Value
         {
             get
             {
-                return this.parseArgumentSpecificationAsValue;
+                return this.value;
             }
             set
-            {
-                this.parseArgumentSpecificationAsValue = value;
+            { //todo there MUST be checks to validate that a new values is either null or the object that resides in these classes - string, int etc.
+                this.value = value;
             }
         }
 
@@ -89,31 +90,26 @@ namespace FileCompressor
                 return true;
             };
 
-            this.ParseArgumentSpecificationAsValue = (parameter) =>
+           
+        }
+
+        public bool TryParseValueAndSetIt(string[] array)
+        {
+            if (!this.CheckParameterSpecificationForValidity(array))
             {
-                if (parameter.Length >= 2)
-                {
-                    return 1;
-                }
-                // if there is no extra argument then its also valid, taking the value of 1
-                if (parameter.Length == 0)
-                {
-                    return 1;
-                }
+                return false;
+            }
 
-                int potentialRepeatArgument;
-                if (!int.TryParse(parameter[0], out potentialRepeatArgument))
-                {
-                    return 1;
-                }
-
-                if (potentialRepeatArgument < 0 || potentialRepeatArgument > 10)
-                {
-                    return 1;
-                }
-                //only lands here if the lenght of the array is one and the string is a integer between
-                return potentialRepeatArgument;
-            };
+            if (array.Length == 0)
+            {
+                this.Value = 1;
+                return true;
+            }
+            else 
+            {
+                this.Value = int.Parse(array[0]);
+                return true;
+            }
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace FileCompressor
@@ -103,64 +104,344 @@ namespace FileCompressor
 
             List<ICommandLineCommand> commandLineCommands = new List<ICommandLineCommand>();
 
-            aaaaaaaaaaaaaaaaaa aaaaaaaaaaaaaaaaaaaaa List<IParameter> //add this shit into the actions , inside the actions we will filter
-            Action<CommandParameters> createAction = (parameter) =>
+            //add this shit into the actions , inside the actions we will filter
+            Action<List<IParameter>> createAction = (parameter) =>
             {
 
+                //set the default values for this action
+                string sourceString = string.Empty;
+                string destinationString = string.Empty;
+                int waitTimeInteger = 0;
+                int retriesInteger = 0;
+                ICompressionAlgorithm usedCompressionType = new NoCompressionAlgorithm();
+                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
+                foreach (IParameter param in parameter)
+                {
+                    switch (param)
+                    {
+                        case SourceParameter foundSourceParam:
+                            //disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            sourceString = (string)foundSourceParam.Value;
+                            break;
 
-            //TODO TODO TODO check the parameter properties , source and destination can not be null,compression can be
-            CreateArchiveCommand createArchive = new CreateArchiveCommand(parameter.Source, parameter.Destination, parameter.CompressionAlgorithm);
+                        case DestinationParameter foundDestinationParameter:
+
+                            destinationString = (string)foundDestinationParameter.Value;
+                            break;
+
+                        case RetriesParameter foundRetriesParameter:
+
+                            retriesInteger = (int)foundRetriesParameter.Value;
+                            break;
+
+                        case WaitTimeParameter foundWaittimeParameter:
+
+                            waitTimeInteger = (int)foundWaittimeParameter.Value;
+                            break;
+
+                        case RLECompressionParameter foundRLECompressionParameter:
+
+                            usedCompressionType = (ICompressionAlgorithm)foundRLECompressionParameter.Value;
+                            break;
+                        //todo specifiy, it should never happen but whatever
+                        default:
+                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+
+                            //break;
+                    }
+                }
+
+                //todo; THIS COULD be seperated into a new class THAT JUST takes a ICommand
+                
+
+                CreateArchiveCommand createArchive = new CreateArchiveCommand(sourceString, destinationString, usedCompressionType);
+               
+                    for (int i = -1; i < retriesInteger; i++)
+                    {
+                        try
+                        {   //try to execute the command and catch potential errorcodes
+                            createArchive.Execute();
+                            //break the loop after one succeful retry
+                            break;
+                        }
+                        catch (ArchiveErrorCodeException e)
+                        {
+                            //if the last try is reached just throw the Exception upwards.
+                            if (i == retriesInteger - 1)
+                            {
+                                throw e;
+                            }
+                            Thread.Sleep(1000 * waitTimeInteger);
+                        }
+                       
+                        
+                    }
+                    
 
 
             };
 
-            Action<CommandParameters> appendAction = (parameter) =>
+            Action<List<IParameter>> appendAction = (parameter) =>
             {
 
 
 
-            //the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
-            //TODO TODO check the parameter properties source and destination can not be null compression can be
-            ///////OR - IF THE REQUIRED PARAMETERS ARE THERE ARE ALREADY CHECKED IN THE PROCESS OUTSIDE; BUT THEY DONT WANT THAT NORMALLY.
-            ArchiveAppendCommand appendArchive = new ArchiveAppendCommand(parameter.Source, parameter.Destination);
+                //set the default values for this action
+                string sourceString = string.Empty;
+                string destinationString = string.Empty;
+                int waitTimeInteger = 0;
+                int retriesInteger = 0;
+                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
+                foreach (IParameter param in parameter)
+                {
+                    switch (param)
+                    {
+                        case SourceParameter foundSourceParam:
+                            //disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            sourceString = (string)foundSourceParam.Value;
+                            break;
+
+                        case DestinationParameter foundDestinationParameter:
+
+                            destinationString = (string)foundDestinationParameter.Value;
+                            break;
+
+                        case RetriesParameter foundRetriesParameter:
+
+                            retriesInteger = (int)foundRetriesParameter.Value;
+                            break;
+
+                        case WaitTimeParameter foundWaittimeParameter:
+
+                            waitTimeInteger = (int)foundWaittimeParameter.Value;
+                            break;
+
+                        //todo specifiy, it should never happen but whatever
+                        default:
+                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+
+                            //break;
+                    }
+                }
+
+                //todo; THIS COULD be seperated into a new class THAT JUST takes a ICommand
+
+                ArchiveAppendCommand appendArchiveCommand = new ArchiveAppendCommand(sourceString, destinationString);
+
+                for (int i = -1; i < retriesInteger; i++)
+                {
+                    try
+                    {
+                        appendArchiveCommand.Execute();
+                        //break the loop after one succeful retry
+                        break;
+                    }
+                    catch (ArchiveErrorCodeException e)
+                    {
+                        //if the last try is reached just throw the Exception upwards.
+                        if (i == retriesInteger - 1)
+                        {
+                            throw e;
+                        }
+                        Thread.Sleep(1000 * waitTimeInteger);
+                    }
+
+
+                }
+
 
 
             };
 
-            Action<CommandParameters> extractAction = (parameter) =>
+            Action<List<IParameter>> extractAction = (parameter) =>
             {
 
 
 
-            //the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
-            //TODO TODO check the parameter properties source and destination can not be null compression can be
-            ExtractArchiveCommand extractArchive = new ExtractArchiveCommand(parameter.Source, parameter.Destination);
+                //set the default values for this action
+                string sourceString = string.Empty;
+                string destinationString = string.Empty;
+                int waitTimeInteger = 0;
+                int retriesInteger = 0;
+                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
+                foreach (IParameter param in parameter)
+                {
+                    switch (param)
+                    {
+                        case SourceParameter foundSourceParam:
+                            //disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            sourceString = (string)foundSourceParam.Value;
+                            break;
+
+                        case DestinationParameter foundDestinationParameter:
+
+                            destinationString = (string)foundDestinationParameter.Value;
+                            break;
+
+                        case RetriesParameter foundRetriesParameter:
+
+                            retriesInteger = (int)foundRetriesParameter.Value;
+                            break;
+
+                        case WaitTimeParameter foundWaittimeParameter:
+
+                            waitTimeInteger = (int)foundWaittimeParameter.Value;
+                            break;
+
+                        //todo specifiy, it should never happen but whatever
+                        default:
+                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+
+                            //break;
+                    }
+                }
+
+                //todo; THIS COULD be seperated into a new class THAT JUST takes a ICommand
+
+                ExtractArchiveCommand extractArchiveCommand = new ExtractArchiveCommand(sourceString, destinationString);
+
+                for (int i = -1; i < retriesInteger; i++)
+                {
+                    try
+                    {
+                        extractArchiveCommand.Execute();
+                        //break the loop after one succeful retry
+                        break;
+                    }
+                    catch (ArchiveErrorCodeException e)
+                    {
+                        //if the last try is reached just throw the Exception upwards.
+                        if (i == retriesInteger - 1)
+                        {
+                            throw e;
+                        }
+                        Thread.Sleep(1000 * waitTimeInteger);
+                    }
+
+
+                }
+
+            };
+
+            Action<List<IParameter>> infoAction = (parameter) =>
+            {
+
+
+
+                //set the default values for this action
+                string sourceString = string.Empty;
+                int waitTimeInteger = 0;
+                int retriesInteger = 0;
+                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
+                foreach (IParameter param in parameter)
+                {
+                    switch (param)
+                    {
+                        case SourceParameter foundSourceParam:
+                            //disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            sourceString = (string)foundSourceParam.Value;
+                            break;                 
+
+                        case RetriesParameter foundRetriesParameter:
+
+                            retriesInteger = (int)foundRetriesParameter.Value;
+                            break;
+
+                        case WaitTimeParameter foundWaittimeParameter:
+
+                            waitTimeInteger = (int)foundWaittimeParameter.Value;
+                            break;
+
+                        //todo specifiy, it should never happen but whatever
+                        default:
+                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+
+                            //break;
+                    }
+                }
+
+
+                ArchiveInfoCommand infoArchiveCommand = new ArchiveInfoCommand(sourceString);
+                for (int i = -1; i < retriesInteger; i++)
+                {
+                    try
+                    {
+                        infoArchiveCommand.Execute();
+                        //break the loop after one succeful retry
+                        break;
+                    }
+                    catch (ArchiveErrorCodeException e)
+                    {
+                        //if the last try is reached just throw the Exception upwards.
+                        if (i == retriesInteger - 1)
+                        {
+                            throw e;
+                        }
+                        Thread.Sleep(1000 * waitTimeInteger);
+                    }
+
+
+                }
 
 
             };
 
-            Action<CommandParameters> infoAction = (parameter) =>
+            Action<List<IParameter>> listAction = (parameter) =>
             {
+                //set the default values for this action
+                string sourceString = string.Empty;
+                int waitTimeInteger = 0;
+                int retriesInteger = 0;
+                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
+                foreach (IParameter param in parameter)
+                {
+                    switch (param)
+                    {
+                        case SourceParameter foundSourceParam:
+                            //disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            sourceString = (string)foundSourceParam.Value;
+                            break;
+
+                        case RetriesParameter foundRetriesParameter:
+
+                            retriesInteger = (int)foundRetriesParameter.Value;
+                            break;
+
+                        case WaitTimeParameter foundWaittimeParameter:
+
+                            waitTimeInteger = (int)foundWaittimeParameter.Value;
+                            break;
+
+                        //todo specifiy, it should never happen but whatever
+                        default:
+                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+
+                            //break;
+                    }
+                }
 
 
+                ListArchiveContentsCommand infoArchiveCommand = new ListArchiveContentsCommand(sourceString);
+                for (int i = -1; i < retriesInteger; i++)
+                {
+                    try
+                    {
+                        infoArchiveCommand.Execute();
+                        //break the loop after one succeful retry
+                        break;
+                    }
+                    catch (ArchiveErrorCodeException e)
+                    {
+                        //if the last try is reached just throw the Exception upwards.
+                        if (i == retriesInteger - 1)
+                        {
+                            throw e;
+                        }
+                        Thread.Sleep(1000 * waitTimeInteger);
+                    }
 
-            //the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
-            //TODO TODO check the parameter properties source and destination can not be null compression can be
-            ArchiveInfoCommand archiveInfo = new ArchiveInfoCommand(parameter.Source);
 
-
-            };
-
-            Action<CommandParameters> listAction = (parameter) =>
-            {
-
-
-
-            //the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
-            //TODO TODO check the parameter properties source and destination can not be null compression can be
-            ListArchiveContentsCommand listArchiveContents = new ListArchiveContentsCommand(parameter.Source);
-
-
+                }
             };
 
 

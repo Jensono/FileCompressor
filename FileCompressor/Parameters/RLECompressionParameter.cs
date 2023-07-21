@@ -10,7 +10,7 @@ namespace FileCompressor
     {
         private string shortParameterArgument;
         private string longParameterArgument;
-
+        private object value;
         private Func<string[], bool> checkFunctionForParameterValidity;
 
         private Func<string[], object> parseArgumentSpecificationAsValue;
@@ -49,15 +49,16 @@ namespace FileCompressor
                 this.checkFunctionForParameterValidity = value;
             }
         }
-        public Func<string[], object> ParseArgumentSpecificationAsValue
+        
+        public object Value
         {
             get
             {
-                return this.parseArgumentSpecificationAsValue;
+                return this.value;
             }
             set
-            {
-                this.parseArgumentSpecificationAsValue = value;
+            { //mabye add checks for this but not sure; WHY CANT I SET THE Interface to only allow private sets smh
+                this.value = value;
             }
         }
 
@@ -74,12 +75,19 @@ namespace FileCompressor
                 }
                 return false;
             };
-            this.ParseArgumentSpecificationAsValue = (parameter) =>
+            
+
+
+        }
+
+        public bool TryParseValueAndSetIt(string[] array)
+        {
+            if (this.CheckParameterSpecificationForValidity(array))
             {
-                return null;
-            };
-
-
+                this.Value = new RLECompressionAlgorithm();
+                return true;
+            }
+            return false;
         }
     }
 }

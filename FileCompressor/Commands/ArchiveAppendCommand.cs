@@ -9,6 +9,9 @@ namespace FileCompressor
 
     /// <summary>
     /// // BIG ASS TODO this command needs to first create a copy of the file that needs to be appended and then delete the original file after the append happend. Otherwise the weirdest shit could happen while appending.
+    /// //the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
+    //TODO TODO check the parameter properties source and destination can not be null compression can be
+    ///////OR - IF THE REQUIRED PARAMETERS ARE THERE ARE ALREADY CHECKED IN THE PROCESS OUTSIDE; BUT THEY DONT WANT THAT NORMALLY.
     /// </summary>
     class ArchiveAppendCommand :IArchiveCommand 
     {
