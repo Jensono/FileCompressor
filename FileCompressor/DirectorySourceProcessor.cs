@@ -43,7 +43,7 @@ namespace FileCompressor
 
         //TODO maybe remove all the returning nulls
 
-        public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(ICompressionAlgorithm compressionAlgorithm)
+        public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(ICompressionAlgorithm compressionAlgorithm,string[] filePathsToSkip)
         {
 
            
@@ -61,6 +61,12 @@ namespace FileCompressor
                 
                 //with this option all files will be put into the string array - "*.*" just means that all types of files and all names are valid.
                 string[] fileArray = Directory.GetFiles(this.givenSourceDirectory, "*.*", SearchOption.AllDirectories);
+               //removing all the entries in the fileArray that contains paths that are also in the string[] filePathsToSkipArray
+                if (filePathsToSkip != null && filePathsToSkip.Length > 0)
+                {
+                    fileArray = fileArray.Where(filePath => !filePathsToSkip.Contains(filePath)).ToArray();
+                }
+
                 foreach (var file in fileArray)
                 {
                     try

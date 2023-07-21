@@ -51,6 +51,7 @@
     <Compile Include="Commands\ArchiveAppendCommand.cs" />
     <Compile Include="ArchiveFileReader.cs" />
     <Compile Include="ArchiveFileWriter.cs" />
+    <Compile Include="ArchiveErrorCodeException.cs" />
     <Compile Include="Commands\ArchiveInfoCommand.cs" />
     <Compile Include="Commands\ExtractArchiveCommand.cs" />
     <Compile Include="CurrentlyWorkingCommandsForArchiver.cs" />

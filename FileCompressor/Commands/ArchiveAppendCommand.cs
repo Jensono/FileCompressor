@@ -70,7 +70,9 @@ namespace FileCompressor
 
 
                 DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(this.SourcePathToDirectory);
-                List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(compressionAlgorithm);
+                //just needed for the creation command, when creating the list it skips over all files with names inside the array
+                string[] fileNamesToSkip = new string[0];
+                List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(compressionAlgorithm,fileNamesToSkip );
 
 
                 ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count, compressionAlgorithm.CompressionTypeCalling(), this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));

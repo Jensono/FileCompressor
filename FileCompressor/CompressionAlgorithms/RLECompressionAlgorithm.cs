@@ -94,7 +94,7 @@ namespace FileCompressor
             //TODO specify exceptions
             catch (Exception e)
             {
-                ////    catch (IOException e)
+                ////    catch (IOException e) !
                 ////{
                 ////    // Handle I/O errors.
                 ////}

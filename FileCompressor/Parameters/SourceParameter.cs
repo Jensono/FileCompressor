@@ -9,7 +9,6 @@ namespace FileCompressor
         private object value;
         private Func<string[], bool> checkFunctionForParameterValidity;
 
-        private Func<string[], object> parseArgumentSpecificationAsValue;
 
         public string LongParameterName
         {
@@ -95,6 +94,11 @@ namespace FileCompressor
                 return true;
             }
             return false;
+        }
+
+        public IParameter DeepCloneSelf()
+        {
+            return new SourceParameter(this.ShortParameterName, this.LongParameterName);
         }
     }
 }

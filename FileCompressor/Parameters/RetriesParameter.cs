@@ -10,7 +10,6 @@ namespace FileCompressor
 
         private Func<string[], bool> checkFunctionForParameterValidity;
 
-        private Func<string[], object> parseArgumentSpecificationAsValue;
 
         public string LongParameterName
         {
@@ -93,7 +92,7 @@ namespace FileCompressor
            
         }
 
-        public bool ParseValueAndSetIt(string[] argumentArray)
+        public bool TryParseValueAndSetIt(string[] argumentArray)
         {
             if (!this.CheckParameterSpecificationForValidity(argumentArray))
             {
@@ -112,6 +111,13 @@ namespace FileCompressor
                 return true;
             }
             
+        }
+
+       
+
+        public IParameter DeepCloneSelf()
+        {
+            return new RetriesParameter(this.ShortParameterName, this.LongParameterName);
         }
     }
 }

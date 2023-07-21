@@ -87,7 +87,7 @@ namespace FileCompressor
           
         }
 
-        public bool ParseValueAndSetIt(string[] argumentArray)
+        public bool TryParseValueAndSetIt(string[] argumentArray)
         {
             if (this.CheckParameterSpecificationForValidity(argumentArray))
             {
@@ -97,6 +97,9 @@ namespace FileCompressor
             return false;
         }
 
-      
+        public IParameter DeepCloneSelf()
+        {
+            return new DestinationParameter(this.ShortParameterName, this.LongParameterName);
+        }
     }
 }

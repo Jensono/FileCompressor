@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 namespace FileCompressor
 {
    
-    class CurrentlyWorkingCommandsForArchiver
+   public  class CurrentlyWorkingCommandsForArchiver
     {
         //small todo, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
 

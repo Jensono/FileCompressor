@@ -9,7 +9,6 @@ namespace FileCompressor
         private object value;
         private Func<string[], bool> checkFunctionForParameterValidity;
 
-        private Func<string[], object> parseArgumentSpecificationAsValue;
 
         public string LongParameterName
         {
@@ -110,6 +109,11 @@ namespace FileCompressor
                 this.Value = int.Parse(array[0]);
                 return true;
             }
+        }
+
+        public IParameter DeepCloneSelf()
+        {
+            return new WaitTimeParameter(this.ShortParameterName, this.LongParameterName);
         }
     }
 }

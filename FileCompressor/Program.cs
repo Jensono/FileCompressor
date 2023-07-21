@@ -11,29 +11,38 @@ namespace FileCompressor
     {
         static void Main(string[] args)
         {
+
+            //change to the args of the main method TODOTODO ///////////////
+
+            string readShit = Console.ReadLine();
+            string[] FAKEARGUMENTS = readShit.Split(' ');
+
             CurrentlyWorkingCommandsForArchiver currentlyWorkingCommandsForArchiver = new CurrentlyWorkingCommandsForArchiver();
-            CommandLineArgumentParser Parser = new CommandLineArgumentParser(currentlyWorkingCommandsForArchiver.ReturnCurrentlyWokringCommandList, args);
+            CommandLineArgumentParser parser = new CommandLineArgumentParser(currentlyWorkingCommandsForArchiver.ReturnCurrentlyWokringCommandList(), FAKEARGUMENTS);
+
+            parser.ParseCommandsAndExecute();
 
 
-            //testing the final CommandLineProductiveCommand
+
+            ////testing the final CommandLineProductiveCommand
                         
-            //CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", new NoCompressionAlgorithm());
+            ////CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", new NoCompressionAlgorithm());
 
-            //CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", new RLECompressionAlgorithm()) ;
+            ////CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", new RLECompressionAlgorithm()) ;
 
-            ArchiveInfoCommand archiveInfoCommand = new ArchiveInfoCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
+            //ArchiveInfoCommand archiveInfoCommand = new ArchiveInfoCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
 
-            ListArchiveContentsCommand listArchiveContentsCommand = new ListArchiveContentsCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
+            //ListArchiveContentsCommand listArchiveContentsCommand = new ListArchiveContentsCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
 
-            ExtractArchiveCommand extract = new ExtractArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth", @"C:\Users\Jensh\Desktop\new");
+            //ExtractArchiveCommand extract = new ExtractArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth", @"C:\Users\Jensh\Desktop\new");
 
-            ArchiveAppendCommand appendCommandFirstTry = new ArchiveAppendCommand(@"C:\Users\Jensh\Desktop\Testdatein_Extra", @"C:\Users\Jensh\Desktop\Testdatein\test.jth");
+            //ArchiveAppendCommand appendCommandFirstTry = new ArchiveAppendCommand(@"C:\Users\Jensh\Desktop\Testdatein_Extra", @"C:\Users\Jensh\Desktop\Testdatein\test.jth");
 
-            ArchiveInfoCommand archiveInfoCommand2 = new ArchiveInfoCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
+            //ArchiveInfoCommand archiveInfoCommand2 = new ArchiveInfoCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
 
-            ListArchiveContentsCommand listArchiveContentsCommand2 = new ListArchiveContentsCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
+            //ListArchiveContentsCommand listArchiveContentsCommand2 = new ListArchiveContentsCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth");
 
-            ExtractArchiveCommand extract2 = new ExtractArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth", @"C:\Users\Jensh\Desktop\appendoutput");
+            //ExtractArchiveCommand extract2 = new ExtractArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth", @"C:\Users\Jensh\Desktop\appendoutput");
 
         
             
