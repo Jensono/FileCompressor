@@ -142,7 +142,20 @@ namespace FileCompressor
                     }
                 }
             }
-            //todo return exception here
+            catch (ArchiveErrorCodeException e) 
+            {
+                e.AppendErrorCodeInformation($" Filepath: {this.ArchiveSource}");
+                throw e;
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not access file with Path: {this.ArchiveSource}");
+            }
+            //had this exception once when i was messing with the individual file headers, should be fixed now with the archiverror that is given when the filename or the path is too long.
+            catch (OutOfMemoryException e) 
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Archive at {this.ArchiveSource} is possibly corrupted");
+            }
             catch (Exception e)
             {
                 throw e;
@@ -258,18 +271,27 @@ namespace FileCompressor
             //Convert the size to int
 
             //TODO CHECK TO SEE IF POSITIV IF NOT END THE READ!
-            int SizeOfNameInBytes = BitConverter.ToInt32(stringNameSizeBuffer, 0);
-
-            byte[] fileNameBuffer = new byte[SizeOfNameInBytes];
+            int sizeOfNameInBytes = BitConverter.ToInt32(stringNameSizeBuffer, 0);
+            if (sizeOfNameInBytes>this.FixedVariables.AbsoluteLimitBytesForFileNameAndPath)
+            {
+                throw new ArchiveErrorCodeException("Errorcode 1. Archive File is possibly corrupted");
+            }
+            byte[] fileNameBuffer = new byte[sizeOfNameInBytes];
 
             //get the file name from the fileheader
             archiveFilestream.Read(fileNameBuffer, 0, fileNameBuffer.Length);
             string fileName = Encoding.UTF8.GetString(fileNameBuffer);
 
+
             //Read the size of the pathname
             byte[] stringPathSizeBuffer = new byte[4];
             archiveFilestream.Read(stringPathSizeBuffer, 0, stringPathSizeBuffer.Length);
             int sizeOfPathInBytes = BitConverter.ToInt32(stringPathSizeBuffer, 0);
+            if (sizeOfPathInBytes > this.FixedVariables.AbsoluteLimitBytesForFileNameAndPath)
+            {
+                throw new ArchiveErrorCodeException("Errorcode 1. Archive File is possibly corrupted");
+            }
+
             byte[] filePathBuffer = new byte[sizeOfPathInBytes];
 
             //get the path name from the fileheader

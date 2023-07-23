@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FileCompressor
 {
@@ -47,32 +48,59 @@ namespace FileCompressor
         //MAYBE ALREADY SPLIT THIS INTO Parse and then execute
         public void ParseCommandsAndExecute()
         {
+           
             //remove whitespaces at the end / trailing of the string[] 
-           string[] argumentsWithoutEndWhitespaces = this.RemoveLastWhiteSpaceEntry(this.Arguments);
+           string[] argumentsWithoutWhitespaces = this.RemoveWhiteSpaceEntry(this.Arguments);
+            // if the only argument given was a whitespace command
+            if (argumentsWithoutWhitespaces.Length == 0)
+            {
+                throw new ArchiveErrorCodeException("Errorcode 1. No Commands and Parameters were given!");
+            }
+
             //turn all the commands and parameters to the small names
             // maybe this step is not needed but its easier to debug and also i never have to use the long names agai
-            string[] smallNameCommands = this.TurnFoundCommandNamesIntoSmallNames(argumentsWithoutEndWhitespaces);
+            string[] smallNameCommands = this.TurnFoundCommandNamesIntoSmallNames(argumentsWithoutWhitespaces);
             string[] smallNameCommandsAndParameters = this.TurnFoundParameterNamesIntoSmallNames(smallNameCommands);
             //split the string array into smaller string arrays at every command
             //from  || -c || -s || [] || -d || [] || -rle || -a || -d || [] || -s || [] || ----to---> | -c | -s | [] | -d | [] |-rle || -a | -d | [] | -s | []  || .....
-            List<string[]> commandStringArrays = this.SplitArgumentsByCommands(smallNameCommands);
+            List<string[]> commandStringArrays = new List<string[]>();
+            try
+            {
+                commandStringArrays = this.SplitArgumentsByCommands(smallNameCommandsAndParameters);
+            }
+            catch (ArchiveErrorCodeException e)
+            {
+
+                throw e;
+            }
+            
             //check if all required parameters are in the string[] ; also check to see if there are any dubilates, AT THIS POINT ANY COMMANDS AND PARAMETERS ARE small names
             bool areRequiredParametersThere = this.CheckForRequiredParameters(commandStringArrays);
 
             if (!areRequiredParametersThere)
             {
                 //maybe remove the other errorcodes that are thrown, its being checked here anyway
-                throw new ArchiveErrorCodeException("ArchiveErrorcode 1, arguments could not be parsed!");
+                throw new ArchiveErrorCodeException("Errorcode 1. There are missing required parameters.");
             }
             //the commands were first split by their commands , now we furhter split them by the parameters, but still grouping commands with parameters logical units,
             //as the first entry in the list of a list is always the command by itself
 
             List<List<string[]>> commandsSplitIntoLogicalUnitsWithParametersSplit = this.SplitCommandListArrayFurtherIntoParametersLogicalUnits(commandStringArrays);
             // we create a list of commandparameters, commandparameters just hold a list of Iparameters and the commands short names that is associated with the parameters.
+            
+            
 
-            List<CommandParameters> readParameteSpecification = this.CreateCommandParametersFromCommandListListArray(commandsSplitIntoLogicalUnitsWithParametersSplit);
+            try
+            {
+                List<CommandParameters> readParameteSpecification = this.CreateCommandParametersFromCommandListListArray(commandsSplitIntoLogicalUnitsWithParametersSplit);
+                this.ExecuteCommands(readParameteSpecification);
+            }
+            catch (ArchiveErrorCodeException e)
+            {
 
-            this.ExecuteCommands(readParameteSpecification);
+                throw e;
+            }
+            
             /////////////////////////////////////////////////////////////////////////////////////////////////////////////// READ THIS TOMORrOW //////////////////////////////////////////////////////////////////////////////
             /////now we actually process the list of lists, nnde build a list of IParameters, which can be send to the CommandExecuterclass. That class generates a ICommand object and from the parameterlist and excecutes it. it does this in a
             //for loop outisde which contains the wait and the retries parameter values, if there were given any
@@ -91,20 +119,9 @@ namespace FileCompressor
             // connect the commands with the commandparameters and invoke them one by one
         }
 
-        private string[] RemoveLastWhiteSpaceEntry(string[] arguments)
+        private string[] RemoveWhiteSpaceEntry(string[] arguments)
         {
-            //if it does contains only whitespaces at the last arguments just remove that entry
-            if (string.IsNullOrWhiteSpace(arguments[arguments.Length-1]))
-            {
-                string[] argumentArrayWithoutLastEntry = new string[arguments.Length - 1];
-                Array.Copy(arguments, argumentArrayWithoutLastEntry, arguments.Length - 1);
-                return argumentArrayWithoutLastEntry;
-            }
-            //else just return the original arguments array
-            else
-            {
-                return arguments;
-            }
+            return arguments.Where(arg => !string.IsNullOrWhiteSpace(arg)).ToArray();
         }
 
         private void ExecuteCommands(List<CommandParameters> readParameteSpecification)
@@ -123,7 +140,7 @@ namespace FileCompressor
                         catch (ArchiveErrorCodeException e)
                         {
                             //todo errorcode 
-                            e.AppendErrorCodeInformation($"Failed to execute Command String: {commandParameters.TurnIntoCommandString()}");
+                            e.AppendErrorCodeInformation($" Failed Execution. Failed to execute at Command String: {commandParameters.TurnIntoCommandString()}");
                             throw e;
                         }
                         
@@ -163,7 +180,9 @@ namespace FileCompressor
                     if (!currentParameter.TryParseValueAndSetIt(parameterSpecification))
                     {
                         //maybe specifiy the parameter and command where it happend for the user.
-                        throw new ArchiveErrorCodeException("error and shit todo");
+                        throw new ArchiveErrorCodeException($"Errorcode 1." +
+                            $"Parameter Specifcation in Parameter: {currentParameter.ShortParameterName} " +
+                            $"Specifaction: {this.ReverseStringArrayToString(parameterSpecification)} in Command: {currentCommandShortName} was invalid ");
                     }
 
                     parameterList.Add(currentParameter);
@@ -175,6 +194,16 @@ namespace FileCompressor
             return foundCommandParameters;
         }
 
+        private string ReverseStringArrayToString(string[] array)
+        {
+            string returnString = string.Empty;
+            foreach (string entry in array)
+            {
+                returnString += entry + " ";
+            }
+
+            return returnString;
+        }
         //before using this method we also validated that the given first entry is a available command so no checking
         private IParameter BuildIParameterForListEntry(string[] stringArray)
         {
@@ -282,6 +311,10 @@ namespace FileCompressor
 
                     for (int k = 0; k < requiredParameters.Count; k++)
                     {
+                        //TODO remove just for debugging
+                        //string currentRequiredParameterShortName = requiredParameters[k].ShortParameterName;
+                        //string currentCheckedParameter_Specification = commandStringArrays[i][j];
+
                         if (commandStringArrays[i][j].Equals(requiredParameters[k].ShortParameterName))
                         {
                             if (foundRequiredParameters[k] == true)
@@ -338,6 +371,7 @@ namespace FileCompressor
 
         private List<string[]> SplitArgumentsByCommands(string[] smallNameCommands)
         {
+            
             List<string[]> commandsSplitInList = new List<string[]>();
 
             int currentCommandStartIndex = 0;
@@ -346,7 +380,7 @@ namespace FileCompressor
             //first string MUST BE A COMMAND or else the commandline is invalid by defoult and will not execute even one, THROW SOME SHIT
             if (!this.IsStringCommandShortName(smallNameCommands[0]))
             {
-                throw new ArgumentException("Errocode 1 and shit todo");
+                throw new ArchiveErrorCodeException("Errorcode 1. The first argument given was no Command Short or Command Long sequence!");
             }
 
             for (int i = 0; i < smallNameCommands.Length; i++)

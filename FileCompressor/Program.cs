@@ -13,19 +13,32 @@ namespace FileCompressor
         {
 
             //change to the args of the main method TODOTODO ///////////////
+            while (true)
+            {
 
-            string readShit = Console.ReadLine();
-            string[] FAKEARGUMENTS = readShit.Split(' ');
+                string readShit = Console.ReadLine();
+                string[] FAKEARGUMENTS = readShit.Split(' ');
 
-            CurrentlyWorkingCommandsForArchiver currentlyWorkingCommandsForArchiver = new CurrentlyWorkingCommandsForArchiver();
-            CommandLineArgumentParser parser = new CommandLineArgumentParser(currentlyWorkingCommandsForArchiver.ReturnCurrentlyWokringCommandList(), FAKEARGUMENTS);
+                CurrentlyWorkingCommandsForArchiver currentlyWorkingCommandsForArchiver = new CurrentlyWorkingCommandsForArchiver();
+                try
+                {
 
-            parser.ParseCommandsAndExecute();
+                    CommandLineArgumentParser parser = new CommandLineArgumentParser(currentlyWorkingCommandsForArchiver.ReturnCurrentlyWokringCommandList(), FAKEARGUMENTS);
 
+                    parser.ParseCommandsAndExecute();
+
+
+                }
+                catch (ArchiveErrorCodeException e)
+                {
+
+                    Console.WriteLine(e.ErrorCode);
+                }
+            }
 
 
             ////testing the final CommandLineProductiveCommand
-                        
+
             ////CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", new NoCompressionAlgorithm());
 
             ////CreateArchiveCommand createArchiveCommand = new CreateArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein", "test.jth", new RLECompressionAlgorithm()) ;
@@ -44,8 +57,8 @@ namespace FileCompressor
 
             //ExtractArchiveCommand extract2 = new ExtractArchiveCommand(@"C:\Users\Jensh\Desktop\Testdatein\test.jth", @"C:\Users\Jensh\Desktop\appendoutput");
 
-        
-            
+
+
 
 
 

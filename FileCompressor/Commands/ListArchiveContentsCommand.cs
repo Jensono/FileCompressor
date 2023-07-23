@@ -28,7 +28,7 @@ namespace FileCompressor
                 catch (ArchiveErrorCodeException e)
                 {
                     //Command failed during exectuion
-                    return false;
+                    //return false;
                     throw e;
                 }
                 

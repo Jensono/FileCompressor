@@ -32,9 +32,8 @@ namespace FileCompressor
             this.CheckForDirectoryValidity();
             if (!this.isSourceValid)
             {
-                //maybe destroy this class if the source is not valid or set it null; or add a boolean that signals if the directory is accessible
-                Console.WriteLine($"The given source directory {sourceDirectory} does not exist - Error Code 1! ");
-                throw new ArgumentException("Source directory does not exist.");
+               //TODO CHECK
+                throw new ArchiveErrorCodeException($"Errorcode 1. Given Source  {sourceDirectory} does not exist ");
               
             }
 
@@ -58,7 +57,7 @@ namespace FileCompressor
 
             try
             {
-                
+                //TODO WHAT THE FUCK HAPPENS IF YOU GIVE IT A DIRECTORY WITH MORE THAN int.max FILES????
                 //with this option all files will be put into the string array - "*.*" just means that all types of files and all names are valid.
                 string[] fileArray = Directory.GetFiles(this.givenSourceDirectory, "*.*", SearchOption.AllDirectories);
                //removing all the entries in the fileArray that contains paths that are also in the string[] filePathsToSkipArray
@@ -90,11 +89,15 @@ namespace FileCompressor
 
                 return fileInfoList;
             }
-            
+            //therse a lot of exception for Directory.GetFiles
+            //this global try catch prevents weird shit like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.
+            //the documentation does not mention this possibility which is kinda fishy.
             catch (Exception e)
             {
-                Console.WriteLine($"Could not process directory: {this.givenSourceDirectory}. Error: {e.Message}");
-                return null;
+
+                throw new ArchiveErrorCodeException($"Errorcode 1. Given directory: {this.givenSourceDirectory} could not be processed");
+                //Console.WriteLine($"Could not process directory: {this.givenSourceDirectory}. Error: {e.Message}");
+                //return null;
             }
 
             

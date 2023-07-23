@@ -20,52 +20,57 @@ namespace FileCompressor
             this.CompressionAlgorithm = compressionAlgorithm;
         }
 
-
-        public void AppendToArchive(string archiveFilePath, List<FileMetaInformation> filesToBeWrittenIntoArchive,ArchiveHeader newModifiedArchiveHeader)
+        public void AppendToArchive(string archiveFilePath, List<FileMetaInformation> filesToBeWrittenIntoArchive, ArchiveHeader newModifiedArchiveHeader)
         {
             long[] expectedFileSizes = this.ReturnCompressedSizeForFilesAsArray(filesToBeWrittenIntoArchive);
 
-            if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive,expectedFileSizes))
+            if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive, expectedFileSizes))
             {
                 //TODO ERRORCODE 1
                 throw new InvalidOperationException("Not enough diskspace to create the archive!");
             }
 
-           
-
             // one could even make a method that just appends a lot of files
             for (int i = 0; i < filesToBeWrittenIntoArchive.Count; i++)
             {
                 FileMetaInformation fileInfo = filesToBeWrittenIntoArchive[i];
-                this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo,expectedFileSizes[i]);
+                this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo, expectedFileSizes[i]);
             }
 
-
             this.ChangeArchiveHeaderToNewHeader(archiveFilePath, newModifiedArchiveHeader);
-            
         }
 
         private void ChangeArchiveHeaderToNewHeader(string archiveFilePath, ArchiveHeader newModifiedArchiveHeader)
         {
             byte[] newArchiveHeaderAsBytes = newModifiedArchiveHeader.GetArchiveHeaderAsBytes();
 
-            //Just overwrite the old ArchiveHeader
-            using (FileStream fs = new FileStream(archiveFilePath, FileMode.Open, FileAccess.Write))
+            try
             {
-                fs.Write(newArchiveHeaderAsBytes, 0, newArchiveHeaderAsBytes.Length);
+                //Just overwrite the old ArchiveHeader
+                using (FileStream fs = new FileStream(archiveFilePath, FileMode.Open, FileAccess.Write))
+                {
+                    fs.Write(newArchiveHeaderAsBytes, 0, newArchiveHeaderAsBytes.Length);
+                }
             }
-
+            catch (UnauthorizedAccessException e)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath} .");
+            }
+            //Specify more
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
 
         public void CreateArchive(ArchiveHeader archiveHeader, List<FileMetaInformation> filesToBeWrittenIntoArchive)
         {
-
             //TODO // TODO VALIDATE THAT GIVEN ARCHIVENAME IS IN FACT NOT A PATH BUT A FILENAME that is to be created, it just worked with a path, saying that it was the same path as the destination folder.
             string archiveFilePath = Path.Combine(DestinationFolder, ArchiveName);
 
             long[] expectedFileSizes = this.ReturnCompressedSizeForFilesAsArray(filesToBeWrittenIntoArchive);
             //CHECKING FOR DISK SPACE ON THE DISK that houses the desired archive directory
-            if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive,expectedFileSizes))
+            if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive, expectedFileSizes))
             {
                 //TODO ERRORCODE 1
                 throw new InvalidOperationException("Not enough diskspace to create the archive!");
@@ -82,15 +87,15 @@ namespace FileCompressor
             for (int i = 0; i < filesToBeWrittenIntoArchive.Count; i++)
             {
                 FileMetaInformation fileInfo = filesToBeWrittenIntoArchive[i];
-                this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo,expectedFileSizes[i]);
+                this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo, expectedFileSizes[i]);
                 //is it  even necessary to close the streams when im ALREADY use using?
             }
             /////////////////////////////////// REVISE THE ARCHIVE HEADER AFTER ALL FILES HAVE BEEN READ
         }
 
-        private void AppendFileWithFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo,long compressedSizeOfFile)
+        private void AppendFileWithFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo, long compressedSizeOfFile)
         {
-            this.WriteFileHeaderToArchive(archiveFilePath, fileInfo,compressedSizeOfFile);
+            this.WriteFileHeaderToArchive(archiveFilePath, fileInfo, compressedSizeOfFile);
 
             this.CompressionAlgorithm.Compress(fileInfo.FullName, archiveFilePath);
 
@@ -101,24 +106,48 @@ namespace FileCompressor
         {
             // get the file header as a byte array and write it into the file
             byte[] fileHeaderBytes = new IndividualFileHeaderInformation(fileInfo.Name, fileInfo.RelativePathForArchive, fileInfo.Length, compressedFileSize).GetFileHeaderAsByteArray();
-            using (var archiveFileStream = new FileStream(archiveFilePath, FileMode.Append))
+            try
             {
-                archiveFileStream.Write(fileHeaderBytes, 0, fileHeaderBytes.Length);
+                using (var archiveFileStream = new FileStream(archiveFilePath, FileMode.Append))
+                {
+                    archiveFileStream.Write(fileHeaderBytes, 0, fileHeaderBytes.Length);
+                }
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}");
+            }
+            //Specify more
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 
         private void WriteArchiveHeaderToFile(string archiveFilePath, ArchiveHeader archiveHeader)
         {
-            //TODO CHECK IF FILE ALREADY EXISTS MAYBE?
-            using (var archiveFileStream = new FileStream(archiveFilePath, FileMode.Create))
+            try
             {
-                byte[] archiveHeaderBytes = archiveHeader.GetArchiveHeaderAsBytes();
-                archiveFileStream.Write(archiveHeaderBytes, 0, archiveHeaderBytes.Length);
+                //TODO CHECK IF FILE ALREADY EXISTS MAYBE?
+                using (var archiveFileStream = new FileStream(archiveFilePath, FileMode.Create))
+                {
+                    byte[] archiveHeaderBytes = archiveHeader.GetArchiveHeaderAsBytes();
+                    archiveFileStream.Write(archiveHeaderBytes, 0, archiveHeaderBytes.Length);
+                }
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}");
+            }
+            //Specify more
+            catch (Exception e)
+            {
+                throw e;
             }
         }
 
         //returns true if the destination folder contains enough space for the compression.
-        private bool CheckExpectedFileSizeForAppend(List<FileMetaInformation> fileMetaInformationList,long[] expectedSizesForFiles)
+        private bool CheckExpectedFileSizeForAppend(List<FileMetaInformation> fileMetaInformationList, long[] expectedSizesForFiles)
         {
             long sumExpectedFileSize = 0;
 
@@ -160,7 +189,6 @@ namespace FileCompressor
             }
 
             return expectedSize;
-        
         }
     }
 }

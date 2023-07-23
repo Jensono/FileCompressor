@@ -97,10 +97,12 @@ namespace FileCompressor
             //create all optional List for the Command
             List<IParameter> createOptionalParameters = new List<IParameter>() { rleCompressionParameter, retriesParameter, waitTimeBetweenTriesParameter };
             List<IParameter> allOtherCommandsOptionalParameters = new List<IParameter>() { retriesParameter, waitTimeBetweenTriesParameter };
+            List<IParameter> helpCommandOptionalParameters = new List<IParameter>() { };
             //CREATE ALL THE REQUIRED PARAMETER LIST FOR THE COMMANDS
 
             List<IParameter> createAppendExtractRequiredParameters = new List<IParameter>() { destinationParameter, sourceParameter };
             List<IParameter> listInfoCommandRequiredParameters = new List<IParameter>() { sourceParameter };
+            List<IParameter> helpCommandRequiredParameters = new List<IParameter>() {};
 
             List<ICommandLineCommand> commandLineCommands = new List<ICommandLineCommand>();
 
@@ -445,15 +447,36 @@ namespace FileCompressor
             };
 
 
+            Action<List<IParameter>> helpAction = (parameter) =>
+            {
+                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
+                foreach (IParameter param in parameter)
+                {
+                    switch (param)
+                    {
+                        //todo specifiy, it should never happen but whatever
+                        default:
+                            throw new ArchiveErrorCodeException("Errorcode 1. The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+
+                            //break;
+                    }
+                }
+
+
+                ArchiveHelpCommand archiveHelpCommand = new ArchiveHelpCommand();
+                archiveHelpCommand.Execute();
+            };
+
+
             CommandLineProductiveCommand createCommand = new CommandLineProductiveCommand("-c", "--create", createAction, createOptionalParameters, createAppendExtractRequiredParameters);
             CommandLineProductiveCommand appendCommand = new CommandLineProductiveCommand("-a", "--append", appendAction, allOtherCommandsOptionalParameters, createAppendExtractRequiredParameters);
             CommandLineProductiveCommand extractCommand = new CommandLineProductiveCommand("-x", "--extract", extractAction, allOtherCommandsOptionalParameters, createAppendExtractRequiredParameters);
             CommandLineProductiveCommand infoCommand = new CommandLineProductiveCommand("-i", "--info", infoAction, allOtherCommandsOptionalParameters, listInfoCommandRequiredParameters);
             CommandLineProductiveCommand listCommand = new CommandLineProductiveCommand("-l", "--list", listAction, allOtherCommandsOptionalParameters, listInfoCommandRequiredParameters);
+            CommandLineProductiveCommand helpCommand = new CommandLineProductiveCommand("-h", "--help", helpAction, helpCommandOptionalParameters, helpCommandRequiredParameters);
 
 
-
-            List<ICommandLineCommand> currentlyWorkingCommandLineArguments = new List<ICommandLineCommand>() { createCommand, appendCommand, extractCommand, infoCommand, listCommand };
+            List<ICommandLineCommand> currentlyWorkingCommandLineArguments = new List<ICommandLineCommand>() { createCommand, appendCommand, extractCommand, infoCommand, listCommand,helpCommand };
 
 
             return currentlyWorkingCommandLineArguments;
