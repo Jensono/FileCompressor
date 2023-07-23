@@ -61,19 +61,19 @@ namespace FileCompressor
 
         public ICompressionAlgorithm GetCompressionAlgorithmFromCalling(string calling)
         {
+            //switch ceas can only take contant values
             //TODO EXCEPTIONS
-            switch (calling)
+            if (calling.Equals(this.CompressionCallingTypeRLECompression))
             {
-                case "RLE":
-                    return new RLECompressionAlgorithm();
-                    
-
-                case "None":
-                    return new RLECompressionAlgorithm();
-                    
-
-                default:
-                    return null;
+                return new RLECompressionAlgorithm();
+            }
+            else if (calling.Equals(this.CompressionCallingTypeNoCompression))
+            {
+                return new NoCompressionAlgorithm();
+            }
+            else
+            {
+                return null;
             }
 
 

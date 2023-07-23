@@ -447,7 +447,7 @@ namespace FileCompressor
 
             CommandLineProductiveCommand createCommand = new CommandLineProductiveCommand("-c", "--create", createAction, createOptionalParameters, createAppendExtractRequiredParameters);
             CommandLineProductiveCommand appendCommand = new CommandLineProductiveCommand("-a", "--append", appendAction, allOtherCommandsOptionalParameters, createAppendExtractRequiredParameters);
-            CommandLineProductiveCommand extractCommand = new CommandLineProductiveCommand("-e", "--extract", extractAction, allOtherCommandsOptionalParameters, createAppendExtractRequiredParameters);
+            CommandLineProductiveCommand extractCommand = new CommandLineProductiveCommand("-x", "--extract", extractAction, allOtherCommandsOptionalParameters, createAppendExtractRequiredParameters);
             CommandLineProductiveCommand infoCommand = new CommandLineProductiveCommand("-i", "--info", infoAction, allOtherCommandsOptionalParameters, listInfoCommandRequiredParameters);
             CommandLineProductiveCommand listCommand = new CommandLineProductiveCommand("-l", "--list", listAction, allOtherCommandsOptionalParameters, listInfoCommandRequiredParameters);
 

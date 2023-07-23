@@ -7,18 +7,19 @@ namespace FileCompressor
 {
     public class ListArchiveContentsCommand : IArchiveCommand
     {
-        private string archiveSource;
+        //todo fields and properties
+        private string ArchiveSource { get; set; }
 
         public ListArchiveContentsCommand(string source)
         {
-            this.archiveSource = source;
+            this.ArchiveSource = source;
 
            
         }
 
         public bool Execute()
         {
-            if (File.Exists(this.archiveSource))
+            if (File.Exists(this.ArchiveSource))
             {
                 try
                 {
@@ -35,8 +36,9 @@ namespace FileCompressor
             else
             {
                 //TODO CONVERT TO ERROR CODE
-                Console.WriteLine($"Error Code 1,{this.archiveSource} given source does not exists");
-                return false;
+                throw new ArchiveErrorCodeException($"The file at {this.ArchiveSource} was not found. ");
+
+                //return false;
             }
             return true;
         }
@@ -44,7 +46,7 @@ namespace FileCompressor
         private void ReadArchiveFileAndListEntries()
         {
             //method only utilizes the filerader
-            ArchiveFileReader archiveReader = new ArchiveFileReader(this.archiveSource) ;
+            ArchiveFileReader archiveReader = new ArchiveFileReader(this.ArchiveSource) ;
 
             List<string> entries = archiveReader.ReadArchiveFileAndReturnEntries();
 

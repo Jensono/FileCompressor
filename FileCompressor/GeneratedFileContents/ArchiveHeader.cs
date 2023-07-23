@@ -14,6 +14,7 @@ namespace FileCompressor
         //is set as soon as the archive is beeing created
         public DateTime TimeOfCreation { get;}
         private int numberOfFilesInArchive;
+        //TODO SPECIFY THAT the string must have atleast a length of 3 and can only be 10 long or some shit
         public string CompressionTypeCalling { get; set; }
         
         public int NumberOfFilesInArchive

@@ -18,7 +18,7 @@ namespace FileCompressor
 
         public ArchiveFileReader(string source)
         {
-            ArchiveSource = source;
+            this.ArchiveSource = source;
             this.FixedVariables = new FixedVariables();
 
             this.CompressionAlogrithmenUsed = new FixedVariables().GetCompressionAlgorithmFromCalling(this.ReturnArchiveHeader().CompressionTypeCalling);
@@ -109,6 +109,8 @@ namespace FileCompressor
             List<IndividualFileHeaderInformation> foundFileInformationList = new List<IndividualFileHeaderInformation>();
 
             // now start extracting the files , TODO WHAT HAPPENS IF one of the files fileheader is corrupted?
+
+            //todo return try catch statement
             try
             {
                 using (FileStream archiveFilestream = new FileStream(this.ArchiveSource, FileMode.Open, FileAccess.Read))
@@ -129,7 +131,7 @@ namespace FileCompressor
                         // first we need to create a directory for the new directory , combinign the relative path with the given source
                         string outputPath = Path.Combine(destination, fileHeader.RelativePath);
 
-                        //DOES 
+                        //TODO FIRST CHECK IF THE DIRECTORY ALREADY EXISTS, if so dont create a new one
                         Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
 
                         currentPositionInFile = archiveFilestream.Position;
@@ -140,6 +142,7 @@ namespace FileCompressor
                     }
                 }
             }
+            //todo return exception here
             catch (Exception e)
             {
                 throw e;
@@ -165,7 +168,23 @@ namespace FileCompressor
         public ArchiveHeader ReturnArchiveHeader()
         {
             ArchiveHeader header;
-            if (this.IsArchiveHeaderValid(out header))
+            bool wasArchiveHeaderReadable;
+            try
+            {
+               wasArchiveHeaderReadable =  this.IsArchiveHeaderValid(out header);
+            }
+            catch (ArchiveErrorCodeException e)
+            {
+                e.AppendErrorCodeInformation($"Source File: {this.ArchiveSource} ");
+                throw e;
+            }
+            //TODO REMOVE AFTER TESTING
+            catch(Exception e)
+            {
+                throw e;
+            }
+
+            if (wasArchiveHeaderReadable)
             {
                 return header;
             }
@@ -188,6 +207,10 @@ namespace FileCompressor
                     fs.Read(buffer, 0, buffer.Length);
                 }
             }
+            catch (FileNotFoundException e)
+            {
+                throw new ArchiveErrorCodeException($"Errocode 1, given FileName does not exist : {this.ArchiveSource}");
+            }
             catch (Exception e)
             {
                 //TODO change method to do just this
@@ -203,6 +226,18 @@ namespace FileCompressor
                 return true;
             }
             //TODO BUILD OWN EXCEPTION FOR ARCHIVE HEADER IF THERE WAS DATA THAT WAS NOT EXPECTED!
+            catch(ArgumentNullException e)
+            {
+                //todo new text for eror
+                throw new ArchiveErrorCodeException("Errorcode 1, the source file did not contain a valid header");
+            
+            }
+            catch(ArgumentOutOfRangeException e)
+            {
+                //todo new text for eror
+                throw new ArchiveErrorCodeException("Errorcode 1, the source file did not contain a valid header");
+
+            }
             catch (Exception e)
             {
                 //header = null;

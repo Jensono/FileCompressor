@@ -33,19 +33,20 @@ namespace FileCompressor
                 }
                 catch (ArchiveErrorCodeException e)
                 {
-                    return false;
+                    
                     throw e;
+
+                    //return false;
                 }
                 
             }
             else
 
             { //TODO CONVERT TO ERROR CODE
-                Console.WriteLine("Error Code 1, given source does not exists");
-                return false;
-               
-                
-                throw new FileNotFoundException($"The file at {this.ArchiveSource} was not found. ");
+
+                throw new ArchiveErrorCodeException($"The file at {this.ArchiveSource} was not found. ");
+
+                ////return false;
             }
            
 

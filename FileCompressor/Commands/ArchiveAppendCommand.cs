@@ -71,7 +71,9 @@ namespace FileCompressor
 
                 DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(this.SourcePathToDirectory);
                 //just needed for the creation command, when creating the list it skips over all files with names inside the array
-                string[] fileNamesToSkip = new string[0];
+                //for now just add the archivename itself, so it doesnt try to copy itself when using this command
+                string[] fileNamesToSkip = new string[] { this.ArchiveFilePath };
+
                 List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(compressionAlgorithm,fileNamesToSkip );
 
 
@@ -86,8 +88,9 @@ namespace FileCompressor
             }
             catch (ArchiveErrorCodeException e)
             {
-                return false;
+               
                 throw e;
+                ////return false;
             }
 
             return true;

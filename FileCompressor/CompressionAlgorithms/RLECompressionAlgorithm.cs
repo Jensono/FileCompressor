@@ -91,13 +91,14 @@ namespace FileCompressor
                     }
                 }
             }
-            //TODO specify exceptions
-            catch (Exception e)
+            //TODO specify exceptions - //todo copy it also to no compresison algo
+            catch (IOException e)
             {
-                ////    catch (IOException e) !
-                ////{
-                ////    // Handle I/O errors.
-                ////}
+               
+                throw new ArchiveErrorCodeException($"Errorcode 1, could not access on the Files Inside the source");
+            }
+            catch (Exception e) {
+
                 ////catch (UnauthorizedAccessException e)
                 ////{
                 ////    // Handle permission errors.
@@ -131,7 +132,6 @@ namespace FileCompressor
                 ////    // Handle any other exception
                 ////    throw;
                 ////}
-
                 throw e;
             }
         }

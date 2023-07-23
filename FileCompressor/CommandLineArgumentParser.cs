@@ -47,9 +47,11 @@ namespace FileCompressor
         //MAYBE ALREADY SPLIT THIS INTO Parse and then execute
         public void ParseCommandsAndExecute()
         {
+            //remove whitespaces at the end / trailing of the string[] 
+           string[] argumentsWithoutEndWhitespaces = this.RemoveLastWhiteSpaceEntry(this.Arguments);
             //turn all the commands and parameters to the small names
-            // maybe this step is not needed but its easier to debug and also i never have to use the long names again
-            string[] smallNameCommands = this.TurnFoundCommandNamesIntoSmallNames(this.Arguments);
+            // maybe this step is not needed but its easier to debug and also i never have to use the long names agai
+            string[] smallNameCommands = this.TurnFoundCommandNamesIntoSmallNames(argumentsWithoutEndWhitespaces);
             string[] smallNameCommandsAndParameters = this.TurnFoundParameterNamesIntoSmallNames(smallNameCommands);
             //split the string array into smaller string arrays at every command
             //from  || -c || -s || [] || -d || [] || -rle || -a || -d || [] || -s || [] || ----to---> | -c | -s | [] | -d | [] |-rle || -a | -d | [] | -s | []  || .....
@@ -60,7 +62,7 @@ namespace FileCompressor
             if (!areRequiredParametersThere)
             {
                 //maybe remove the other errorcodes that are thrown, its being checked here anyway
-                throw new ArgumentException("ERRORCODE 1 todo here");
+                throw new ArchiveErrorCodeException("ArchiveErrorcode 1, arguments could not be parsed!");
             }
             //the commands were first split by their commands , now we furhter split them by the parameters, but still grouping commands with parameters logical units,
             //as the first entry in the list of a list is always the command by itself
@@ -89,6 +91,22 @@ namespace FileCompressor
             // connect the commands with the commandparameters and invoke them one by one
         }
 
+        private string[] RemoveLastWhiteSpaceEntry(string[] arguments)
+        {
+            //if it does contains only whitespaces at the last arguments just remove that entry
+            if (string.IsNullOrWhiteSpace(arguments[arguments.Length-1]))
+            {
+                string[] argumentArrayWithoutLastEntry = new string[arguments.Length - 1];
+                Array.Copy(arguments, argumentArrayWithoutLastEntry, arguments.Length - 1);
+                return argumentArrayWithoutLastEntry;
+            }
+            //else just return the original arguments array
+            else
+            {
+                return arguments;
+            }
+        }
+
         private void ExecuteCommands(List<CommandParameters> readParameteSpecification)
         {
             foreach (CommandParameters commandParameters in readParameteSpecification)
@@ -98,7 +116,17 @@ namespace FileCompressor
                 {
                     if (commandParameters.CommandShortName.Equals(availabeCommand.ShortCommandName))
                     {
-                        availabeCommand.ExecuteCommandAction(commandParameters.ParameterList);
+                        try
+                        {
+                            availabeCommand.ExecuteCommandAction(commandParameters.ParameterList);
+                        }
+                        catch (ArchiveErrorCodeException e)
+                        {
+                            //todo errorcode 
+                            e.AppendErrorCodeInformation($"Failed to execute Command String: {commandParameters.TurnIntoCommandString()}");
+                            throw e;
+                        }
+                        
                         //the right command was found and executed!
                         break;
                     }

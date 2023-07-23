@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace FileCompressor
 {
@@ -18,6 +19,17 @@ namespace FileCompressor
             this.ParameterList = parameterList;
             this.CommandShortName = commandShortName;
 
+        }
+
+        public string TurnIntoCommandString()
+        {
+            string returnString = this.CommandShortName;
+            //null check for the properties
+            foreach (IParameter item in this.ParameterList)
+            {
+                returnString += $" {item.ShortParameterName} {item.Value}";
+            }
+            return returnString;
         }
     }
 }

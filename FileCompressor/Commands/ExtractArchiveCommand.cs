@@ -24,8 +24,10 @@
             }
             catch (ArchiveErrorCodeException e)
             {
-                return false;
+                
                 throw e;
+
+                ////return false;
             }
             return true;
             
