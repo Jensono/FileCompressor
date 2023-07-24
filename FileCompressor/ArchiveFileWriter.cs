@@ -104,8 +104,23 @@ namespace FileCompressor
 
         private void WriteFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo, long compressedFileSize)
         {
+            byte[] fileHeaderBytes;
             // get the file header as a byte array and write it into the file
-            byte[] fileHeaderBytes = new IndividualFileHeaderInformation(fileInfo.Name, fileInfo.RelativePathForArchive, fileInfo.Length, compressedFileSize).GetFileHeaderAsByteArray();
+            try
+            {
+               fileHeaderBytes = new IndividualFileHeaderInformation(fileInfo.Name, fileInfo.RelativePathForArchive, fileInfo.Length, compressedFileSize).GetFileHeaderAsByteArray();
+            }
+            catch (ArgumentNullException)
+            {
+
+                throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
+            }
+            catch (ArgumentOutOfRangeException)
+            {
+
+                throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
+            }
+
             try
             {
                 using (var archiveFileStream = new FileStream(archiveFilePath, FileMode.Append))
@@ -115,7 +130,7 @@ namespace FileCompressor
             }
             catch (UnauthorizedAccessException e)
             {
-                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}");
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}. File may be read only.");
             }
             //Specify more
             catch (Exception e)
@@ -137,7 +152,7 @@ namespace FileCompressor
             }
             catch (UnauthorizedAccessException e)
             {
-                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}");
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}. File may be read only.");
             }
             //Specify more
             catch (Exception e)
@@ -157,8 +172,24 @@ namespace FileCompressor
             sumExpectedFileSize += new FixedVariables().ArchiveHeaderLength;
             foreach (var item in fileMetaInformationList)
             {
+                IndividualFileHeaderInformation header;
                 //get the length of each individual file header
-                IndividualFileHeaderInformation header = new IndividualFileHeaderInformation(item.Name, item.RelativePathForArchive, item.Length, item.Length);
+                try
+                {
+                    header = new IndividualFileHeaderInformation(item.Name, item.RelativePathForArchive, item.Length, item.Length);
+                }
+                catch (ArgumentNullException)
+                {
+
+                    throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
+                }
+                catch (ArgumentOutOfRangeException)
+                {
+
+                    throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
+                }
+
+                
                 byte[] headerArray = header.GetFileHeaderAsByteArray();
                 sumExpectedFileSize += headerArray.Length;
 

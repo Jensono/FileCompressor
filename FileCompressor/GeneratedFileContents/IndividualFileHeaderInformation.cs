@@ -24,6 +24,10 @@ namespace FileCompressor
                 {
                     throw new ArgumentNullException($"{nameof(this.Name)} cannot be null!");
                 }
+                if (value.Equals(string.Empty))
+                {
+                    throw new ArgumentException("A filename can not be null!");
+                }
                 this.name = value;
             }
         }
@@ -112,6 +116,8 @@ namespace FileCompressor
             this.SizeCompressed = givenFileSizeCompressed;
             this.NameSize = Encoding.UTF8.GetByteCount(givenFileName);
             this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);
+            //there is no way this should ever happen
+            
 
 
 
@@ -136,6 +142,12 @@ namespace FileCompressor
             filePathAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize + 4);
             fileOriginialSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize + 4 + this.RelativePathSize);
             fileCompressionSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize + 4 + this.RelativePathSize + 8);
+
+            if (true)
+            {
+
+            }
+
 
             return fileHeaderAsBytes;
 

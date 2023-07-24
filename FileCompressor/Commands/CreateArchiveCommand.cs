@@ -36,7 +36,7 @@ namespace FileCompressor
                 List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(this.UsedCompression,filesToSkip) ;
 
 
-                ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count, this.UsedCompression.CompressionTypeCalling(), this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));
+                ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count, this.UsedCompression.ReturnCompressionTypeCalling(), this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));
 
                 ArchiveFileWriter archiveFileWriter = new ArchiveFileWriter(this.SourcePathToDirectory, this.DestinationNameForFile, this.UsedCompression);
                 archiveFileWriter.CreateArchive(currentArchiveHeader, fileMetaInfoList);

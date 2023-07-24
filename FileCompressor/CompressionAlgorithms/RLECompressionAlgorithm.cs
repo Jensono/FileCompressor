@@ -136,7 +136,7 @@ namespace FileCompressor
             }
         }
 
-        public string CompressionTypeCalling()
+        public string ReturnCompressionTypeCalling()
         {
             return new FixedVariables().CompressionCallingTypeRLECompression;
         }

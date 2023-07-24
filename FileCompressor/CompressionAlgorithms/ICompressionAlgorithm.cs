@@ -8,7 +8,7 @@ namespace FileCompressor
 
         void Decompress(FileStream archiveFileStream, string outputNewFilePath,long decompressionStartIndexInFile, IndividualFileHeaderInformation fileHeader);
 
-        string CompressionTypeCalling();
+        string ReturnCompressionTypeCalling();
 
         long ReturnExpectedDataSizeCompressed(string inputOriginalFilePath);
     }

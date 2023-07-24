@@ -20,9 +20,13 @@ namespace FileCompressor
         {
             this.ArchiveSource = source;
             this.FixedVariables = new FixedVariables();
-
-            this.CompressionAlogrithmenUsed = new FixedVariables().GetCompressionAlgorithmFromCalling(this.ReturnArchiveHeader().CompressionTypeCalling);
-
+            ICompressionAlgorithm compressionUsed = new FixedVariables().GetCompressionAlgorithmFromCalling(this.ReturnArchiveHeader().CompressionTypeCalling);
+            if (compressionUsed is null)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Given archive source {source} does not contain a valid Compression! ");
+            }
+            this.CompressionAlogrithmenUsed = compressionUsed;
+            
 
         }
 
@@ -63,6 +67,7 @@ namespace FileCompressor
                     for (int i = 0; i < numberOfFilesInFile; i++)
                     {
                         IndividualFileHeaderInformation fileHeader = this.ReadIndividualFileHeader(filestream, currentPositionInFile);
+                       
                         //skip the file , we dont need that shit, we only need the information
                         filestream.Seek(fileHeader.SizeCompressed, SeekOrigin.Current);
 
@@ -70,6 +75,11 @@ namespace FileCompressor
                         currentPositionInFile = filestream.Position;
                     }
                 }
+            }
+            catch(ArchiveErrorCodeException e)
+            {
+                e.AppendErrorCodeInformation($" Filepath: {this.ArchiveSource}");
+                throw e;
             }
             catch (Exception e)
             {
@@ -311,8 +321,25 @@ namespace FileCompressor
             byte[] fileSizeWithCompressionBuffer = new byte[8];
             archiveFilestream.Read(fileSizeWithCompressionBuffer, 0, fileSizeWithCompressionBuffer.Length);
             long fileSizeWithCompression = BitConverter.ToInt64(fileSizeWithCompressionBuffer, 0);
+            IndividualFileHeaderInformation individualFileHeader;
 
-            return new IndividualFileHeaderInformation(fileName, filePath, fileSizeNoCompression, fileSizeWithCompression);
+            try
+            {
+                individualFileHeader = new IndividualFileHeaderInformation(fileName, filePath, fileSizeNoCompression, fileSizeWithCompression);
+            }
+            catch (ArgumentNullException)
+            {
+
+                throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
+            }
+            catch (ArgumentException)
+            {
+
+                throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
+            }
+
+
+            return individualFileHeader;
         }
     }
 }

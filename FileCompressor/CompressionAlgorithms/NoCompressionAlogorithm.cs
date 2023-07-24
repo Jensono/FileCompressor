@@ -45,7 +45,7 @@ namespace FileCompressor
         }
 
         //create a class or enum or something that holds these values, so they dont lose meaning over time.
-        public string CompressionTypeCalling()
+        public string ReturnCompressionTypeCalling()
         {
             return "None";
         }

@@ -19,7 +19,7 @@ namespace FileCompressor
                 string readShit = Console.ReadLine();
                 string[] FAKEARGUMENTS = readShit.Split(' ');
 
-                CurrentlyWorkingCommandsForArchiver currentlyWorkingCommandsForArchiver = new CurrentlyWorkingCommandsForArchiver();
+                CurrentlyWorkingCommandsAndCompressionsForArchiver currentlyWorkingCommandsForArchiver = new CurrentlyWorkingCommandsAndCompressionsForArchiver();
                 try
                 {
 

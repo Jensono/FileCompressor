@@ -1,4 +1,6 @@
-﻿namespace FileCompressor
+﻿using System.Collections.Generic;
+
+namespace FileCompressor
 {
     //TODO THIS NEEDS TO CHANGE TO SOMETHING ELse, ITS IMPORTANT THAT I have all of the information in somekind of class but its kinda retarded
     public class FixedVariables
@@ -35,6 +37,7 @@
             this.AbsoluteLimitBytesForFileNameAndPath = 5000;
 
             this.HelpCommandString =
+                                   "\r\n\r\n\r\n" +
                                    "Supported Commands: \r\n" +
 
                                    " --create or -c: Create an archive. Required Parameters: -s -d. Source must be a directory. Destination can be either the filename or its path.\r\n" +
@@ -62,43 +65,23 @@
                                    "Example: -c -s [directory] -d [filename] -rle -a -s [second directory] -d [directory/filename for archive] -x -s [directory/filename for archive] -d [third directory]\r\n" +
                                    "This would create a new RLE-compressed archive in the directory, append files from the second directory, and then extract the contents into the third directory.";
 
-            //TODO ADD   // fileSIzeName(int)+ filename + filepathsize(INT) + FileRelativePath + filesizeoriginal (long) + filesizecompressed (long)
-            //////long sumOfNumberOfBytesForFileHeader = 4 + this.FileNameSize + 4 + this.FileRelativePathSize + 8 + 8;
-            //////byte[] fileHeaderAsBytes = new byte[sumOfNumberOfBytesForFileHeader];
-
-            //////byte[] fileNameSizeAsBytes = BitConverter.GetBytes(this.FileNameSize);
-            //////byte[] fileNameAsBytes = Encoding.UTF8.GetBytes(this.FileName);
-            //////byte[] filePathSizeAsBytes = BitConverter.GetBytes(this.FileRelativePathSize);
-            //////byte[] filePathAsBytes = Encoding.UTF8.GetBytes(this.FileRelativePath);
-            //////byte[] fileOriginialSizeAsBytes = BitConverter.GetBytes(this.FileSizeOriginal);
-            //////byte[] fileCompressionSizeAsBytes = BitConverter.GetBytes(this.FileSizeCompressed);
-
-            //////fileNameSizeAsBytes.CopyTo(fileHeaderAsBytes, 0);
-            //////fileNameAsBytes.CopyTo(fileHeaderAsBytes, 4);
-            //////filePathSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize);
-            //////filePathAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4);
-            //////fileOriginialSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4 + this.FileRelativePathSize);
-            //////fileCompressionSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.FileNameSize + 4 + this.FileRelativePathSize + 8);
-
-            //////return fileHeaderAsBytes;
+           // todo could add specification for the individual file headers
         }
 
         public ICompressionAlgorithm GetCompressionAlgorithmFromCalling(string calling)
         {
-            //switch ceas can only take contant values
-            //TODO EXCEPTIONS
-            if (calling.Equals(this.CompressionCallingTypeRLECompression))
+            CurrentlyWorkingCommandsAndCompressionsForArchiver currentlyWorkingCommandsAndCompressionsForArchiver = new CurrentlyWorkingCommandsAndCompressionsForArchiver();
+            List<ICompressionAlgorithm> currentCompressionAlgorithms = currentlyWorkingCommandsAndCompressionsForArchiver.ReturnCurrentlyWorkingCompressionAlgorithms();
+
+            foreach (ICompressionAlgorithm algorithm in currentCompressionAlgorithms)
             {
-                return new RLECompressionAlgorithm();
+                if (calling.Equals(algorithm.ReturnCompressionTypeCalling()))
+                {
+                    //todo in the future it would be wise to not give the object by refrence, but make a deep copy
+                    return algorithm;
+                }
             }
-            else if (calling.Equals(this.CompressionCallingTypeNoCompression))
-            {
-                return new NoCompressionAlgorithm();
-            }
-            else
-            {
-                return null;
-            }
+            return null;
         }
     }
 }

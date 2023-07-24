@@ -27,8 +27,7 @@ namespace FileCompressor
                 }
                 catch (ArchiveErrorCodeException e)
                 {
-                    //Command failed during exectuion
-                    //return false;
+                    
                     throw e;
                 }
                 
@@ -46,13 +45,14 @@ namespace FileCompressor
         private void ReadArchiveFileAndListEntries()
         {
             //method only utilizes the filerader
-            ArchiveFileReader archiveReader = new ArchiveFileReader(this.ArchiveSource) ;
-
             List<string> entries = new List<string>();
 
             try
             {
-               entries = archiveReader.ReadArchiveFileAndReturnEntries();
+                ArchiveFileReader archiveReader = new ArchiveFileReader(this.ArchiveSource);
+
+                
+                entries = archiveReader.ReadArchiveFileAndReturnEntries();
             }
             catch (ArchiveErrorCodeException e)
             {

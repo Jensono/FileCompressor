@@ -57,8 +57,17 @@ namespace FileCompressor
 
         private void ReadAndConvertArchiveHeader()
         {
-            ArchiveFileReader archiveReader = new ArchiveFileReader(this.ArchiveSource);
-            archiveReader.ReadArchiveHeaderAndPrintToConsole();
+            try
+            {
+                ArchiveFileReader archiveReader = new ArchiveFileReader(this.ArchiveSource);
+                archiveReader.ReadArchiveHeaderAndPrintToConsole();
+            }
+            catch (ArchiveErrorCodeException e)
+            {
+
+                throw e;
+            }
+            
         }
     }
 }
