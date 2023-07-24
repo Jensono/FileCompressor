@@ -16,12 +16,8 @@ namespace FileCompressor
             {
                 using (var archiveFileStream = new FileStream(outputArchiveFilePath, FileMode.Append))
                 {
-                    //TODO TRY CATCH
-                    //+		$exception	{"Der Prozess kann nicht auf die Datei \"C:\\Users\\Jensh\\Desktop\\Testdatein\\test.jth\" zugreifen, da sie von einem anderen Prozess verwendet wird."}	System.IO.IOException
-
                     using (var originalFileFileStream = new FileStream(inputOriginalFilePath, FileMode.Open, FileAccess.Read))
                     {
-                        //TODO REVERT BACK TO 1048576; // 1MB buffer!
                         int standartBufferLength = 1048576; // 1MB buffer
                         var rawBuffer = new byte[standartBufferLength];
 
@@ -95,9 +91,10 @@ namespace FileCompressor
             catch (IOException e)
             {
                
-                throw new ArchiveErrorCodeException($"Errorcode 1, could not access on the Files Inside the source");
+                throw new ArchiveErrorCodeException($"Errorcode 1, could not access the Files Inside the source");
             }
             catch (Exception e) {
+                //todo ok specify possbile exception more,even though they are probably not going to happen!
 
                 ////catch (UnauthorizedAccessException e)
                 ////{
@@ -191,7 +188,7 @@ namespace FileCompressor
                     int standartBufferLength = 1048576; // 1MB buffer
                     var rawBuffer = new byte[standartBufferLength];
 
-                    ///TODO look closer as how this actually functions.
+                    ///TODO ok look closer as how this actually functions.
                     int bytesRead;
 
                     byte transferByteFromLastLoop = 0;

@@ -56,7 +56,16 @@ namespace FileCompressor
                 return this.value;
             }
             set
-            { //mabye add checks for this but not sure; WHY CANT I SET THE Interface to only allow private sets smh
+            { 
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.value)} can not be null!");
+                }
+
+                if (value != null && !(value is ICompressionAlgorithm))
+                {
+                    throw new ArgumentException($"{nameof(this.value)} must be an instace of {nameof(ICompressionAlgorithm)}!");
+                }
                 this.value = value;
             }
         }

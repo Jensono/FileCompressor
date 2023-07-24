@@ -11,7 +11,7 @@ namespace FileCompressor
    //Available compression algorithms are also specified here.
    public class CurrentlyWorkingCommandsAndCompressionsForArchiver
     {
-        //small todo, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
+        //todo ok, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
 
         public CurrentlyWorkingCommandsAndCompressionsForArchiver() { }
 
@@ -168,7 +168,6 @@ namespace FileCompressor
                     throw new ArchiveErrorCodeException("Errorcode 1. Required Parameters were not given for this command.");
                 }
 
-                //todo; THIS COULD be seperated into a new class THAT JUST takes a ICommand
                 
 
                 CreateArchiveCommand createArchive = new CreateArchiveCommand(sourceString, destinationString, usedCompressionType);
@@ -247,7 +246,6 @@ namespace FileCompressor
                 }
 
 
-                //todo; THIS COULD be seperated into a new class THAT JUST takes a ICommand
 
                 ArchiveAppendCommand appendArchiveCommand = new ArchiveAppendCommand(sourceString, destinationString);
 
@@ -324,7 +322,6 @@ namespace FileCompressor
                     throw new ArchiveErrorCodeException("Errorcode 1. Required Parameters were not given for this command.");
                 }
 
-                //todo; THIS COULD be seperated into a new class THAT JUST takes a ICommand
 
                 ExtractArchiveCommand extractArchiveCommand = new ExtractArchiveCommand(sourceString, destinationString);
 
@@ -504,7 +501,7 @@ namespace FileCompressor
             CommandLineProductiveCommand listCommand = new CommandLineProductiveCommand("-l", "--list", listAction, allOtherCommandsOptionalParameters, listInfoCommandRequiredParameters);
             CommandLineProductiveCommand helpCommand = new CommandLineProductiveCommand("-h", "--help", helpAction, helpCommandOptionalParameters, helpCommandRequiredParameters);
 
-            //todo check to see if the short and long commandnames are all unique to ONE Command!
+            //todo ok  check to see if the short and long commandnames are all unique to ONE Command!
             List<ICommandLineCommand> currentlyWorkingCommandLineArguments = new List<ICommandLineCommand>() { createCommand, appendCommand, extractCommand, infoCommand, listCommand,helpCommand };
 
 

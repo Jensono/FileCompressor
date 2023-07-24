@@ -14,7 +14,6 @@ namespace FileCompressor
         //is set as soon as the archive is beeing created
         public DateTime TimeOfCreation { get;}
         private int numberOfFilesInArchive;
-        //TODO SPECIFY THAT the string must have atleast a length of 3 and can only be 10 long or some shit
         public string CompressionTypeCalling { get; set; }
         private ParitiyByteEncoder byteEncoder;
         public ParitiyByteEncoder ParityByteEncoding
@@ -136,8 +135,7 @@ namespace FileCompressor
 
             byte[] combinedOriginalSizeOfFilesInArchive = BitConverter.GetBytes(this.SizeOfFilesCombined);
 
-            //TODO the start index for these could in theory be saved inside another object that is created when starting the application.
-            // with that it is ensured that if one wants to change the byte order or add new features to the archive header its easyily relisable.
+            
             //First 8 bytes will be copyed inside the header
             dateTimeBytes.CopyTo(archiveHeaderAsBytes, this.FixedVariables.ArchiveHeaderDateTimeStartByteIndex); //+8
             compressionTypeAsString.CopyTo(archiveHeaderAsBytes, this.FixedVariables.ArchiveHeaderCompressionTypeStartByteIndex); //+10
@@ -156,7 +154,6 @@ namespace FileCompressor
         // from 0-255 to reach a sum of 255 from the normal byte and the parity byt 
        
 
-        //TODO TODO TODO!!!!! THIS NEEDS TO BE SAFER --> PARITY BITS OR HASH FUNCTION, we havend learned yet hwo to create hashes so parity bits
         public ArchiveHeader(byte[] archiveHeaderAsBytes)
         {
             //needed in all constructors
@@ -179,9 +176,6 @@ namespace FileCompressor
             // extract the information that should be in the header; property by property
             long ticks = BitConverter.ToInt64(archiveHeaderAsBytesParityRemoved, this.FixedVariables.ArchiveHeaderDateTimeStartByteIndex);
             this.TimeOfCreation = new DateTime(ticks);
-
-            //TODO CHECK TO SEE IF BOOL IS ONE OR ZERO; ELSE ERROR IN READING ARCHIVE HEADER
-
 
             //another safty mechanism for the ArchiveHeader
 

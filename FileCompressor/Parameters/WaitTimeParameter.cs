@@ -54,7 +54,16 @@ namespace FileCompressor
                 return this.value;
             }
             set
-            { //todo there MUST be checks to validate that a new values is either null or the object that resides in these classes - string, int etc.
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.value)} can not be null!");
+                }
+
+                if (value != null && !(value is int))
+                {
+                    throw new ArgumentException($"{nameof(this.value)} must be an integer!");
+                }
                 this.value = value;
             }
         }

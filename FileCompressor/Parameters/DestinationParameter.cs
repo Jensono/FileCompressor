@@ -52,7 +52,16 @@ namespace FileCompressor
                 return this.value;
             }
             set
-            { //mabye add checks for this but not sure
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.value)} can not be null!");
+                }
+
+                if (value != null && !(value is string))
+                {
+                    throw new ArgumentException($"{nameof(this.value)} must be a string!");
+                }
                 this.value = value;
             }
         }
@@ -81,8 +90,6 @@ namespace FileCompressor
                 return true;
 
             };
-            //value is always set to be null first
-            this.Value = null;
 
           
         }

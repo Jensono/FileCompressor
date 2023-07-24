@@ -2,7 +2,7 @@
 
 namespace FileCompressor
 {
-    //TODO THIS NEEDS TO CHANGE TO SOMETHING ELse, ITS IMPORTANT THAT I have all of the information in somekind of class but its kinda retarded
+    //TODO ok THIS NEEDS TO CHANGE TO SOMETHING ELse, ITS IMPORTANT THAT I have all of the information in somekind of class but its kinda retarded
     public class FixedVariables
     {
         public int ArchiveHeaderLength { get; private set; }
@@ -20,6 +20,9 @@ namespace FileCompressor
 
         public FixedVariables()
         {
+            // todo ok  could add specification for the individual file headers
+
+
             this.ArchiveHeaderOriginalLength = 30;
             this.ArchiveHeaderLength = this.ArchiveHeaderOriginalLength*2;
             this.ArchiveHeaderDateTimeStartByteIndex = 0;
@@ -65,7 +68,6 @@ namespace FileCompressor
                                    "Example: -c -s [directory] -d [filename] -rle -a -s [second directory] -d [directory/filename for archive] -x -s [directory/filename for archive] -d [third directory]\r\n" +
                                    "This would create a new RLE-compressed archive in the directory, append files from the second directory, and then extract the contents into the third directory.";
 
-           // todo could add specification for the individual file headers
         }
 
         public ICompressionAlgorithm GetCompressionAlgorithmFromCalling(string calling)
@@ -77,7 +79,7 @@ namespace FileCompressor
             {
                 if (calling.Equals(algorithm.ReturnCompressionTypeCalling()))
                 {
-                    //todo in the future it would be wise to not give the object by refrence, but make a deep copy
+                    //todo ok in the future it would be wise to not give the object by refrence, but make a deep copy 
                     return algorithm;
                 }
             }

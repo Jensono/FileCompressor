@@ -5,7 +5,6 @@ using System.Text;
 
 namespace FileCompressor
 {
-    //TODO FILEHEADER MUST MUST MUST BE CHECKED OR WEIRD ASS SHIT IS GOING TO HAPPEN, excpetions like arithemeticoperationinvalid already seen in here.
     internal class ArchiveFileReader
     {
         //TODO PROPERTIES
@@ -33,8 +32,6 @@ namespace FileCompressor
         public List<string> ReadArchiveFileAndReturnEntries()
         {
             List<string> foundFileNames = new List<string>();
-
-            // TODO TODO TODO !!! make a class that reads an archive, and but all the relevant parts in there: confirming validity, reading header, skipping header,reading file info, extracting file info,
 
             byte[] initialBuffer = new byte[this.FixedVariables.ArchiveHeaderLength];
 
@@ -86,7 +83,6 @@ namespace FileCompressor
                 throw e;
             }
 
-            //TODO just return a list of strings
             foreach (var item in foundFileInformationList)
             {
                 foundFileNames.Add(item.Name);
@@ -100,7 +96,6 @@ namespace FileCompressor
         {
             List<string> foundFileNames = new List<string>();
 
-            // TODO TODO TODO !!! make a class that reads an archive, and but all the relevant parts in there: confirming validity, reading header, skipping header,reading file info, extracting file info,
 
             // First try and check if the archive header is build normally, from the archive header we only need the number of items that is saved in the file.
             // We also need to check for enough disk space for when extracting.
@@ -110,8 +105,7 @@ namespace FileCompressor
 
             if (!this.IsArchiveHeaderValid(out header))
             {
-                throw new InvalidOperationException("header is corrupted or used invalid file!");
-                //this method must throw a exception, todo i dont know if i need to catch it here.
+                throw new ArchiveErrorCodeException("Errorcode 1. Archive is corrupted or used invalid file!");
             }
 
             numberOfFilesInArchive = header.NumberOfFilesInArchive;
@@ -119,13 +113,20 @@ namespace FileCompressor
 
             //this class alone already checks if a given directory is valid
             DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(destination);
-            directorySourceProcessor.CheckForEnoughDriveSpace(sizeOfDecompressedFiles);
+            try
+            {
+                directorySourceProcessor.CheckForEnoughDriveSpace(sizeOfDecompressedFiles);
+            }
+            catch (ArchiveErrorCodeException e)
+            {
+
+                throw e;
+            }
+            
 
             List<IndividualFileHeaderInformation> foundFileInformationList = new List<IndividualFileHeaderInformation>();
 
-            // now start extracting the files , TODO WHAT HAPPENS IF one of the files fileheader is corrupted?
 
-            //todo return try catch statement
             try
             {
                 using (FileStream archiveFilestream = new FileStream(this.ArchiveSource, FileMode.Open, FileAccess.Read))
@@ -137,16 +138,9 @@ namespace FileCompressor
                     {
                         IndividualFileHeaderInformation fileHeader = this.ReadIndividualFileHeader(archiveFilestream, currentPositionInFile);
 
-                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        // TODO Repeat this for all files inside the archive.
-                        //add a failsave that is triggered if there are fewer files found in the archive than expected or if there are more.
-                        ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        ///
-
                         // first we need to create a directory for the new directory , combinign the relative path with the given source
                         string outputPath = Path.Combine(destination, fileHeader.RelativePath);
 
-                        //TODO FIRST CHECK IF THE DIRECTORY ALREADY EXISTS, if so dont create a new one
                         Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
 
                         currentPositionInFile = archiveFilestream.Position;
@@ -187,8 +181,7 @@ namespace FileCompressor
             }
             else
             {
-                Console.WriteLine("given filepath was invalid");
-                //TODO errorcode and exception should be here
+                throw new ArchiveErrorCodeException("Errorcode 1. File corrupted or file isn't a archive file! ");
             }
         }
 
@@ -199,15 +192,19 @@ namespace FileCompressor
             bool wasArchiveHeaderReadable;
             try
             {
-               wasArchiveHeaderReadable =  this.IsArchiveHeaderValid(out header);
+                wasArchiveHeaderReadable = this.IsArchiveHeaderValid(out header);
             }
             catch (ArchiveErrorCodeException e)
             {
                 e.AppendErrorCodeInformation($"Source File: {this.ArchiveSource} ");
                 throw e;
             }
-            //TODO REMOVE AFTER TESTING
-            catch(Exception e)
+            //can happen if somebody sets a folder for extraction
+            catch (UnauthorizedAccessException e)
+            {
+                throw new ArchiveErrorCodeException("Errorcode 1. Could not acess given file." + $"Source File: {this.ArchiveSource} ");
+            }
+            catch (Exception e)
             {
                 throw e;
             }
@@ -218,10 +215,10 @@ namespace FileCompressor
             }
             else
             {
-                Console.WriteLine("given filepath was invalid cant generate ArchiveHeader");
-                throw new Exception("some shit happend here dat should not have happend.");
-                //TODO errorcode and exception should be here
+                //THIS SHOULD NEVER EVER HAPPEN
+                return null;
             }
+
         }
 
         private bool IsArchiveHeaderValid(out ArchiveHeader header)
@@ -235,16 +232,17 @@ namespace FileCompressor
                     fs.Read(buffer, 0, buffer.Length);
                 }
             }
+            catch (UnauthorizedAccessException e) 
+            {
+                throw new ArchiveErrorCodeException($"Errocode 1. Given FileName could not be accesed: {this.ArchiveSource}");
+            }
             catch (FileNotFoundException e)
             {
-                throw new ArchiveErrorCodeException($"Errocode 1, given FileName does not exist : {this.ArchiveSource}");
+                throw new ArchiveErrorCodeException($"Errocode 1. Given FileName does not exist : {this.ArchiveSource}");
             }
             catch (Exception e)
             {
-                //TODO change method to do just this
-                //header = null;
-                //return false;
-                throw e;
+              throw e;
             }
 
             try
@@ -253,30 +251,28 @@ namespace FileCompressor
                 header = foundArchiveHeader;
                 return true;
             }
-            //TODO BUILD OWN EXCEPTION FOR ARCHIVE HEADER IF THERE WAS DATA THAT WAS NOT EXPECTED!
             catch(ArgumentNullException e)
             {
-                //todo new text for eror
-                throw new ArchiveErrorCodeException("Errorcode 1, the source file did not contain a valid header");
+                throw new ArchiveErrorCodeException($"Errorcode 1.The source file {this.ArchiveSource} did not contain a valid header");
             
             }
             catch(ArgumentOutOfRangeException e)
             {
-                //todo new text for eror
-                throw new ArchiveErrorCodeException("Errorcode 1, the source file did not contain a valid header");
+                throw new ArchiveErrorCodeException($"Errorcode 1.The source file {this.ArchiveSource} did not contain a valid header");
 
             }
             catch (Exception e)
-            {
-                //header = null;
-                //return false;
+            {               
                 throw e;
             }
         }
 
         public IndividualFileHeaderInformation ReadIndividualFileHeader(FileStream archiveFilestream, long currentPositionInFile)
         {
-            //TODO EXCEPTIONS, maybe try catch
+            if (archiveFilestream is null)
+            {
+                throw new ArgumentNullException($"{nameof(archiveFilestream)} can not be null!");
+            }
 
             byte[] stringNameSizeBuffer = new byte[4];
             // Skip the first 21 Bytes as these are the Archive Header
@@ -285,9 +281,10 @@ namespace FileCompressor
             archiveFilestream.Read(stringNameSizeBuffer, 0, stringNameSizeBuffer.Length);
             //Convert the size to int
 
-            //TODO CHECK TO SEE IF POSITIV IF NOT END THE READ!
             int sizeOfNameInBytes = BitConverter.ToInt32(stringNameSizeBuffer, 0);
-            if (sizeOfNameInBytes>this.FixedVariables.AbsoluteLimitBytesForFileNameAndPath)
+
+            //length of the name and path cant be bigger than a certain value and also will never be zero!
+            if (sizeOfNameInBytes>this.FixedVariables.AbsoluteLimitBytesForFileNameAndPath || sizeOfNameInBytes<0)
             {
                 throw new ArchiveErrorCodeException("Errorcode 1. Archive File is possibly corrupted");
             }
@@ -302,7 +299,7 @@ namespace FileCompressor
             byte[] stringPathSizeBuffer = new byte[4];
             archiveFilestream.Read(stringPathSizeBuffer, 0, stringPathSizeBuffer.Length);
             int sizeOfPathInBytes = BitConverter.ToInt32(stringPathSizeBuffer, 0);
-            if (sizeOfPathInBytes > this.FixedVariables.AbsoluteLimitBytesForFileNameAndPath)
+            if (sizeOfPathInBytes > this.FixedVariables.AbsoluteLimitBytesForFileNameAndPath || sizeOfNameInBytes < 0)
             {
                 throw new ArchiveErrorCodeException("Errorcode 1. Archive File is possibly corrupted");
             }

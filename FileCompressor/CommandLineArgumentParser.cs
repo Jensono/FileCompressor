@@ -73,14 +73,26 @@ namespace FileCompressor
 
                 throw e;
             }
-            
+
             //check if all required parameters are in the string[] ; also check to see if there are any dubilates, AT THIS POINT ANY COMMANDS AND PARAMETERS ARE small names
-            bool areRequiredParametersThere = this.CheckForRequiredParameters(commandStringArrays);
+            bool areRequiredParametersThere;
+            try
+            {
+               areRequiredParametersThere = this.CheckForRequiredParameters(commandStringArrays);
+            }
+            catch (ArchiveErrorCodeException e)
+            {
+
+                throw e;
+            }
+            
 
             if (!areRequiredParametersThere)
             {
                 //maybe remove the other errorcodes that are thrown, its being checked here anyway
+                //i could also remove this exception and put it inside the CheckforRequiredParameter but then it would never return a bool and just throw Exception if false, which doesnt sound rigth.
                 throw new ArchiveErrorCodeException("Errorcode 1. There are missing required parameters.");
+
             }
             //the commands were first split by their commands , now we furhter split them by the parameters, but still grouping commands with parameters logical units,
             //as the first entry in the list of a list is always the command by itself
@@ -139,7 +151,6 @@ namespace FileCompressor
                         }
                         catch (ArchiveErrorCodeException e)
                         {
-                            //todo errorcode 
                             e.AppendErrorCodeInformation($" Failed Execution. Failed to execute at Command String: {commandParameters.TurnIntoCommandString()}");
                             throw e;
                         }
@@ -217,7 +228,7 @@ namespace FileCompressor
                 }
             }
 
-            throw new ArchiveErrorCodeException("no such command found, todo");
+            throw new ArchiveErrorCodeException($"Errorcode 1. Given Parameter {stringArray[0]} was not a valid Parameter !");
             //read the first entry in the string array and find the corrseponding ParameterType from the List.
             //create a new object from that IParameter object, validate the given rest of the string and create the value for the parameter, then return the parameter
         }
@@ -296,8 +307,8 @@ namespace FileCompressor
 
                 if (currentCommand == null)
                 {
+                    //command didnt exist
                     return false;
-                    throw new ArgumentException("ERRORCODE 1 todo here");
                 }
 
                 List<IParameter> requiredParameters = currentCommand.RequiredParamters;
@@ -311,17 +322,13 @@ namespace FileCompressor
 
                     for (int k = 0; k < requiredParameters.Count; k++)
                     {
-                        //TODO remove just for debugging
-                        //string currentRequiredParameterShortName = requiredParameters[k].ShortParameterName;
-                        //string currentCheckedParameter_Specification = commandStringArrays[i][j];
-
+                       
                         if (commandStringArrays[i][j].Equals(requiredParameters[k].ShortParameterName))
                         {
                             if (foundRequiredParameters[k] == true)
                             {
                                 //the class that uses this needs to throw errorcodes
-                                return false;
-                                throw new ArgumentException("ERRORCODE 1 todo here");
+                                throw new ArchiveErrorCodeException($"Errorcode 1. Required Parameter {requiredParameters[k].LongParameterName} was specified twice!");
                             }
                             else
                             {
@@ -334,9 +341,8 @@ namespace FileCompressor
                 //if at the end of the loop the bool array isnt filled with true values than the requirements arent there. And the arguments are invalid
                 if (!this.CheckBoolArrayForAllTrues(foundRequiredParameters))
                 {
-                    //maybe specifiy in the message why it didnt work todo
+                    
                     return false;
-                    throw new ArgumentException("ERRORCODE 1 todo here");
                 }
             }
             //if no errorcode is reached then the requirements are inside the string array, could cahnge throwing an error for a boolarray that is as long as the string array list,

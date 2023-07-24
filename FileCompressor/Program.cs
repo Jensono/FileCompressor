@@ -13,6 +13,7 @@ namespace FileCompressor
         {
             //TODO TODO TODO AFTER FINAL TESTING /////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //change to the args of the main method TODOTODO ///////////////
+            //TODO TODO CHANGE ALL TRY-CATCH(Exceptions) to at least throw a ARCHIVEERROR not a normal one.
             while (true)
             {
 

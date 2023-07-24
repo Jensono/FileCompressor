@@ -11,7 +11,6 @@ namespace FileCompressor
     class DirectorySourceProcessor
     {
 
-        //TODO CHECK IF THE NUMBER OF FILES IS SMALLER THAN INT; OR ELSE SHIT IS GONNA HIT THE FAN.
 
         //getter and setters TODO fields and properties
         //public List<FileMetaInformation> ContainedFileInfo { get; private set; }
@@ -32,15 +31,14 @@ namespace FileCompressor
             this.CheckForDirectoryValidity();
             if (!this.isSourceValid)
             {
-               //TODO CHECK
-                throw new ArchiveErrorCodeException($"Errorcode 1. Given Source  {sourceDirectory} does not exist ");
+                throw new ArchiveErrorCodeException($"Errorcode 1. Given Path  {sourceDirectory} does not exist ");
               
             }
 
 
         }
 
-        //TODO maybe remove all the returning nulls
+        //TODO WTF HAPPENS HERE maybe remove all the returning nulls
 
         public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(ICompressionAlgorithm compressionAlgorithm,string[] filePathsToSkip)
         {
@@ -57,7 +55,7 @@ namespace FileCompressor
 
             try
             {
-                //TODO WHAT THE FUCK HAPPENS IF YOU GIVE IT A DIRECTORY WITH MORE THAN int.max FILES????
+                // WHAT THE FUCK HAPPENS IF YOU GIVE IT A DIRECTORY WITH MORE THAN int.max FILES????
                 //with this option all files will be put into the string array - "*.*" just means that all types of files and all names are valid.
                 string[] fileArray = Directory.GetFiles(this.givenSourceDirectory, "*.*", SearchOption.AllDirectories);
                //removing all the entries in the fileArray that contains paths that are also in the string[] filePathsToSkipArray
@@ -75,11 +73,7 @@ namespace FileCompressor
 
                         fileInfoList.Add(new FileMetaInformation(fileInfo, relativePathForFile));
 
-                        /////////////////////////////////////TODO/////////////////////////////////////////////
-                        ///ADD the filemEtaiNofrmation into the list, and also create a substring of the relativ path  
-
-
-
+                      
                     }
                     catch (Exception e)
                     {
@@ -89,6 +83,7 @@ namespace FileCompressor
 
                 return fileInfoList;
             }
+
             //therse a lot of exception for Directory.GetFiles
             //this global try catch prevents weird shit like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.
             //the documentation does not mention this possibility which is kinda fishy.
@@ -123,7 +118,6 @@ namespace FileCompressor
                     Console.WriteLine($"Directory at {this.givenSourceDirectory} is not accessible");
                     this.isSourceValid = false;
                 }
-                //TODO remove after testing:
                 catch(Exception e) 
                 {
                     throw e;
@@ -146,18 +140,18 @@ namespace FileCompressor
                 // Define a threshold for the minimum required space. This could be a specific number or a percentage of the total drive space.
                 
                 if (availableSpace < minimumRequiredSpace)
-                {//todo change text to errorcode 
-                    Console.WriteLine($"Not enough space on the drive to create a new file. Required: {minimumRequiredSpace}, Available: {availableSpace}");
-                    return false;
+                {
+                    throw new ArchiveErrorCodeException($"Errorcode 1. Not enough space on the drive to create a new file. Required: {minimumRequiredSpace}, Available: {availableSpace}");
+                    
                 }
 
                 return true;
             }
-            catch (Exception e)
+            catch (Exception)
             {
-                //todo change text to errorcode 
-                Console.WriteLine($"Error when checking free space for directory at {this.givenSourceDirectory}: {e.Message}");
-                return false;
+                //probably exceptions like unauthorized, InvalidArgument, io,
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not check Drive and/or Diskspace for {this.givenSourceDirectory}! ");
+                
             }
 
 

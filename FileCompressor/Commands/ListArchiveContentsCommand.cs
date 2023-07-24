@@ -34,8 +34,7 @@ namespace FileCompressor
             }
             else
             {
-                //TODO CONVERT TO ERROR CODE
-                throw new ArchiveErrorCodeException($"The file at {this.ArchiveSource} was not found. ");
+                throw new ArchiveErrorCodeException($"Errorcode 1. The file at {this.ArchiveSource} was not found. ");
 
                 //return false;
             }

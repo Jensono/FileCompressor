@@ -26,7 +26,6 @@ namespace FileCompressor
 
             if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive, expectedFileSizes))
             {
-                //TODO ERRORCODE 1
                 throw new ArchiveErrorCodeException("Errorcode 1. Not enough diskspace to append to this archive!");
             }
 
@@ -72,14 +71,12 @@ namespace FileCompressor
             //CHECKING FOR DISK SPACE ON THE DISK that houses the desired archive directory
             if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive, expectedFileSizes))
             {
-                //TODO ERRORCODE 1
                 throw new ArchiveErrorCodeException("Errorcode 1. Not enough diskspace to append to this archive!");
             }
 
             // creating a new file or overwritting the old one with this filemode
 
-            ///TODO !!!!! TRY CATCH SO THAT WHEN SOMEBODY ELSE USES THE FILE IT DOESNT THROW SHIT LIKE AN APE
-            ///
+            
 
             //write the archive header to the file
             this.WriteArchiveHeaderToFile(archiveFilePath, archiveHeader);
@@ -90,7 +87,6 @@ namespace FileCompressor
                 this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo, expectedFileSizes[i]);
                 //is it  even necessary to close the streams when im ALREADY use using?
             }
-            /////////////////////////////////// REVISE THE ARCHIVE HEADER AFTER ALL FILES HAVE BEEN READ
         }
 
         private void AppendFileWithFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo, long compressedSizeOfFile)
