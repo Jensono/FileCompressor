@@ -48,7 +48,18 @@ namespace FileCompressor
             //method only utilizes the filerader
             ArchiveFileReader archiveReader = new ArchiveFileReader(this.ArchiveSource) ;
 
-            List<string> entries = archiveReader.ReadArchiveFileAndReturnEntries();
+            List<string> entries = new List<string>();
+
+            try
+            {
+               entries = archiveReader.ReadArchiveFileAndReturnEntries();
+            }
+            catch (ArchiveErrorCodeException e)
+            {
+
+                throw e;
+            }
+           
 
             foreach (var item in entries)
             {

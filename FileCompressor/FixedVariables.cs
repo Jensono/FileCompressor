@@ -1,9 +1,10 @@
 ﻿namespace FileCompressor
 {
     //TODO THIS NEEDS TO CHANGE TO SOMETHING ELse, ITS IMPORTANT THAT I have all of the information in somekind of class but its kinda retarded
-    internal class FixedVariables
+    public class FixedVariables
     {
         public int ArchiveHeaderLength { get; private set; }
+        public int ArchiveHeaderOriginalLength { get; private set; }
         public int ArchiveHeaderDateTimeStartByteIndex { get; private set; }
         public int ArchiveHeaderCompressionTypeStartByteIndex { get; private set; }
         public int ArchiveHeaderNumberOfFilesStartByteIndex { get; private set; }
@@ -17,7 +18,8 @@
 
         public FixedVariables()
         {
-            this.ArchiveHeaderLength = 30;
+            this.ArchiveHeaderOriginalLength = 30;
+            this.ArchiveHeaderLength = this.ArchiveHeaderOriginalLength*2;
             this.ArchiveHeaderDateTimeStartByteIndex = 0;
             this.ArchiveHeaderCompressionTypeStartByteIndex = 8;
             this.ArchiveHeaderNumberOfFilesStartByteIndex = 18;

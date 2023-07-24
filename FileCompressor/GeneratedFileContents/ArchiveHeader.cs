@@ -7,16 +7,28 @@ using System.Threading.Tasks;
 
 namespace FileCompressor
 {
-    class ArchiveHeader
+    public class ArchiveHeader
     {
-        //TODO BUILD OWN EXCEPTION THAT IS THEN RECORDED FOR IN THE READER
+        //todo fix the fields and propeties please
 
         //is set as soon as the archive is beeing created
         public DateTime TimeOfCreation { get;}
         private int numberOfFilesInArchive;
         //TODO SPECIFY THAT the string must have atleast a length of 3 and can only be 10 long or some shit
         public string CompressionTypeCalling { get; set; }
-        
+        private ParitiyByteEncoder byteEncoder;
+        public ParitiyByteEncoder ParityByteEncoding
+        {
+            get { return this.byteEncoder; }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ParityByteEncoding)} cannot be null!");
+                }
+                this.byteEncoder = value;
+            }
+        }
         public int NumberOfFilesInArchive
         {
             get { return this.numberOfFilesInArchive; }
@@ -52,12 +64,13 @@ namespace FileCompressor
             {
                 if (value == null)
                 {
-                    throw new ArgumentNullException($"{nameof(this.SizeOfFilesCombined)} cannot be null!");
+                    throw new ArgumentNullException($"{nameof(this.FixedVariables)} cannot be null!");
                 }
                 this.fixedVariables = value;
             }
         }
 
+        
 
         public ArchiveHeader(int numberOfFilesInsideDirectory, string compressionTypeCalling,long combinedSizeForAllFiles)
         {
@@ -67,6 +80,7 @@ namespace FileCompressor
             this.NumberOfFilesInArchive = numberOfFilesInsideDirectory;
             this.CompressionTypeCalling = compressionTypeCalling;
             this.FixedVariables = new FixedVariables();
+            this.ParityByteEncoding = new ParitiyByteEncoder();
 
                 
         }
@@ -80,7 +94,7 @@ namespace FileCompressor
             this.NumberOfFilesInArchive = numberOfFilesInsideDirectory;
             this.CompressionTypeCalling = compressionTypeCalling;
             this.FixedVariables = new FixedVariables();
-
+            this.ParityByteEncoding = new ParitiyByteEncoder();
 
         }
 
@@ -90,7 +104,7 @@ namespace FileCompressor
             // !IMPORTANT! header length is dynamically defined in the fixed variables class, if changes need to occur, first make them in that class.
 
             ////change this to the correct number of bytes in the header;
-            byte[] archiveHeaderAsBytes = new byte[this.FixedVariables.ArchiveHeaderLength];
+            byte[] archiveHeaderAsBytes = new byte[this.FixedVariables.ArchiveHeaderOriginalLength];
 
             long ticks = this.TimeOfCreation.Ticks;
             byte[] dateTimeBytes = BitConverter.GetBytes(ticks);
@@ -130,24 +144,40 @@ namespace FileCompressor
             numberOfFilesAsBytes.CopyTo(archiveHeaderAsBytes, this.FixedVariables.ArchiveHeaderNumberOfFilesStartByteIndex); //+4
             combinedOriginalSizeOfFilesInArchive.CopyTo(archiveHeaderAsBytes, this.FixedVariables.ArchiveHeaderSumOfFileSizeStartByteIndex);
 
-            return archiveHeaderAsBytes;
+            return this.ParityByteEncoding.AddParityBytesToByteArray(archiveHeaderAsBytes);
+
+            
 
             
 
         }
+
+        // for a high safty factor im just going to add the same number of bytes as the length of the array itself. first is always the the actual byte, behind it the parity byte. Parity bytes are just the number
+        // from 0-255 to reach a sum of 255 from the normal byte and the parity byt 
+       
+
         //TODO TODO TODO!!!!! THIS NEEDS TO BE SAFER --> PARITY BITS OR HASH FUNCTION, we havend learned yet hwo to create hashes so parity bits
         public ArchiveHeader(byte[] archiveHeaderAsBytes)
         {
             //needed in all constructors
             this.FixedVariables = new FixedVariables();
+            this.ParityByteEncoding = new ParitiyByteEncoder();
             // Just to make sure the expected size is also found in the given argument
             int archiveHeaderExpectedLength = this.FixedVariables.ArchiveHeaderLength;
 
             if (archiveHeaderAsBytes.Length != archiveHeaderExpectedLength)
                 throw new ArgumentException($"{archiveHeaderAsBytes} has the wrong length, it only needs to be {archiveHeaderExpectedLength} bytes long");
 
+
+            if (!this.ParityByteEncoding.CheckByteArrayForParityBytes(archiveHeaderAsBytes))
+            {
+                throw new ArchiveErrorCodeException("Errorcode 1. File isn't a Archive File or was corrupted! ");
+            }
+
+            byte[] archiveHeaderAsBytesParityRemoved = this.ParityByteEncoding.RemoveParityBytesFromArray(archiveHeaderAsBytes);
+
             // extract the information that should be in the header; property by property
-            long ticks = BitConverter.ToInt64(archiveHeaderAsBytes, this.FixedVariables.ArchiveHeaderDateTimeStartByteIndex);
+            long ticks = BitConverter.ToInt64(archiveHeaderAsBytesParityRemoved, this.FixedVariables.ArchiveHeaderDateTimeStartByteIndex);
             this.TimeOfCreation = new DateTime(ticks);
 
             //TODO CHECK TO SEE IF BOOL IS ONE OR ZERO; ELSE ERROR IN READING ARCHIVE HEADER
@@ -156,17 +186,19 @@ namespace FileCompressor
             //another safty mechanism for the ArchiveHeader
 
             //skip the first 8 array entrie, take the following 10 and turn them into a array again:
-            byte[] compressionCallingRaw = archiveHeaderAsBytes.Skip(this.fixedVariables.ArchiveHeaderCompressionTypeStartByteIndex).Take(this.FixedVariables.ArchiveHeaderLengthOfCompressionCalling).ToArray();
+            byte[] compressionCallingRaw = archiveHeaderAsBytesParityRemoved.Skip(this.fixedVariables.ArchiveHeaderCompressionTypeStartByteIndex).Take(this.FixedVariables.ArchiveHeaderLengthOfCompressionCalling).ToArray();
 
             //take all the bytes until it encounters the filler bytes for the header
             byte[] compressionTypeCallingAsBytes = compressionCallingRaw.TakeWhile(byt => byt != this.FixedVariables.ArchiveHeaderCompressionCallingFillerByte).ToArray();
             this.CompressionTypeCalling = Encoding.UTF8.GetString(compressionTypeCallingAsBytes);       
           
 
-            this.NumberOfFilesInArchive = BitConverter.ToInt32(archiveHeaderAsBytes, this.FixedVariables.ArchiveHeaderNumberOfFilesStartByteIndex);
+            this.NumberOfFilesInArchive = BitConverter.ToInt32(archiveHeaderAsBytesParityRemoved, this.FixedVariables.ArchiveHeaderNumberOfFilesStartByteIndex);
 
-            this.SizeOfFilesCombined = BitConverter.ToInt64(archiveHeaderAsBytes, this.FixedVariables.ArchiveHeaderSumOfFileSizeStartByteIndex);
+            this.SizeOfFilesCombined = BitConverter.ToInt64(archiveHeaderAsBytesParityRemoved, this.FixedVariables.ArchiveHeaderSumOfFileSizeStartByteIndex);
         }
+
+      
 
         public void PrintArchiveHeaderToConsole(string archiveName,string archivePath)
         {

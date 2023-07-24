@@ -38,11 +38,16 @@ namespace FileCompressor
             int numberOfFilesInFile = 0;
             ArchiveHeader header;
 
-            if (!this.IsArchiveHeaderValid(out header))
+            try
             {
-                throw new Exception("CHANGE THIS SHIT TODO");
-                //this method must throw a exception, todo i dont know if i need to catch it here.
+                this.IsArchiveHeaderValid(out header);
             }
+            catch (ArchiveErrorCodeException e)
+            {
+
+                throw e;
+            }
+          
 
             numberOfFilesInFile = header.NumberOfFilesInArchive;
 

@@ -67,6 +67,7 @@
     <Compile Include="CompressionAlgorithms\ICompressionAlgorithm.cs" />
     <Compile Include="CompressionAlgorithms\NoCompressionAlogorithm.cs" />
     <Compile Include="IArchiveCommand.cs" />
+    <Compile Include="ParitiyByteEncoder.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CompressionAlgorithms\RLECompressionAlgorithm.cs" />
