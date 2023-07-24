@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace FileCompressor
 {
-   
-   public  class CurrentlyWorkingCommandsAndCompressionsForArchiver
+   //this class is used to initzialise all the commands that are currently functioning for the programm. All in one place, can be easily changed to diffrent actions and validations.
+   //Available compression algorithms are also specified here.
+   public class CurrentlyWorkingCommandsAndCompressionsForArchiver
     {
         //small todo, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
 
@@ -29,10 +30,9 @@ namespace FileCompressor
 
 
         }
-        //TODO CHECK TO SEE IF ALL THE COMMANDS HAVE DIFFRENT LONG AND SHORTNAMES; THEY NEED TO BE UNIQUE FOR THIS TO WORK
         public List<ICommandLineCommand> ReturnCurrentlyWokringCommandList()
         {
-            /// Create all the functions that are used inside the ParameterInformation
+            // Create all the functions that are used inside the ParameterInformation
 
             //RLE doesnt require any other arguments after it.so the array needs to be empty
             Func<string[], bool> checkForRLECopmressionParameterValidity = (parameter) =>
@@ -127,7 +127,7 @@ namespace FileCompressor
                 int waitTimeInteger = 0;
                 int retriesInteger = 0;
                 ICompressionAlgorithm usedCompressionType = new NoCompressionAlgorithm();
-                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
+
                 foreach (IParameter param in parameter)
                 {
                     switch (param)
@@ -156,12 +156,16 @@ namespace FileCompressor
 
                             usedCompressionType = (ICompressionAlgorithm)foundRLECompressionParameter.Value;
                             break;
-                        //todo specifiy, it should never happen but whatever
                         default:
-                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+                            throw new ArchiveErrorCodeException("Errorcode 1. Given Parameter does not exist for this command.");
 
                             //break;
                     }
+                }
+                //if any of the required parameters were not intialized then throw a archive error
+                if (sourceString.Equals(string.Empty) || destinationString.Equals(string.Empty))
+                {
+                    throw new ArchiveErrorCodeException("Errorcode 1. Required Parameters were not given for this command.");
                 }
 
                 //todo; THIS COULD be seperated into a new class THAT JUST takes a ICommand
@@ -204,7 +208,7 @@ namespace FileCompressor
                 string destinationString = string.Empty;
                 int waitTimeInteger = 0;
                 int retriesInteger = 0;
-                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
+
                 foreach (IParameter param in parameter)
                 {
                     switch (param)
@@ -229,13 +233,19 @@ namespace FileCompressor
                             waitTimeInteger = (int)foundWaittimeParameter.Value;
                             break;
 
-                        //todo specifiy, it should never happen but whatever
                         default:
-                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+                            throw new ArchiveErrorCodeException("Errorcode 1. Given Parameter does not exist for this command.");
 
                             //break;
                     }
                 }
+
+                //if any of the required parameters were not intialized then throw a archive error
+                if (sourceString.Equals(string.Empty) || destinationString.Equals(string.Empty))
+                {
+                    throw new ArchiveErrorCodeException("Errorcode 1. Required Parameters were not given for this command.");
+                }
+
 
                 //todo; THIS COULD be seperated into a new class THAT JUST takes a ICommand
 
@@ -276,7 +286,7 @@ namespace FileCompressor
                 string destinationString = string.Empty;
                 int waitTimeInteger = 0;
                 int retriesInteger = 0;
-                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
+
                 foreach (IParameter param in parameter)
                 {
                     switch (param)
@@ -301,12 +311,17 @@ namespace FileCompressor
                             waitTimeInteger = (int)foundWaittimeParameter.Value;
                             break;
 
-                        //todo specifiy, it should never happen but whatever
                         default:
-                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+                            throw new ArchiveErrorCodeException("Errorcode 1. Given Parameter does not exist for this command.");
 
                             //break;
                     }
+                }
+
+                //if any of the required parameters were not intialized then throw a archive error
+                if (sourceString.Equals(string.Empty) || destinationString.Equals(string.Empty))
+                {
+                    throw new ArchiveErrorCodeException("Errorcode 1. Required Parameters were not given for this command.");
                 }
 
                 //todo; THIS COULD be seperated into a new class THAT JUST takes a ICommand
@@ -345,7 +360,6 @@ namespace FileCompressor
                 string sourceString = string.Empty;
                 int waitTimeInteger = 0;
                 int retriesInteger = 0;
-                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
                 foreach (IParameter param in parameter)
                 {
                     switch (param)
@@ -365,14 +379,18 @@ namespace FileCompressor
                             waitTimeInteger = (int)foundWaittimeParameter.Value;
                             break;
 
-                        //todo specifiy, it should never happen but whatever
                         default:
-                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+                            throw new ArchiveErrorCodeException("Errorcode 1. Given Parameter does not exist for this command.");
 
                             //break;
                     }
                 }
 
+                //if any of the required parameters were not intialized then throw a archive error
+                if (sourceString.Equals(string.Empty))
+                {
+                    throw new ArchiveErrorCodeException("Errorcode 1. Required Parameters were not given for this command.");
+                }
 
                 ArchiveInfoCommand infoArchiveCommand = new ArchiveInfoCommand(sourceString);
                 for (int i = -1; i < retriesInteger; i++)
@@ -405,7 +423,6 @@ namespace FileCompressor
                 string sourceString = string.Empty;
                 int waitTimeInteger = 0;
                 int retriesInteger = 0;
-                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
                 foreach (IParameter param in parameter)
                 {
                     switch (param)
@@ -425,14 +442,17 @@ namespace FileCompressor
                             waitTimeInteger = (int)foundWaittimeParameter.Value;
                             break;
 
-                        //todo specifiy, it should never happen but whatever
                         default:
-                            throw new ArgumentException("The given Parameter does not exist for this command, ERRORCODE 1 TODO");
-
-                            //break;
+                            throw new ArchiveErrorCodeException("Errorcode 1. Given Parameter does not exist for this command.");
+                            
                     }
                 }
 
+                //if any of the required parameters were not intialized then throw a archive error
+                if (sourceString.Equals(string.Empty))
+                {
+                    throw new ArchiveErrorCodeException("Errorcode 1. Required Parameters were not given for this command.");
+                }
 
                 ListArchiveContentsCommand infoArchiveCommand = new ListArchiveContentsCommand(sourceString);
                 for (int i = -1; i < retriesInteger; i++)
@@ -460,14 +480,12 @@ namespace FileCompressor
 
             Action<List<IParameter>> helpAction = (parameter) =>
             {
-                //the required parameters must be inside becouse i already checked before, i could stillt todo implement a check to see if there are there
                 foreach (IParameter param in parameter)
                 {
                     switch (param)
                     {
-                        //todo specifiy, it should never happen but whatever
                         default:
-                            throw new ArchiveErrorCodeException("Errorcode 1. The given Parameter does not exist for this command, ERRORCODE 1 TODO");
+                            throw new ArchiveErrorCodeException("Errorcode 1. Given Parameter does not exist for this command.");
 
                             //break;
                     }
@@ -486,16 +504,13 @@ namespace FileCompressor
             CommandLineProductiveCommand listCommand = new CommandLineProductiveCommand("-l", "--list", listAction, allOtherCommandsOptionalParameters, listInfoCommandRequiredParameters);
             CommandLineProductiveCommand helpCommand = new CommandLineProductiveCommand("-h", "--help", helpAction, helpCommandOptionalParameters, helpCommandRequiredParameters);
 
-
+            //todo check to see if the short and long commandnames are all unique to ONE Command!
             List<ICommandLineCommand> currentlyWorkingCommandLineArguments = new List<ICommandLineCommand>() { createCommand, appendCommand, extractCommand, infoCommand, listCommand,helpCommand };
 
 
             return currentlyWorkingCommandLineArguments;
-            //make a list for all the commands and make it so its returnable for outside, create a new class that can take a string[] array and that then scans for commands, first all longcommandnames will be changed to short command names
-            // after that the list is seperated into diffrent string[], for all ARRAYS the corresponding list of required parameters is taken as a foundation for scanning the now smaller string[]. If all required parameters are found now scan for 
 
 
-            //////////////////////////////////////////////////////////////////////////////////////////////////////MOVE THIS SHIT NOW /////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 

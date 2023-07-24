@@ -11,7 +11,7 @@ namespace FileCompressor
     {
         static void Main(string[] args)
         {
-
+            //TODO TODO TODO AFTER FINAL TESTING /////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //change to the args of the main method TODOTODO ///////////////
             while (true)
             {

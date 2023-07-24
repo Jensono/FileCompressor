@@ -27,7 +27,7 @@ namespace FileCompressor
             if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive, expectedFileSizes))
             {
                 //TODO ERRORCODE 1
-                throw new InvalidOperationException("Not enough diskspace to create the archive!");
+                throw new ArchiveErrorCodeException("Errorcode 1. Not enough diskspace to append to this archive!");
             }
 
             // one could even make a method that just appends a lot of files
@@ -73,7 +73,7 @@ namespace FileCompressor
             if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive, expectedFileSizes))
             {
                 //TODO ERRORCODE 1
-                throw new InvalidOperationException("Not enough diskspace to create the archive!");
+                throw new ArchiveErrorCodeException("Errorcode 1. Not enough diskspace to append to this archive!");
             }
 
             // creating a new file or overwritting the old one with this filemode
@@ -208,7 +208,7 @@ namespace FileCompressor
             return false;
         }
 
-        private long[] ReturnCompressedSizeForFilesAsArray(List<FileMetaInformation> fileMetaInformationList)
+        public long[] ReturnCompressedSizeForFilesAsArray(List<FileMetaInformation> fileMetaInformationList)
         {
             long[] expectedSize = new long[fileMetaInformationList.Count];
 
