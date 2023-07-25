@@ -1,7 +1,9 @@
-﻿using System.IO;
+﻿
 
 namespace FileCompressor
 {
+    using System.IO;
+
     public class FileMetaInformation
     {
         public FileMetaInformation(FileInfo fileInfo, string relativePathOfFileInsideArchive)
@@ -11,15 +13,6 @@ namespace FileCompressor
             this.Length = fileInfo.Length;
             this.RelativePathForArchive = relativePathOfFileInsideArchive;
         }
-
-        // constructor used when reading the fileinformation from a archive file OBSOLE I USED THE INDIVUDLA FILE HEADER FOR THAT INFORMATION
-        //public FileMetaInformation(string relativePathOfFile, string fileName, string fullFileName, long lengthOfFile )
-        //{
-        //    this.FullName = fullFileName;
-        //    this.Name = fileName;
-        //    this.Length = lengthOfFile;
-        //    this.RelativePathForArchive = relativePathOfFile;
-        //}
 
         public string FullName { get; private set; }
         public string Name { get; private set; }

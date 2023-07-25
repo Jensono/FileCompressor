@@ -1,7 +1,8 @@
-﻿using System;
+﻿
 
 namespace FileCompressor
 {
+    using System;
     public class ArchiveErrorCodeException : Exception
     {
         //todo checks?

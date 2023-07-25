@@ -1,12 +1,15 @@
-﻿using System;
+﻿
 
 namespace FileCompressor
 {
-    public class RLECompressionParameter : IParameter
+    using System;
+
+    public class RetriesParameter : IParameter
     {
+        private object value;
         private string shortParameterArgument;
         private string longParameterArgument;
-        private object value;
+
         private Func<string[], bool> checkFunctionForParameterValidity;
 
         public string LongParameterName
@@ -58,41 +61,68 @@ namespace FileCompressor
                     throw new ArgumentNullException($"{nameof(this.value)} can not be null!");
                 }
 
-                if (value != null && !(value is ICompressionAlgorithm))
+                if (value != null && !(value is int))
                 {
-                    throw new ArgumentException($"{nameof(this.value)} must be an instace of {nameof(ICompressionAlgorithm)}!");
+                    throw new ArgumentException($"{nameof(this.value)} must be an integer!");
                 }
                 this.value = value;
             }
         }
 
-        public RLECompressionParameter(string shortCommandName, string longCommandName)
+        public RetriesParameter(string shortCommandName, string longCommandName)
         {
             this.LongParameterName = longCommandName;
             this.ShortParameterName = shortCommandName;
             this.CheckParameterSpecificationForValidity = (parameter) =>
             {
+                if (parameter.Length >= 2)
+                {
+                    return false;
+                }
+                // if there is no extra argument then its also valid, taking the value of 1
                 if (parameter.Length == 0)
                 {
                     return true;
                 }
-                return false;
+
+                int potentialRepeatArgument;
+                if (!int.TryParse(parameter[0], out potentialRepeatArgument))
+                {
+                    return false;
+                }
+
+                if (potentialRepeatArgument < 0 || potentialRepeatArgument > 10)
+                {
+                    return false;
+                }
+                // only lands here if the lenght of the array is one and the string is a integer between
+                return true;
             };
         }
 
-        public bool TryParseValueAndSetIt(string[] array)
+        public bool TryParseValueAndSetIt(string[] argumentArray)
         {
-            if (this.CheckParameterSpecificationForValidity(array))
+            if (!this.CheckParameterSpecificationForValidity(argumentArray))
             {
-                this.Value = new RLECompressionAlgorithm();
+                return false;
+            }
+
+            if (argumentArray.Length == 0)
+            {
+                this.Value = 1;
                 return true;
             }
-            return false;
+
+            else
+            {   // must be a string array with one entry and parseable as an int
+                this.Value = int.Parse(argumentArray[0]);
+                return true;
+            }
         }
 
         public IParameter DeepCloneSelf()
         {
-            return new RLECompressionParameter(this.ShortParameterName, this.LongParameterName);
+            return new RetriesParameter(this.ShortParameterName, this.LongParameterName);
         }
     }
 }

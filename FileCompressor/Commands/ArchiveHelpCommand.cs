@@ -1,7 +1,8 @@
-﻿using System;
+﻿
 
 namespace FileCompressor
 {
+    using System;
     public class ArchiveHelpCommand : IArchiveCommand
     {
         private FixedVariables FixedVariables { get; set; }

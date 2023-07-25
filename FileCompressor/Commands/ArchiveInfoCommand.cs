@@ -1,8 +1,9 @@
-﻿using System.IO;
+﻿
 
 namespace FileCompressor
 {
-    internal class ArchiveInfoCommand : IArchiveCommand
+    using System.IO;
+    public class ArchiveInfoCommand : IArchiveCommand
     {
         //TODO FIELDS AND SHIT
         public string ArchiveSource { get; set; }
@@ -18,28 +19,23 @@ namespace FileCompressor
             {
                 try
                 {
-                    ReadAndConvertArchiveHeader();
+                    this.ReadAndConvertArchiveHeader();
                 }
                 catch (ArchiveErrorCodeException e)
                 {
                     throw e;
-
-                    //return false;
                 }
             }
             else
 
             { //TODO CONVERT TO ERROR CODE
                 throw new ArchiveErrorCodeException($"The file at {this.ArchiveSource} was not found. ");
-
-                ////return false;
             }
 
             return true;
         }
 
-        //for reading the file header we dont need a specific compressionAlogrithm as all headers are written the same, regardeless of compression
-
+        // for reading the file header we dont need a specific compressionAlogrithm as all headers are written the same, regardeless of compression
         private void ReadAndConvertArchiveHeader()
         {
             try

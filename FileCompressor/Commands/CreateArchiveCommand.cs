@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿
 
 namespace FileCompressor
 {
-    internal class CreateArchiveCommand : IArchiveCommand
+    using System.Collections.Generic;
+    using System.IO;
+    public class CreateArchiveCommand : IArchiveCommand
     {
-        //source and destination, source is a path to a directory that should be compressed. Destination is just a file name that needs a ending. but maybe one should just be able to sepcify a name only
+        // source and destination, source is a path to a directory that should be compressed. Destination is just a file name that needs a ending. but maybe one should just be able to sepcify a name only
         //TODO BOTH NEED TO BE CHECKED BEFORE STARTING THE CREATION PROCESS
 
         //todo null check for the compressionalgorithm
@@ -33,7 +34,7 @@ namespace FileCompressor
                 ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count, this.UsedCompression.ReturnCompressionTypeCalling(), this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));
 
                 ArchiveFileWriter archiveFileWriter = new ArchiveFileWriter(this.SourcePathToDirectory, this.DestinationNameForFile, this.UsedCompression);
-                //disk space is checked inside there
+                // disk space is checked inside there
                 archiveFileWriter.CreateArchive(currentArchiveHeader, fileMetaInfoList);
             }
             catch (ArchiveErrorCodeException e)

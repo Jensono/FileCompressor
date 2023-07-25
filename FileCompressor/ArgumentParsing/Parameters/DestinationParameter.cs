@@ -1,14 +1,14 @@
-﻿using System;
+﻿
 
 namespace FileCompressor
 {
-    public class RetriesParameter : IParameter
+    using System;
+    public class DestinationParameter : IParameter
     {
-        private object value;
         private string shortParameterArgument;
         private string longParameterArgument;
-
         private Func<string[], bool> checkFunctionForParameterValidity;
+        private object value;
 
         public string LongParameterName
         {
@@ -59,15 +59,15 @@ namespace FileCompressor
                     throw new ArgumentNullException($"{nameof(this.value)} can not be null!");
                 }
 
-                if (value != null && !(value is int))
+                if (value != null && !(value is string))
                 {
-                    throw new ArgumentException($"{nameof(this.value)} must be an integer!");
+                    throw new ArgumentException($"{nameof(this.value)} must be a string!");
                 }
                 this.value = value;
             }
         }
 
-        public RetriesParameter(string shortCommandName, string longCommandName)
+        public DestinationParameter(string shortCommandName, string longCommandName)
         {
             this.LongParameterName = longCommandName;
             this.ShortParameterName = shortCommandName;
@@ -77,50 +77,33 @@ namespace FileCompressor
                 {
                     return false;
                 }
-                // if there is no extra argument then its also valid, taking the value of 1
+
                 if (parameter.Length == 0)
                 {
-                    return true;
-                }
-
-                int potentialRepeatArgument;
-                if (!int.TryParse(parameter[0], out potentialRepeatArgument))
-                {
                     return false;
                 }
 
-                if (potentialRepeatArgument < 0 || potentialRepeatArgument > 10)
-                {
-                    return false;
-                }
-                //only lands here if the lenght of the array is one and the string is a integer between
+                // no additional validation can be done becouse souce and destination can be very diffrent things depending on the command,
+                // they can be filenames, directories, i could check if it is a valid path or not but the commands do that anyway.
+                // also commands can have paths in them that will only be created after the command entered runtime which makes
+                // it impossible to confirm if a path is valid or not before excectuion and runtime.
                 return true;
             };
         }
 
         public bool TryParseValueAndSetIt(string[] argumentArray)
         {
-            if (!this.CheckParameterSpecificationForValidity(argumentArray))
+            if (this.CheckParameterSpecificationForValidity(argumentArray))
             {
-                return false;
-            }
-
-            if (argumentArray.Length == 0)
-            {
-                this.Value = 1;
+                this.Value = argumentArray[0];
                 return true;
             }
-            //must be a string array with one entry and parseable as an int
-            else
-            {
-                this.Value = int.Parse(argumentArray[0]);
-                return true;
-            }
+            return false;
         }
 
         public IParameter DeepCloneSelf()
         {
-            return new RetriesParameter(this.ShortParameterName, this.LongParameterName);
+            return new DestinationParameter(this.ShortParameterName, this.LongParameterName);
         }
     }
 }

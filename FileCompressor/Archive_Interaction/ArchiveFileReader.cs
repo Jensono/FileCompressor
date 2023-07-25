@@ -1,10 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿
 
 namespace FileCompressor
 {
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Text;
     internal class ArchiveFileReader
     {
         //TODO PROPERTIES
@@ -53,14 +54,14 @@ namespace FileCompressor
             {
                 using (FileStream filestream = new FileStream(this.ArchiveSource, FileMode.Open, FileAccess.Read))
                 {
-                    //by defoult we start where the archive header ends.
+                    // by defoult we start where the archive header ends.
                     long currentPositionInFile = this.FixedVariables.ArchiveHeaderLength;
 
                     for (int i = 0; i < numberOfFilesInFile; i++)
                     {
                         IndividualFileHeaderInformation fileHeader = this.ReadIndividualFileHeader(filestream, currentPositionInFile);
 
-                        //skip the file , we dont need that shit, we only need the information
+                        // skip the file , we dont need that shit, we only need the information
                         filestream.Seek(fileHeader.SizeCompressed, SeekOrigin.Current);
 
                         foundFileInformationList.Add(fileHeader);
@@ -86,7 +87,7 @@ namespace FileCompressor
             return foundFileNames;
         }
 
-        //destination needs to be a valid folder, also the drive for the ditrectory needs to have enough space to hold the files after extraction.
+        // destination needs to be a valid folder, also the drive for the ditrectory needs to have enough space to hold the files after extraction.
         public void ExtractArchiveFiles(string destination)
         {
             List<string> foundFileNames = new List<string>();
@@ -105,7 +106,7 @@ namespace FileCompressor
             numberOfFilesInArchive = header.NumberOfFilesInArchive;
             sizeOfDecompressedFiles = header.SizeOfFilesCombined;
 
-            //this class alone already checks if a given directory is valid
+            // this class alone already checks if a given directory is valid
             DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(destination);
             try
             {
@@ -122,7 +123,7 @@ namespace FileCompressor
             {
                 using (FileStream archiveFilestream = new FileStream(this.ArchiveSource, FileMode.Open, FileAccess.Read))
                 {
-                    //by defoult we start where the archive header ends.
+                    // by defoult we start where the archive header ends.
                     long currentPositionInFile = this.FixedVariables.ArchiveHeaderLength;
 
                     for (int i = 0; i < numberOfFilesInArchive; i++)
@@ -137,7 +138,7 @@ namespace FileCompressor
                         currentPositionInFile = archiveFilestream.Position;
 
                         this.CompressionAlogrithmenUsed.Decompress(archiveFilestream, outputPath, currentPositionInFile, fileHeader);
-                        //set the position in the file to the last position read.
+                        // set the position in the file to the last position read.
                         currentPositionInFile = archiveFilestream.Position;
                     }
                 }
@@ -150,10 +151,9 @@ namespace FileCompressor
             catch (UnauthorizedAccessException e)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not access file with Path: {this.ArchiveSource}");
-            }
-            //had this exception once when i was messing with the individual file headers, should be fixed now with the archiverror that is given when the filename or the path is too long.
+            }           
             catch (OutOfMemoryException e)
-            {
+            { // had this exception once when i was messing with the individual file headers, should be fixed now with the archiverror that is given when the filename or the path is too long.
                 throw new ArchiveErrorCodeException($"Errorcode 1. Archive at {this.ArchiveSource} is possibly corrupted");
             }
             catch (Exception e)
@@ -176,7 +176,7 @@ namespace FileCompressor
             }
         }
 
-        //Does and should not need a compression algorithm as all data is stored the same way in the archive header, is used to also find out which compression was used and rectify the class itself!.
+        // Does and should not need a compression algorithm as all data is stored the same way in the archive header, is used to also find out which compression was used and rectify the class itself!.
         public ArchiveHeader ReturnArchiveHeader()
         {
             ArchiveHeader header;
@@ -189,10 +189,9 @@ namespace FileCompressor
             {
                 e.AppendErrorCodeInformation($"Source File: {this.ArchiveSource} ");
                 throw e;
-            }
-            //can happen if somebody sets a folder for extraction
+            }           
             catch (UnauthorizedAccessException e)
-            {
+            { // can happen if somebody sets a folder for extraction
                 throw new ArchiveErrorCodeException("Errorcode 1. Could not acess given file." + $"Source File: {this.ArchiveSource} ");
             }
             catch (Exception e)
@@ -206,7 +205,7 @@ namespace FileCompressor
             }
             else
             {
-                //THIS SHOULD NEVER EVER HAPPEN
+                // THIS SHOULD NEVER EVER HAPPEN TODO
                 return null;
             }
         }
@@ -265,24 +264,23 @@ namespace FileCompressor
             byte[] stringNameSizeBuffer = new byte[4];
             // Skip the first 21 Bytes as these are the Archive Header
             archiveFilestream.Seek(currentPositionInFile, SeekOrigin.Begin);
-            //read from the filestream the length of the filename
+            // read from the filestream the length of the filename
             archiveFilestream.Read(stringNameSizeBuffer, 0, stringNameSizeBuffer.Length);
-            //Convert the size to int
-
+            // Convert the size to int
             int sizeOfNameInBytes = BitConverter.ToInt32(stringNameSizeBuffer, 0);
 
-            //length of the name and path cant be bigger than a certain value and also will never be zero!
+            // length of the name and path cant be bigger than a certain value and also will never be zero!
             if (sizeOfNameInBytes > this.FixedVariables.AbsoluteLimitBytesForFileNameAndPath || sizeOfNameInBytes < 0)
             {
                 throw new ArchiveErrorCodeException("Errorcode 1. Archive File is possibly corrupted");
             }
             byte[] fileNameBuffer = new byte[sizeOfNameInBytes];
 
-            //get the file name from the fileheader
+            // get the file name from the fileheader
             archiveFilestream.Read(fileNameBuffer, 0, fileNameBuffer.Length);
             string fileName = Encoding.UTF8.GetString(fileNameBuffer);
 
-            //Read the size of the pathname
+            // Read the size of the pathname
             byte[] stringPathSizeBuffer = new byte[4];
             archiveFilestream.Read(stringPathSizeBuffer, 0, stringPathSizeBuffer.Length);
             int sizeOfPathInBytes = BitConverter.ToInt32(stringPathSizeBuffer, 0);
@@ -293,7 +291,7 @@ namespace FileCompressor
 
             byte[] filePathBuffer = new byte[sizeOfPathInBytes];
 
-            //get the path name from the fileheader
+            // get the path name from the fileheader
             archiveFilestream.Read(filePathBuffer, 0, filePathBuffer.Length);
             string filePath = Encoding.UTF8.GetString(filePathBuffer);
 

@@ -1,6 +1,6 @@
 ﻿namespace FileCompressor
 {
-    internal class ExtractArchiveCommand : IArchiveCommand
+    public class ExtractArchiveCommand : IArchiveCommand
     {
         public string DestinationPathToDirectory { get; set; }
         public string ArchiveSource { get; set; }

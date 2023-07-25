@@ -1,7 +1,8 @@
-﻿using System.IO;
-
+﻿
 namespace FileCompressor
 {
+    using System.IO;
+
     public interface ICompressionAlgorithm
     {
         void Compress(string inputOriginalFilePath, string outputArchiveFilePath);

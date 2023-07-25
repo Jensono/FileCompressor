@@ -1,7 +1,8 @@
-﻿using System;
+﻿
 
 namespace FileCompressor
 {
+    using System;
     public interface IParameter
     {
         string LongParameterName { get; set; }
@@ -9,9 +10,8 @@ namespace FileCompressor
 
         Func<string[], bool> CheckParameterSpecificationForValidity { get; set; }
 
-        bool TryParseValueAndSetIt(string[] array);
-
         object Value { get; set; }
+        bool TryParseValueAndSetIt(string[] array);
 
         IParameter DeepCloneSelf();
     }

@@ -1,13 +1,14 @@
-﻿using System;
+﻿
 
 namespace FileCompressor
 {
-    public class DestinationParameter : IParameter
+    using System;
+    public class RLECompressionParameter : IParameter
     {
         private string shortParameterArgument;
         private string longParameterArgument;
-        private Func<string[], bool> checkFunctionForParameterValidity;
         private object value;
+        private Func<string[], bool> checkFunctionForParameterValidity;
 
         public string LongParameterName
         {
@@ -58,43 +59,33 @@ namespace FileCompressor
                     throw new ArgumentNullException($"{nameof(this.value)} can not be null!");
                 }
 
-                if (value != null && !(value is string))
+                if (value != null && !(value is ICompressionAlgorithm))
                 {
-                    throw new ArgumentException($"{nameof(this.value)} must be a string!");
+                    throw new ArgumentException($"{nameof(this.value)} must be an instace of {nameof(ICompressionAlgorithm)}!");
                 }
                 this.value = value;
             }
         }
 
-        public DestinationParameter(string shortCommandName, string longCommandName)
+        public RLECompressionParameter(string shortCommandName, string longCommandName)
         {
             this.LongParameterName = longCommandName;
             this.ShortParameterName = shortCommandName;
             this.CheckParameterSpecificationForValidity = (parameter) =>
             {
-                if (parameter.Length >= 2)
-                {
-                    return false;
-                }
-
                 if (parameter.Length == 0)
                 {
-                    return false;
+                    return true;
                 }
-
-                //no additional validation can be done becouse souce and destination can be very diffrent things depending on the command,
-                //they can be filenames, directories, i could check if it is a valid path or not but the commands do that anyway.
-                //also commands can have paths in them that will only be created after the command entered runtime which makes
-                //it impossible to confirm if a path is valid or not before excectuion and runtime.
-                return true;
+                return false;
             };
         }
 
-        public bool TryParseValueAndSetIt(string[] argumentArray)
+        public bool TryParseValueAndSetIt(string[] array)
         {
-            if (this.CheckParameterSpecificationForValidity(argumentArray))
+            if (this.CheckParameterSpecificationForValidity(array))
             {
-                this.Value = argumentArray[0];
+                this.Value = new RLECompressionAlgorithm();
                 return true;
             }
             return false;
@@ -102,7 +93,7 @@ namespace FileCompressor
 
         public IParameter DeepCloneSelf()
         {
-            return new DestinationParameter(this.ShortParameterName, this.LongParameterName);
+            return new RLECompressionParameter(this.ShortParameterName, this.LongParameterName);
         }
     }
 }

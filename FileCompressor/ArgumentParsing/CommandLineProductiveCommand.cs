@@ -1,9 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 
 namespace FileCompressor
 {
-    //command that actually does something
+    using System;
+    using System.Collections.Generic;
+
     internal class CommandLineProductiveCommand : ICommandLineCommand
     {
         private Action<List<IParameter>> executeCommandAction;

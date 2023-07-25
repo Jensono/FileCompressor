@@ -1,8 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿
 
 namespace FileCompressor
 {
+    using System;
+    using System.Collections.Generic;
+
     /// <summary>
     /// // BIG ASS TODO this command needs to first create a copy of the file that needs to be appended and then delete the original file after the append happend. Otherwise the weirdest shit could happen while appending.
     /// //the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
@@ -24,9 +26,9 @@ namespace FileCompressor
         private ArchiveHeader ModifyArchiveHeaderForAdditionalFiles(ArchiveHeader archiveHeader, List<FileMetaInformation> fileMetaInformationList)
         {
             DateTime modifiedArchiveHeaderDateTime = archiveHeader.TimeOfCreation;
-            long modifiedArchiveSumOfFileBytes = archiveHeader.SizeOfFilesCombined + GetSumOfSizeForAllFilesCompressed(fileMetaInformationList);
+            long modifiedArchiveSumOfFileBytes = archiveHeader.SizeOfFilesCombined + this.GetSumOfSizeForAllFilesCompressed(fileMetaInformationList);
             int modifiedArchiveNumberOfFiles = archiveHeader.NumberOfFilesInArchive + fileMetaInformationList.Count;
-            //kinda weird hack/workaround but the first time we got this homework we didnt already know how to serialize, so im prociding as if that still is the case.
+            // kinda weird hack/workaround but the first time we got this homework we didnt already know how to serialize, so im prociding as if that still is the case.
             string compressionAlgorithmUsedCalling = archiveHeader.CompressionTypeCalling;
 
             return new ArchiveHeader(modifiedArchiveHeaderDateTime, modifiedArchiveNumberOfFiles, compressionAlgorithmUsedCalling, modifiedArchiveSumOfFileBytes);
@@ -50,18 +52,15 @@ namespace FileCompressor
 
         public bool Execute()
         {
-            ////////////////////////////// COMPRESSIONALGORITHM NEEDS TO BE READ FROM FILEHEADER VIA FILEREADER
-
             // TODO WHEN OVERWRITTING a file first needs to be safed under some kind of temporary name, if while the file should be overwritten there is an error both are lost!!!!!
-
             try
             {
                 ArchiveFileReader archiveFileReader = new ArchiveFileReader(this.ArchiveFilePath);
                 ICompressionAlgorithm compressionAlgorithm = archiveFileReader.CompressionAlogrithmenUsed;
 
                 DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(this.SourcePathToDirectory);
-                //just needed for the creation command, when creating the list it skips over all files with names inside the array
-                //for now just add the archivename itself, so it doesnt try to copy itself when using this command
+                // just needed for the creation command, when creating the list it skips over all files with names inside the array
+                // for now just add the archivename itself, so it doesnt try to copy itself when using this command
                 string[] fileNamesToSkip = new string[] { this.ArchiveFilePath };
 
                 List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(compressionAlgorithm, fileNamesToSkip);
@@ -71,9 +70,9 @@ namespace FileCompressor
 
                 ArchiveHeader newArchiveHeader = this.ModifyArchiveHeaderForAdditionalFiles(archiveFileReader.ReturnArchiveHeader(), fileMetaInfoList);
 
-                //read the archiveheader and modify it to fit more files.
+                // read the archiveheader and modify it to fit more files.
 
-                //disk spaced is checked inside this method before writing
+                // disk spaced is checked inside this method before writing
                 archiveFileWriter.AppendToArchive(this.ArchiveFilePath, fileMetaInfoList, newArchiveHeader);
             }
             catch (ArchiveErrorCodeException e)

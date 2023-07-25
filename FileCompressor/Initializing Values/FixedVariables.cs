@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿
 
 namespace FileCompressor
 {
+    using System.Collections.Generic;
+
     //TODO ok THIS NEEDS TO CHANGE TO SOMETHING ELse, ITS IMPORTANT THAT I have all of the information in somekind of class but its kinda retarded
     public class FixedVariables
     {
@@ -21,7 +23,6 @@ namespace FileCompressor
         public FixedVariables()
         {
             // todo ok  could add specification for the individual file headers
-
             this.ArchiveHeaderOriginalLength = 30;
             this.ArchiveHeaderLength = this.ArchiveHeaderOriginalLength * 2;
             this.ArchiveHeaderDateTimeStartByteIndex = 0;
@@ -30,12 +31,11 @@ namespace FileCompressor
             this.ArchiveHeaderSumOfFileSizeStartByteIndex = 22;
             this.ArchiveHeaderLengthOfCompressionCalling = this.ArchiveHeaderSumOfFileSizeStartByteIndex - this.ArchiveHeaderCompressionTypeStartByteIndex;
 
-            //add to the compressioncalling siwtch case down below if this is ever expenet, its the only dependency
-
+            // add to the compressioncalling siwtch case down below if this is ever expenet, its the only dependency
             this.CompressionCallingTypeNoCompression = "None";
             this.CompressionCallingTypeRLECompression = "RLE";
             this.ArchiveHeaderCompressionCallingFillerByte = 0;
-            //bruh if a path or the name of a file is longer than 5000 utf-8 bytes that shit is corrupted. Paths in windows can only be 255 long. Same with Filenames. Even in Linux filepaths can only be 4096 charachters long
+            // bruh if a path or the name of a file is longer than 5000 utf-8 bytes that shit is corrupted. Paths in windows can only be 255 long. Same with Filenames. Even in Linux filepaths can only be 4096 charachters long
             this.AbsoluteLimitBytesForFileNameAndPath = 5000;
 
             this.HelpCommandString =
@@ -77,7 +77,7 @@ namespace FileCompressor
             {
                 if (calling.Equals(algorithm.ReturnCompressionTypeCalling()))
                 {
-                    //todo ok in the future it would be wise to not give the object by refrence, but make a deep copy
+                    // todo ok in the future it would be wise to not give the object by refrence, but make a deep copy
                     return algorithm;
                 }
             }

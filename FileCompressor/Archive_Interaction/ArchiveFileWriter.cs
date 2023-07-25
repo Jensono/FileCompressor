@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿
 
 namespace FileCompressor
 {
-    internal class ArchiveFileWriter
-    {
-        //source and destination. Then it writes has a method for c
-        //TODO WRITE PROPERTIES AND FIELDS
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    public class ArchiveFileWriter
+    {        
+        // TODO WRITE PROPERTIES AND FIELDS
         private string DestinationFolder;
 
         private string ArchiveName;
@@ -45,7 +45,7 @@ namespace FileCompressor
 
             try
             {
-                //Just overwrite the old ArchiveHeader
+                // Just overwrite the old ArchiveHeader
                 using (FileStream fs = new FileStream(archiveFilePath, FileMode.Open, FileAccess.Write))
                 {
                     fs.Write(newArchiveHeaderAsBytes, 0, newArchiveHeaderAsBytes.Length);
@@ -55,9 +55,8 @@ namespace FileCompressor
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath} .");
             }
-            //Specify more
             catch (Exception e)
-            {
+            {            // TODO Specify more
                 throw e;
             }
         }
@@ -65,10 +64,10 @@ namespace FileCompressor
         public void CreateArchive(ArchiveHeader archiveHeader, List<FileMetaInformation> filesToBeWrittenIntoArchive)
         {
             //TODO // TODO VALIDATE THAT GIVEN ARCHIVENAME IS IN FACT NOT A PATH BUT A FILENAME that is to be created, it just worked with a path, saying that it was the same path as the destination folder.
-            string archiveFilePath = Path.Combine(DestinationFolder, ArchiveName);
+            string archiveFilePath = Path.Combine(this.DestinationFolder, this.ArchiveName);
 
             long[] expectedFileSizes = this.ReturnCompressedSizeForFilesAsArray(filesToBeWrittenIntoArchive);
-            //CHECKING FOR DISK SPACE ON THE DISK that houses the desired archive directory
+            // checking available disk space on the drive that holds the desired archive directory
             if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive, expectedFileSizes))
             {
                 throw new ArchiveErrorCodeException("Errorcode 1. Not enough diskspace to append to this archive!");
@@ -76,14 +75,13 @@ namespace FileCompressor
 
             // creating a new file or overwritting the old one with this filemode
 
-            //write the archive header to the file
+            // write the archive header to the file
             this.WriteArchiveHeaderToFile(archiveFilePath, archiveHeader);
 
             for (int i = 0; i < filesToBeWrittenIntoArchive.Count; i++)
             {
                 FileMetaInformation fileInfo = filesToBeWrittenIntoArchive[i];
                 this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo, expectedFileSizes[i]);
-                //is it  even necessary to close the streams when im ALREADY use using?
             }
         }
 
@@ -124,9 +122,9 @@ namespace FileCompressor
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}. File may be read only.");
             }
-            //Specify more
             catch (Exception e)
-            {
+            {            // todo Specify more
+
                 throw e;
             }
         }
@@ -135,7 +133,6 @@ namespace FileCompressor
         {
             try
             {
-                //TODO CHECK IF FILE ALREADY EXISTS MAYBE?
                 using (var archiveFileStream = new FileStream(archiveFilePath, FileMode.Create))
                 {
                     byte[] archiveHeaderBytes = archiveHeader.GetArchiveHeaderAsBytes();
@@ -150,26 +147,25 @@ namespace FileCompressor
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read part of the Filepath: {archiveFilePath}. Does given directory already exist?.");
             }
-            //Specify more
             catch (Exception e)
-            {
+            {            // todo Specify more
+
                 throw e;
             }
         }
 
-        //returns true if the destination folder contains enough space for the compression.
+        // returns true if the destination folder contains enough space for the compression.
         private bool CheckExpectedFileSizeForAppend(List<FileMetaInformation> fileMetaInformationList, long[] expectedSizesForFiles)
         {
             long sumExpectedFileSize = 0;
 
-            //add the archiveheadersize
-
+            // add the archiveheadersize
             long counter = 0;
             sumExpectedFileSize += new FixedVariables().ArchiveHeaderLength;
             foreach (var item in fileMetaInformationList)
             {
                 IndividualFileHeaderInformation header;
-                //get the length of each individual file header
+                // get the length of each individual file header
                 try
                 {
                     header = new IndividualFileHeaderInformation(item.Name, item.RelativePathForArchive, item.Length, item.Length);
@@ -205,8 +201,7 @@ namespace FileCompressor
         {
             long[] expectedSize = new long[fileMetaInformationList.Count];
 
-            //add the archiveheadersize
-
+            // add the archiveheadersize
             for (int i = 0; i < fileMetaInformationList.Count; i++)
             {
                 expectedSize[i] = this.CompressionAlgorithm.ReturnExpectedDataSizeCompressed(fileMetaInformationList[i].FullName);

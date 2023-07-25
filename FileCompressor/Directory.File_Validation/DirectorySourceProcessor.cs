@@ -1,15 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿
 
 namespace FileCompressor
 {
-    //this class is given a source and checks if the given string is a valid directory on the machine, if so it then can create a list of fileMetaInformation about the directory and give that information back
-    internal class DirectorySourceProcessor
+    using System;
+    using System.Collections.Generic;
+    using System.IO;
+    using System.Linq;
+    // this class is given a source and checks if the given string is a valid directory on the machine, if so it then can create a list of fileMetaInformation about the directory and give that information back
+    public class DirectorySourceProcessor
     {
-        //getter and setters TODO fields and properties
-        //public List<FileMetaInformation> ContainedFileInfo { get; private set; }
+        // getter and setters TODO fields and properties
+        // public List<FileMetaInformation> ContainedFileInfo { get; private set; }
         public string givenSourceDirectory { get; private set; }
 
         public bool isSourceValid { get; private set; }
@@ -45,9 +46,9 @@ namespace FileCompressor
             try
             {
                 // WHAT THE FUCK HAPPENS IF YOU GIVE IT A DIRECTORY WITH MORE THAN int.max FILES????
-                //with this option all files will be put into the string array - "*.*" just means that all types of files and all names are valid.
+                // with this option all files will be put into the string array - "*.*" just means that all types of files and all names are valid.
                 string[] fileArray = Directory.GetFiles(this.givenSourceDirectory, "*.*", SearchOption.AllDirectories);
-                //removing all the entries in the fileArray that contains paths that are also in the string[] filePathsToSkipArray
+                // removing all the entries in the fileArray that contains paths that are also in the string[] filePathsToSkipArray
                 if (filePathsToSkip != null && filePathsToSkip.Length > 0)
                 {
                     fileArray = fileArray.Where(filePath => !filePathsToSkip.Contains(filePath)).ToArray();
@@ -71,14 +72,15 @@ namespace FileCompressor
                 return fileInfoList;
             }
 
-            //therse a lot of exception for Directory.GetFiles
-            //this global try catch prevents weird shit like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.
-            //the documentation does not mention this possibility which is kinda fishy.
+           
             catch (Exception e)
             {
+                // therse a lot of exception for Directory.GetFiles
+                // this global try catch prevents weird shit like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.
+                // the documentation does not mention this possibility which is kinda fishy.
                 throw new ArchiveErrorCodeException($"Errorcode 1. Given directory: {this.givenSourceDirectory} could not be processed");
-                //Console.WriteLine($"Could not process directory: {this.givenSourceDirectory}. Error: {e.Message}");
-                //return null;
+                // Console.WriteLine($"Could not process directory: {this.givenSourceDirectory}. Error: {e.Message}");
+                // return null;
             }
         }
 
@@ -118,7 +120,6 @@ namespace FileCompressor
 
                 long availableSpace = drive.AvailableFreeSpace;
                 // Define a threshold for the minimum required space. This could be a specific number or a percentage of the total drive space.
-
                 if (availableSpace < minimumRequiredSpace)
                 {
                     throw new ArchiveErrorCodeException($"Errorcode 1. Not enough space on the drive to create a new file. Required: {minimumRequiredSpace}, Available: {availableSpace}");
@@ -128,15 +129,14 @@ namespace FileCompressor
             }
             catch (Exception)
             {
-                //probably exceptions like unauthorized, InvalidArgument, io,
+                // probably exceptions like unauthorized, InvalidArgument, io,
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not check Drive and/or Diskspace for {this.givenSourceDirectory}! ");
             }
         }
 
         public string GetRelativePath(string directoryPath, string filePath)
         {
-            //could be better: if (!filePath.StartsWith(directoryPath, StringComparison.OrdinalIgnoreCase)) but we never learned this i think . TODO!! ASK IN FORUM
-
+            // could be better: if (!filePath.StartsWith(directoryPath, StringComparison.OrdinalIgnoreCase)) but we never learned this i think . TODO!! ASK IN FORUM
             if (!filePath.Contains(directoryPath))
             {
                 throw new ArgumentException($"{filePath} is not in {directoryPath}");

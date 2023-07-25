@@ -1,7 +1,9 @@
-﻿using System;
+﻿
 
 namespace FileCompressor
 {
+    using System;
+
     public class ParitiyByteEncoder
     {
         public ParitiyByteEncoder()
@@ -22,9 +24,9 @@ namespace FileCompressor
 
             for (int i = 0; i < byteArray.Length; i++)
             {
-                //original byte in every odd spot
+                // original byte in every odd spot
                 returnByteArray[i * 2] = byteArray[i];
-                //parity bit in all even places
+                // parity bit in all even places
                 returnByteArray[i * 2 + 1] = (byte)(255 - byteArray[i]);
             }
 
@@ -33,7 +35,7 @@ namespace FileCompressor
 
         public bool CheckByteArrayForParityBytes(byte[] byteArrayWithParityBytes)
         {
-            //If the array is not dividable by two it cant be checked for parity bytes
+            // If the array is not dividable by two it cant be checked for parity bytes
             if (byteArrayWithParityBytes.Length % 2 != 0)
             {
                 return false;
@@ -50,7 +52,7 @@ namespace FileCompressor
                 }
             }
 
-            //all byte pairs seem to be correct
+            // all byte pairs seem to be correct
             return true;
         }
 

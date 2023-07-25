@@ -1,19 +1,22 @@
-﻿using System;
-using System.Text;
+﻿
 
 namespace FileCompressor
 {
+    using System;
+    using System.Text;
     public class IndividualFileHeaderInformation
     {
-        //sizes of the path and name as 8 bytes respectivly
+        // sizes of the path and name as 8 bytes respectivly
 
-        //could also just use unsigned int to get more bytes
-
+        // could also just use unsigned int to get more bytes
         private string name;
 
         public string Name
         {
-            get { return this.name; }
+            get 
+            {
+                return this.name;
+            }
             set
             {
                 if (value == null)
@@ -32,7 +35,10 @@ namespace FileCompressor
 
         public string RelativePath
         {
-            get { return this.relativePath; }
+            get 
+            {
+                return this.relativePath;
+            }
             set
             {
                 if (value == null)
@@ -47,7 +53,10 @@ namespace FileCompressor
 
         public long SizeOriginal
         {
-            get { return this.sizeOriginal; }
+            get 
+            {
+                return this.sizeOriginal; 
+            }
             set
             {
                 if (value < 0)
@@ -62,7 +71,10 @@ namespace FileCompressor
 
         public long SizeCompressed
         {
-            get { return this.sizeCompressed; }
+            get
+            {
+                return this.sizeCompressed; 
+            }
             set
             {
                 if (value < 0)
@@ -77,7 +89,10 @@ namespace FileCompressor
 
         public int NameSize
         {
-            get { return this.nameSize; }
+            get 
+            {
+                return this.nameSize;
+            }
             set
             {
                 if (value < 0)
@@ -92,7 +107,10 @@ namespace FileCompressor
 
         public int RelativePathSize
         {
-            get { return this.relativePathSize; }
+            get 
+            { 
+                return this.relativePathSize;
+            }
             set
             {
                 if (value < 0)
@@ -108,12 +126,12 @@ namespace FileCompressor
             this.Name = givenFileName;
             this.RelativePath = givenFileRelativePath;
             this.SizeOriginal = givenFileSizeOriginal;
-            //the file size with compression is first set to the original size, where ever this object is created. there is a looop outside that that after writing the bytes to the .dat file, returns to the individualfile header and
+            // the file size with compression is first set to the original size, where ever this object is created. there is a loop outside that that after writing the bytes to the .dat file, returns to the individualfile header and
             // rewrites the correct size, given that we already use long there is no way a size bigger than that is created.
             this.SizeCompressed = givenFileSizeCompressed;
             this.NameSize = Encoding.UTF8.GetByteCount(givenFileName);
             this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);
-            //there is no way this should ever happen
+            
         }
 
         public byte[] GetFileHeaderAsByteArray()
