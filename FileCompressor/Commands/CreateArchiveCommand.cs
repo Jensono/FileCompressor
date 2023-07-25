@@ -2,6 +2,7 @@
 
 namespace FileCompressor
 {
+    using System;
     using System.Collections.Generic;
     using System.IO;
     public class CreateArchiveCommand : IArchiveCommand
@@ -10,11 +11,63 @@ namespace FileCompressor
         // TODO BOTH NEED TO BE CHECKED BEFORE STARTING THE CREATION PROCESS
 
         // todo null check for the compressionalgorithm
-        public string SourcePathToDirectory { get; set; }
+        private string sourcePathToDirectory;
+        private string destinationNameForFile;
+        private ICompressionAlgorithm usedCompression;
 
-        public string DestinationNameForFile { get; set; }
+        public string SourcePathToDirectory
+        {
+            get
+            {
+                return this.sourcePathToDirectory;
+            }
 
-        public ICompressionAlgorithm UsedCompression { get; set; }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.SourcePathToDirectory)} cannot be null!");
+                }
+
+                this.sourcePathToDirectory = value;
+            }
+        }
+
+        public string DestinationNameForFile
+        {
+            get
+            {
+                return this.destinationNameForFile;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.DestinationNameForFile)} cannot be null!");
+                }
+
+                this.destinationNameForFile = value;
+            }
+        }
+
+        public ICompressionAlgorithm UsedCompression
+        {
+            get
+            {
+                return this.usedCompression;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.UsedCompression)} cannot be null!");
+                }
+
+                this.usedCompression = value;
+            }
+        }
 
         public CreateArchiveCommand(string sourcePathToDirectory, string destinationNameForTheFile, ICompressionAlgorithm compressionAlgorithm)
         {

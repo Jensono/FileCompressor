@@ -2,6 +2,7 @@
 
 namespace FileCompressor
 {
+    using System;
     using System.IO;
 
     public class FileMetaInformation
@@ -14,9 +15,77 @@ namespace FileCompressor
             this.RelativePathForArchive = relativePathOfFileInsideArchive;
         }
 
-        public string FullName { get; private set; }
-        public string Name { get; private set; }
-        public long Length { get; private set; }
-        public string RelativePathForArchive { get; private set; }
+        private string fullName;
+        private string name;
+        private long length;
+        private string relativePathForArchive;
+
+        public string FullName
+        {
+            get
+            {
+                return this.fullName;
+            }
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.FullName)} cannot be null!");
+                }
+
+                this.fullName = value;
+            }
+        }
+
+        public string Name
+        {
+            get
+            {
+                return this.name;
+            }
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.Name)} cannot be null!");
+                }
+
+                this.name = value;
+            }
+        }
+
+        public long Length
+        {
+            get
+            {
+                return this.length;
+            }
+            private set
+            {
+                if (value < 0)
+                {
+                    throw new ArgumentOutOfRangeException($"{nameof(this.Length)} cannot be negative!");
+                }
+
+                this.length = value;
+            }
+        }
+
+        public string RelativePathForArchive
+        {
+            get
+            {
+                return this.relativePathForArchive;
+            }
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.RelativePathForArchive)} cannot be null!");
+                }
+
+                this.relativePathForArchive = value;
+            }
+        }
     }
 }

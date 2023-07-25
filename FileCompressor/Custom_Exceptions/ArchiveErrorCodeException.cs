@@ -5,8 +5,24 @@ namespace FileCompressor
     using System;
     public class ArchiveErrorCodeException : Exception
     {
-        // todo checks?
-        public string ErrorCode { get; private set; }
+        private string errorCode;
+
+        public string ErrorCode
+        {
+            get
+            {
+                return this.errorCode;
+            }
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ErrorCode)} cannot be null!");
+                }
+
+                this.errorCode = value;
+            }
+        }
 
         public ArchiveErrorCodeException(string errorcodeText)
         {

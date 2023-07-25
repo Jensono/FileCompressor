@@ -2,11 +2,30 @@
 
 namespace FileCompressor
 {
+    using System;
     using System.IO;
     public class ArchiveInfoCommand : IArchiveCommand
     {
-        // TODO FIELDS AND SHIT
-        public string ArchiveSource { get; set; }
+        
+        private string archiveSource;
+
+        public string ArchiveSource
+        {
+            get
+            {
+                return this.archiveSource;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ArchiveSource)} cannot be null!");
+                }
+
+                this.archiveSource = value;
+            }
+        }
 
         public ArchiveInfoCommand(string source)
         {

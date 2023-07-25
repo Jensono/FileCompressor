@@ -7,8 +7,24 @@ namespace FileCompressor
     using System.IO;
     public class ListArchiveContentsCommand : IArchiveCommand
     {
-        // todo fields and properties
-        private string ArchiveSource { get; set; }
+        private string archiveSource;
+        public string ArchiveSource
+        {
+            get
+            {
+                return this.archiveSource;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ArchiveSource)} cannot be null!");
+                }
+
+                this.archiveSource = value;
+            }
+        }
 
         public ListArchiveContentsCommand(string source)
         {

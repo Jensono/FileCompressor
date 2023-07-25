@@ -1,9 +1,47 @@
-﻿namespace FileCompressor
+﻿using System;
+
+namespace FileCompressor
 {
     public class ExtractArchiveCommand : IArchiveCommand
     {
-        public string DestinationPathToDirectory { get; set; }
-        public string ArchiveSource { get; set; }
+        private string destinationPathToDirectory;
+        private string archiveSource;
+
+        public string DestinationPathToDirectory
+        {
+            get
+            {
+                return this.destinationPathToDirectory;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.DestinationPathToDirectory)} cannot be null!");
+                }
+
+                this.destinationPathToDirectory = value;
+            }
+        }
+
+        public string ArchiveSource
+        {
+            get
+            {
+                return this.archiveSource;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ArchiveSource)} cannot be null!");
+                }
+
+                this.archiveSource = value;
+            }
+        }
 
         public ExtractArchiveCommand(string archiveSource, string destination)
         {

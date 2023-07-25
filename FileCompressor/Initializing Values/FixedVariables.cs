@@ -2,23 +2,183 @@
 
 namespace FileCompressor
 {
+    using System;
     using System.Collections.Generic;
 
     // TODO ok THIS NEEDS TO CHANGE TO SOMETHING ELse, ITS IMPORTANT THAT I have all of the information in somekind of class but its kinda retarded
     public class FixedVariables
     {
-        public int ArchiveHeaderLength { get; private set; }
-        public int ArchiveHeaderOriginalLength { get; private set; }
-        public int ArchiveHeaderDateTimeStartByteIndex { get; private set; }
-        public int ArchiveHeaderCompressionTypeStartByteIndex { get; private set; }
-        public int ArchiveHeaderNumberOfFilesStartByteIndex { get; private set; }
-        public int ArchiveHeaderSumOfFileSizeStartByteIndex { get; private set; }
-        public int ArchiveHeaderLengthOfCompressionCalling { get; private set; }
-        public string CompressionCallingTypeNoCompression { get; private set; }
-        public string CompressionCallingTypeRLECompression { get; private set; }
-        public byte ArchiveHeaderCompressionCallingFillerByte { get; private set; }
-        public int AbsoluteLimitBytesForFileNameAndPath { get; private set; }
-        public string HelpCommandString { get; private set; }
+
+        private string givenSourceDirectory;
+        private bool isSourceValid;
+        private int archiveHeaderLength;
+        private int archiveHeaderOriginalLength;
+        private int archiveHeaderDateTimeStartByteIndex;
+        private int archiveHeaderCompressionTypeStartByteIndex;
+        private int archiveHeaderNumberOfFilesStartByteIndex;
+        private int archiveHeaderSumOfFileSizeStartByteIndex;
+        private int archiveHeaderLengthOfCompressionCalling;
+        private string compressionCallingTypeNoCompression;
+        private string compressionCallingTypeRLECompression;
+        private byte archiveHeaderCompressionCallingFillerByte;
+        private int absoluteLimitBytesForFileNameAndPath;
+        private string helpCommandString;
+
+        public int ArchiveHeaderLength
+        {
+            get
+            {
+                return this.archiveHeaderLength;
+            }
+            private set
+            {
+                this.archiveHeaderLength = value;
+            }
+        }
+
+        public int ArchiveHeaderOriginalLength
+        {
+            get
+            {
+                return this.archiveHeaderOriginalLength;
+            }
+            private set
+            {
+                this.archiveHeaderOriginalLength = value;
+            }
+        }
+
+        public int ArchiveHeaderDateTimeStartByteIndex
+        {
+            get
+            {
+                return this.archiveHeaderDateTimeStartByteIndex;
+            }
+            private set
+            {
+                this.archiveHeaderDateTimeStartByteIndex = value;
+            }
+        }
+
+        public int ArchiveHeaderCompressionTypeStartByteIndex
+        {
+            get
+            {
+                return this.archiveHeaderCompressionTypeStartByteIndex;
+            }
+            private set
+            {
+                this.archiveHeaderCompressionTypeStartByteIndex = value;
+            }
+        }
+
+        public int ArchiveHeaderNumberOfFilesStartByteIndex
+        {
+            get
+            {
+                return this.archiveHeaderNumberOfFilesStartByteIndex;
+            }
+            private set
+            {
+                this.archiveHeaderNumberOfFilesStartByteIndex = value;
+            }
+        }
+
+        public int ArchiveHeaderSumOfFileSizeStartByteIndex
+        {
+            get
+            {
+                return this.archiveHeaderSumOfFileSizeStartByteIndex;
+            }
+            private set
+            {
+                this.archiveHeaderSumOfFileSizeStartByteIndex = value;
+            }
+        }
+
+        public int ArchiveHeaderLengthOfCompressionCalling
+        {
+            get
+            {
+                return this.archiveHeaderLengthOfCompressionCalling;
+            }
+            private set
+            {
+                this.archiveHeaderLengthOfCompressionCalling = value;
+            }
+        }
+
+        public string CompressionCallingTypeNoCompression
+        {
+            get
+            {
+                return this.compressionCallingTypeNoCompression;
+            }
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.CompressionCallingTypeNoCompression)} cannot be null!");
+                }
+                this.compressionCallingTypeNoCompression = value;
+            }
+        }
+
+        public string CompressionCallingTypeRLECompression
+        {
+            get
+            {
+                return this.compressionCallingTypeRLECompression;
+            }
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.CompressionCallingTypeRLECompression)} cannot be null!");
+                }
+                this.compressionCallingTypeNoCompression = value;
+            }
+        }
+
+        public byte ArchiveHeaderCompressionCallingFillerByte
+        {
+            get
+            {
+                return this.archiveHeaderCompressionCallingFillerByte;
+            }
+            private set
+            {
+                this.archiveHeaderCompressionCallingFillerByte = value;
+            }
+        }
+
+        public int AbsoluteLimitBytesForFileNameAndPath
+        {
+            get
+            {
+                return this.absoluteLimitBytesForFileNameAndPath;
+            }
+            private set
+            {
+                this.absoluteLimitBytesForFileNameAndPath = value;
+            }
+        }
+
+        public string HelpCommandString
+        {
+            get
+            {
+                return this.helpCommandString;
+            }
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.HelpCommandString)} cannot be null!");
+                }
+                this.helpCommandString = value;
+            }
+        }
 
         public FixedVariables()
         {

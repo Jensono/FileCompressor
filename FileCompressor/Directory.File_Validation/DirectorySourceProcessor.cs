@@ -9,11 +9,38 @@ namespace FileCompressor
     // this class is given a source and checks if the given string is a valid directory on the machine, if so it then can create a list of fileMetaInformation about the directory and give that information back
     public class DirectorySourceProcessor
     {
-        // getter and setters TODO fields and properties
-        // public List<FileMetaInformation> ContainedFileInfo { get; private set; }
-        public string givenSourceDirectory { get; private set; }
+        private string givenSourceDirectory;
+        private bool isSourceValid;
 
-        public bool isSourceValid { get; private set; }
+        public string GivenSourceDirectory
+        {
+
+            get
+            {
+                return this.givenSourceDirectory;
+            }
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.GivenSourceDirectory)} cannot be null!");
+                }
+
+                this.givenSourceDirectory = value;
+            }
+        }
+
+        public bool IsSourceValid
+        {
+            get
+            {
+                return this.isSourceValid;
+            }
+            private set
+            {
+                this.isSourceValid = value;
+            }
+        }
 
         public DirectorySourceProcessor(string sourceDirectory)
         {
@@ -22,10 +49,10 @@ namespace FileCompressor
                 throw new ArgumentException("Source directory must not be null or empty.");
             }
 
-            this.givenSourceDirectory = sourceDirectory;
+            this.GivenSourceDirectory = sourceDirectory;
 
             this.CheckForDirectoryValidity();
-            if (!this.isSourceValid)
+            if (!this.IsSourceValid)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Given Path  {sourceDirectory} does not exist ");
             }
@@ -36,7 +63,7 @@ namespace FileCompressor
         public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(ICompressionAlgorithm compressionAlgorithm, string[] filePathsToSkip)
         {
             this.CheckForDirectoryValidity();
-            if (!this.isSourceValid)
+            if (!this.IsSourceValid)
             {
                 throw new ArchiveErrorCodeException("Errorcode 1. Given Source is not valid!");
             }
@@ -47,7 +74,7 @@ namespace FileCompressor
             {
                 // WHAT THE FUCK HAPPENS IF YOU GIVE IT A DIRECTORY WITH MORE THAN int.max FILES????
                 // with this option all files will be put into the string array - "*.*" just means that all types of files and all names are valid.
-                string[] fileArray = Directory.GetFiles(this.givenSourceDirectory, "*.*", SearchOption.AllDirectories);
+                string[] fileArray = Directory.GetFiles(this.GivenSourceDirectory, "*.*", SearchOption.AllDirectories);
 
                 // removing all the entries in the fileArray that contains paths that are also in the string[] filePathsToSkipArray
                 if (filePathsToSkip != null && filePathsToSkip.Length > 0)
@@ -60,43 +87,47 @@ namespace FileCompressor
                     try
                     {
                         FileInfo fileInfo = new FileInfo(file);
-                        string relativePathForFile = this.GetRelativePath(this.givenSourceDirectory, fileInfo.FullName);
+                        string relativePathForFile = this.GetRelativePath(this.GivenSourceDirectory, fileInfo.FullName);
 
                         fileInfoList.Add(new FileMetaInformation(fileInfo, relativePathForFile));
                     }
                     catch (Exception e)
                     {
-                        Console.WriteLine($"Could not process file: {file}. Error: {e.Message}");
+                        throw new ArchiveErrorCodeException($"Errorcode 1. Could not process file: {file} ");
                     }
                 }
 
                 return fileInfoList;
-            }           
+            }
+            catch (ArchiveErrorCodeException e )
+            {
+                throw e;
+            }
             catch (Exception e)
             {
                 // therse a lot of exception for Directory.GetFiles
                 // this global try catch prevents weird shit like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.
                 // the documentation does not mention this possibility which is kinda fishy.
-                throw new ArchiveErrorCodeException($"Errorcode 1. Given directory: {this.givenSourceDirectory} could not be processed");
+                throw new ArchiveErrorCodeException($"Errorcode 1. Given directory: {this.GivenSourceDirectory} could not be processed");
             }
         }
 
         public void CheckForDirectoryValidity()
         {
-            if (Directory.Exists(this.givenSourceDirectory))
+            if (Directory.Exists(this.GivenSourceDirectory))
             {
-                this.isSourceValid = true;
+                this.IsSourceValid = true;
 
                 try
                 {
                     // Try to get entries in the directory.
-                    Directory.GetFileSystemEntries(this.givenSourceDirectory);
-                    this.isSourceValid = true;
+                    Directory.GetFileSystemEntries(this.GivenSourceDirectory);
+                    this.IsSourceValid = true;
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    Console.WriteLine($"Directory at {this.givenSourceDirectory} is not accessible");
-                    this.isSourceValid = false;
+                    Console.WriteLine($"Directory at {this.GivenSourceDirectory} is not accessible");
+                    this.IsSourceValid = false;
                 }
                 catch (Exception e)
                 {
@@ -105,7 +136,7 @@ namespace FileCompressor
             }
             else
             {
-                this.isSourceValid = false;
+                this.IsSourceValid = false;
             }
         }
 
@@ -113,7 +144,7 @@ namespace FileCompressor
         {
             try
             {
-                DriveInfo drive = new DriveInfo(this.givenSourceDirectory);
+                DriveInfo drive = new DriveInfo(this.GivenSourceDirectory);
 
                 long availableSpace = drive.AvailableFreeSpace;
 
@@ -128,7 +159,7 @@ namespace FileCompressor
             catch (Exception)
             {
                 // probably exceptions like unauthorized, InvalidArgument, io,
-                throw new ArchiveErrorCodeException($"Errorcode 1. Could not check Drive and/or Diskspace for {this.givenSourceDirectory}! ");
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not check Drive and/or Diskspace for {this.GivenSourceDirectory}! ");
             }
         }
 
