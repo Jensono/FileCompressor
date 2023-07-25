@@ -150,6 +150,10 @@ namespace FileCompressor
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}. File may be read only.");
             }
+            catch (DirectoryNotFoundException e) 
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read part of the Filepath: {archiveFilePath}. Does given directory already exist?.");
+            }
             //Specify more
             catch (Exception e)
             {
