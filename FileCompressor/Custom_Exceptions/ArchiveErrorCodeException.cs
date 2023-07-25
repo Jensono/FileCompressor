@@ -13,6 +13,7 @@ namespace FileCompressor
             {
                 return this.errorCode;
             }
+
             private set
             {
                 if (value is null)

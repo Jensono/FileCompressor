@@ -10,12 +10,29 @@ namespace FileCompressor
         private Func<string[], bool> checkFunctionForParameterValidity;
         private object value;
 
+        public RLECompressionParameter(string shortCommandName, string longCommandName)
+        {
+            this.LongParameterName = longCommandName;
+            this.ShortParameterName = shortCommandName;
+            this.CheckParameterSpecificationForValidity = (parameter) =>
+            {
+                if (parameter.Length == 0)
+                {
+                    return true;
+                }
+
+                return false;
+            };
+        }
+
+
         public string LongParameterName
         {
             get
             {
                 return this.longParameterArgument;
             }
+
             set
             {
                 if (value is null)
@@ -33,6 +50,7 @@ namespace FileCompressor
             {
                 return this.shortParameterArgument;
             }
+
             set
             {
                 if (value is null)
@@ -50,6 +68,7 @@ namespace FileCompressor
             {
                 return this.checkFunctionForParameterValidity;
             }
+
             set
             {
                 if (value is null)
@@ -84,20 +103,6 @@ namespace FileCompressor
             }
         }
 
-        public RLECompressionParameter(string shortCommandName, string longCommandName)
-        {
-            this.LongParameterName = longCommandName;
-            this.ShortParameterName = shortCommandName;
-            this.CheckParameterSpecificationForValidity = (parameter) =>
-            {
-                if (parameter.Length == 0)
-                {
-                    return true;
-                }
-
-                return false;
-            };
-        }
 
         public bool TryParseValueAndSetIt(string[] array)
         {

@@ -1,11 +1,19 @@
-﻿using System;
+﻿
 
 namespace FileCompressor
 {
+    using System;
+
     public class ExtractArchiveCommand : IArchiveCommand
     {
         private string destinationPathToDirectory;
         private string archiveSource;
+              
+        public ExtractArchiveCommand(string archiveSource, string destination)
+        {
+            this.DestinationPathToDirectory = destination;
+            this.ArchiveSource = archiveSource;
+        }
 
         public string DestinationPathToDirectory
         {
@@ -42,13 +50,6 @@ namespace FileCompressor
                 this.archiveSource = value;
             }
         }
-
-        public ExtractArchiveCommand(string archiveSource, string destination)
-        {
-            this.DestinationPathToDirectory = destination;
-            this.ArchiveSource = archiveSource;
-        }
-
         public bool Execute()
         {
             try

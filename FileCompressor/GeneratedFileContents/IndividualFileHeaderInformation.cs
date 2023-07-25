@@ -10,6 +10,11 @@ namespace FileCompressor
 
         // could also just use unsigned int to get more bytes
         private string name;
+        private string relativePath;
+        private long sizeOriginal;
+        private long sizeCompressed;
+        private int nameSize;
+        private int relativePathSize;
 
         public string Name
         {
@@ -34,7 +39,6 @@ namespace FileCompressor
             }
         }
 
-        private string relativePath;
 
         public string RelativePath
         {
@@ -54,7 +58,7 @@ namespace FileCompressor
             }
         }
 
-        private long sizeOriginal;
+       
 
         public long SizeOriginal
         {
@@ -74,7 +78,7 @@ namespace FileCompressor
             }
         }
 
-        private long sizeCompressed;
+        
 
         public long SizeCompressed
         {
@@ -94,8 +98,6 @@ namespace FileCompressor
             }
         }
 
-        private int nameSize;
-
         public int NameSize
         {
             get 
@@ -114,7 +116,6 @@ namespace FileCompressor
             }
         }
 
-        private int relativePathSize;
 
         public int RelativePathSize
         {

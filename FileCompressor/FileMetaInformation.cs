@@ -7,6 +7,12 @@ namespace FileCompressor
 
     public class FileMetaInformation
     {
+        
+        private string fullName;
+        private string name;
+        private long length;
+        private string relativePathForArchive;
+
         public FileMetaInformation(FileInfo fileInfo, string relativePathOfFileInsideArchive)
         {
             this.FullName = fileInfo.FullName;
@@ -15,17 +21,13 @@ namespace FileCompressor
             this.RelativePathForArchive = relativePathOfFileInsideArchive;
         }
 
-        private string fullName;
-        private string name;
-        private long length;
-        private string relativePathForArchive;
-
         public string FullName
         {
             get
             {
                 return this.fullName;
             }
+
             private set
             {
                 if (value is null)
@@ -43,6 +45,7 @@ namespace FileCompressor
             {
                 return this.name;
             }
+
             private set
             {
                 if (value is null)
@@ -60,6 +63,7 @@ namespace FileCompressor
             {
                 return this.length;
             }
+
             private set
             {
                 if (value < 0)
@@ -77,6 +81,7 @@ namespace FileCompressor
             {
                 return this.relativePathForArchive;
             }
+
             private set
             {
                 if (value is null)

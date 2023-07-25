@@ -10,7 +10,23 @@ namespace FileCompressor
     public class DirectorySourceProcessor
     {
         private string givenSourceDirectory;
-        private bool isSourceValid;
+        private bool isSourceValid;        
+
+        public DirectorySourceProcessor(string sourceDirectory)
+        {
+            if (sourceDirectory is null || sourceDirectory == string.Empty)
+            {
+                throw new ArgumentException("Source directory must not be null or empty.");
+            }
+
+            this.GivenSourceDirectory = sourceDirectory;
+
+            this.CheckForDirectoryValidity();
+            if (!this.IsSourceValid)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Given Path  {sourceDirectory} does not exist ");
+            }
+        }
 
         public string GivenSourceDirectory
         {
@@ -19,6 +35,7 @@ namespace FileCompressor
             {
                 return this.givenSourceDirectory;
             }
+
             private set
             {
                 if (value is null)
@@ -36,25 +53,10 @@ namespace FileCompressor
             {
                 return this.isSourceValid;
             }
+
             private set
             {
                 this.isSourceValid = value;
-            }
-        }
-
-        public DirectorySourceProcessor(string sourceDirectory)
-        {
-            if (sourceDirectory is null || sourceDirectory == string.Empty)
-            {
-                throw new ArgumentException("Source directory must not be null or empty.");
-            }
-
-            this.GivenSourceDirectory = sourceDirectory;
-
-            this.CheckForDirectoryValidity();
-            if (!this.IsSourceValid)
-            {
-                throw new ArchiveErrorCodeException($"Errorcode 1. Given Path  {sourceDirectory} does not exist ");
             }
         }
 
@@ -99,7 +101,7 @@ namespace FileCompressor
 
                 return fileInfoList;
             }
-            catch (ArchiveErrorCodeException e )
+            catch (ArchiveErrorCodeException e)
             {
                 throw e;
             }

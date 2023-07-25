@@ -30,6 +30,7 @@ namespace FileCompressor
             {
                 return this.archiveHeaderLength;
             }
+
             private set
             {
                 this.archiveHeaderLength = value;
@@ -42,6 +43,7 @@ namespace FileCompressor
             {
                 return this.archiveHeaderOriginalLength;
             }
+
             private set
             {
                 this.archiveHeaderOriginalLength = value;
@@ -54,6 +56,7 @@ namespace FileCompressor
             {
                 return this.archiveHeaderDateTimeStartByteIndex;
             }
+
             private set
             {
                 this.archiveHeaderDateTimeStartByteIndex = value;
@@ -66,6 +69,7 @@ namespace FileCompressor
             {
                 return this.archiveHeaderCompressionTypeStartByteIndex;
             }
+
             private set
             {
                 this.archiveHeaderCompressionTypeStartByteIndex = value;
@@ -78,6 +82,7 @@ namespace FileCompressor
             {
                 return this.archiveHeaderNumberOfFilesStartByteIndex;
             }
+
             private set
             {
                 this.archiveHeaderNumberOfFilesStartByteIndex = value;
@@ -90,6 +95,7 @@ namespace FileCompressor
             {
                 return this.archiveHeaderSumOfFileSizeStartByteIndex;
             }
+
             private set
             {
                 this.archiveHeaderSumOfFileSizeStartByteIndex = value;
@@ -102,6 +108,7 @@ namespace FileCompressor
             {
                 return this.archiveHeaderLengthOfCompressionCalling;
             }
+
             private set
             {
                 this.archiveHeaderLengthOfCompressionCalling = value;
@@ -114,6 +121,7 @@ namespace FileCompressor
             {
                 return this.compressionCallingTypeNoCompression;
             }
+
             private set
             {
                 if (value is null)
@@ -130,6 +138,7 @@ namespace FileCompressor
             {
                 return this.compressionCallingTypeRLECompression;
             }
+
             private set
             {
                 if (value is null)

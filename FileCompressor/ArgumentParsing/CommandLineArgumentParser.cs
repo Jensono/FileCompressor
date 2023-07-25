@@ -9,6 +9,12 @@ namespace FileCompressor
     {
         private string[] arguments;
         private List<ICommandLineCommand> currentlyUsableCommands;
+               
+        public CommandLineArgumentParser(List<ICommandLineCommand> usableCommands, string[] givenArguments)
+        {
+            this.CurrentlyUsableCommands = usableCommands;
+            this.Arguments = givenArguments;
+        }
 
         public string[] Arguments
         {
@@ -45,13 +51,6 @@ namespace FileCompressor
                 this.currentlyUsableCommands = value;
             }
         }
-
-        public CommandLineArgumentParser(List<ICommandLineCommand> usableCommands, string[] givenArguments)
-        {
-            this.CurrentlyUsableCommands = usableCommands;
-            this.Arguments = givenArguments;
-        }   
-
         public void ParseCommandsAndExecute()
         {
             // remove whitespaces at the end / trailing of the string[]
@@ -467,8 +466,8 @@ namespace FileCompressor
         private List<IParameter> BuildAvailableParameterList(List<ICommandLineCommand> currentlyUsableCommands)
         {
             List<IParameter> returnListParameters = new List<IParameter>();
-            // add all the optional and required parameter list
 
+            // add all the optional and required parameter list
             foreach (ICommandLineCommand item in currentlyUsableCommands)
             {
                 foreach (IParameter entry in item.RequiredParamters)

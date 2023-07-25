@@ -10,6 +10,16 @@ namespace FileCompressor
         private List<IParameter> parameterList;
         private string commandShortName;
 
+       
+
+        // dont check these strings, if there false errorcodes will be thrown in the respective commands anyways, nobody can know if a given path is valid or not before executing a command , becouse paths can change during runtime.
+        // THE COMPRESSIONALGO also doesnt need validation, it is null by defoult and only changes when the given command is create so leave it as is.
+        public CommandParameters(List<IParameter> parameterList, string commandShortName)
+        {
+            this.ParameterList = parameterList;
+            this.CommandShortName = commandShortName;
+        }
+
         public List<IParameter> ParameterList
         {
             get
@@ -44,14 +54,6 @@ namespace FileCompressor
 
                 this.commandShortName = value;
             }
-        }
-
-        // dont check these strings, if there false errorcodes will be thrown in the respective commands anyways, nobody can know if a given path is valid or not before executing a command , becouse paths can change during runtime.
-        // THE COMPRESSIONALGO also doesnt need validation, it is null by defoult and only changes when the given command is create so leave it as is.
-        public CommandParameters(List<IParameter> parameterList, string commandShortName)
-        {
-            this.ParameterList = parameterList;
-            this.CommandShortName = commandShortName;
         }
 
         public string TurnIntoCommandString()

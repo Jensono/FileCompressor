@@ -9,6 +9,11 @@ namespace FileCompressor
         
         private string archiveSource;
 
+        public ArchiveInfoCommand(string source)
+        {
+            this.ArchiveSource = source;
+        }
+
         public string ArchiveSource
         {
             get
@@ -25,11 +30,6 @@ namespace FileCompressor
 
                 this.archiveSource = value;
             }
-        }
-
-        public ArchiveInfoCommand(string source)
-        {
-            this.ArchiveSource = source;
         }
 
         public bool Execute()

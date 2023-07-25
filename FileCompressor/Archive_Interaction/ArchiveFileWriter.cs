@@ -8,6 +8,17 @@ namespace FileCompressor
     public class ArchiveFileWriter
     {
         private string destinationFolder;
+        private ICompressionAlgorithm compressionAlgorithm;
+        private string archiveName;
+
+
+
+        public ArchiveFileWriter(string destination, string archiveName, ICompressionAlgorithm compressionAlgorithm)
+        {
+            this.DestinationFolder = destination;
+            this.ArchiveName = archiveName;
+            this.CompressionAlgorithm = compressionAlgorithm;
+        }
 
         public string DestinationFolder
         {
@@ -15,6 +26,7 @@ namespace FileCompressor
             {
                 return this.destinationFolder;
             }
+
             set
             {
                 if (value is null)
@@ -27,7 +39,6 @@ namespace FileCompressor
         }
 
 
-        private string archiveName;
 
         public string ArchiveName
         {
@@ -35,6 +46,7 @@ namespace FileCompressor
             {
                 return this.archiveName;
             }
+
             set
             {
                 if (value is null)
@@ -46,7 +58,7 @@ namespace FileCompressor
             }
         }
 
-        private ICompressionAlgorithm compressionAlgorithm;
+      
 
         public ICompressionAlgorithm CompressionAlgorithm
         {
@@ -54,6 +66,7 @@ namespace FileCompressor
             {
                 return this.compressionAlgorithm;
             }
+
             set
             {
                 if (value is null)
@@ -66,12 +79,6 @@ namespace FileCompressor
         }
 
 
-        public ArchiveFileWriter(string destination, string archiveName, ICompressionAlgorithm compressionAlgorithm)
-        {
-            this.DestinationFolder = destination;
-            this.ArchiveName = archiveName;
-            this.CompressionAlgorithm = compressionAlgorithm;
-        }
 
         public void AppendToArchive(string archiveFilePath, List<FileMetaInformation> filesToBeWrittenIntoArchive, ArchiveHeader newModifiedArchiveHeader)
         {

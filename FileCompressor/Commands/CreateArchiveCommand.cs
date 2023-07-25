@@ -15,6 +15,14 @@ namespace FileCompressor
         private string destinationNameForFile;
         private ICompressionAlgorithm usedCompression;
 
+        public CreateArchiveCommand(string sourcePathToDirectory, string destinationNameForTheFile, ICompressionAlgorithm compressionAlgorithm)
+        {
+            this.UsedCompression = compressionAlgorithm;
+            this.DestinationNameForFile = destinationNameForTheFile;
+            this.SourcePathToDirectory = sourcePathToDirectory;
+        }
+
+
         public string SourcePathToDirectory
         {
             get
@@ -69,12 +77,6 @@ namespace FileCompressor
             }
         }
 
-        public CreateArchiveCommand(string sourcePathToDirectory, string destinationNameForTheFile, ICompressionAlgorithm compressionAlgorithm)
-        {
-            this.UsedCompression = compressionAlgorithm;
-            this.DestinationNameForFile = destinationNameForTheFile;
-            this.SourcePathToDirectory = sourcePathToDirectory;
-        }
 
         public bool Execute()
         {

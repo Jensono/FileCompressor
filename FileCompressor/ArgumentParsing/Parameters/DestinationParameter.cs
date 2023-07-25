@@ -8,7 +8,31 @@ namespace FileCompressor
         private string shortParameterArgument;
         private string longParameterArgument;
         private Func<string[], bool> checkFunctionForParameterValidity;
-        private object value;
+        private object value;      
+
+        public DestinationParameter(string shortCommandName, string longCommandName)
+        {
+            this.LongParameterName = longCommandName;
+            this.ShortParameterName = shortCommandName;
+            this.CheckParameterSpecificationForValidity = (parameter) =>
+            {
+                if (parameter.Length >= 2)
+                {
+                    return false;
+                }
+
+                if (parameter.Length == 0)
+                {
+                    return false;
+                }
+
+                // no additional validation can be done becouse souce and destination can be very diffrent things depending on the command,
+                // they can be filenames, directories, i could check if it is a valid path or not but the commands do that anyway.
+                // also commands can have paths in them that will only be created after the command entered runtime which makes
+                // it impossible to confirm if a path is valid or not before excectuion and runtime.
+                return true;
+            };
+        }
 
         public string LongParameterName
         {
@@ -16,6 +40,7 @@ namespace FileCompressor
             {
                 return this.longParameterArgument;
             }
+
             set
             {
                 if (value is null)
@@ -33,6 +58,7 @@ namespace FileCompressor
             {
                 return this.shortParameterArgument;
             }
+
             set
             {
                 if (value is null)
@@ -50,6 +76,7 @@ namespace FileCompressor
             {
                 return this.checkFunctionForParameterValidity;
             }
+
             set
             {
                 if (value is null)
@@ -82,30 +109,6 @@ namespace FileCompressor
 
                 this.value = value;
             }
-        }
-
-        public DestinationParameter(string shortCommandName, string longCommandName)
-        {
-            this.LongParameterName = longCommandName;
-            this.ShortParameterName = shortCommandName;
-            this.CheckParameterSpecificationForValidity = (parameter) =>
-            {
-                if (parameter.Length >= 2)
-                {
-                    return false;
-                }
-
-                if (parameter.Length == 0)
-                {
-                    return false;
-                }
-
-                // no additional validation can be done becouse souce and destination can be very diffrent things depending on the command,
-                // they can be filenames, directories, i could check if it is a valid path or not but the commands do that anyway.
-                // also commands can have paths in them that will only be created after the command entered runtime which makes
-                // it impossible to confirm if a path is valid or not before excectuion and runtime.
-                return true;
-            };
         }
 
         public bool TryParseValueAndSetIt(string[] argumentArray)

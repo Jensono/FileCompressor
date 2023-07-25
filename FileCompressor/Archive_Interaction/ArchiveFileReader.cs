@@ -6,11 +6,29 @@ namespace FileCompressor
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
-    internal class ArchiveFileReader
+    public class ArchiveFileReader
     {
-        // TODO PROPERTIES
-       
         private string archiveSource;
+
+        private FixedVariables fixedVariables;
+
+        private ICompressionAlgorithm compressionAlgorithmUsed;
+
+        public ArchiveFileReader(string source)
+        {
+            this.ArchiveSource = source;
+            this.FixedVariables = new FixedVariables();
+            ICompressionAlgorithm compressionUsed = new FixedVariables().GetCompressionAlgorithmFromCalling(this.ReturnArchiveHeader().CompressionTypeCalling);
+            if (compressionUsed is null)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Given archive source {source} does not contain a valid Compression! ");
+            }
+
+            this.CompressionAlogrithmenUsed = compressionUsed;
+        }
+
+        
+
 
         public string ArchiveSource
         {
@@ -25,12 +43,11 @@ namespace FileCompressor
                 {
                     throw new ArgumentNullException($"{nameof(this.ArchiveSource)} can not be null!");
                 }
-                
+
                 this.archiveSource = value;
             }
         }
 
-        private FixedVariables fixedVariables;
 
         public FixedVariables FixedVariables
         {
@@ -38,6 +55,7 @@ namespace FileCompressor
             {
                 return this.fixedVariables;
             }
+
             set
             {
                 if (value is null)
@@ -49,7 +67,6 @@ namespace FileCompressor
             }
         }
 
-        private ICompressionAlgorithm compressionAlgorithmUsed;
 
         public ICompressionAlgorithm CompressionAlogrithmenUsed
         {
@@ -57,6 +74,7 @@ namespace FileCompressor
             {
                 return this.compressionAlgorithmUsed;
             }
+
             private set
             {
                 if (value is null)
@@ -66,19 +84,6 @@ namespace FileCompressor
 
                 this.compressionAlgorithmUsed = value;
             }
-        }
-
-        public ArchiveFileReader(string source)
-        {
-            this.ArchiveSource = source;
-            this.FixedVariables = new FixedVariables();
-            ICompressionAlgorithm compressionUsed = new FixedVariables().GetCompressionAlgorithmFromCalling(this.ReturnArchiveHeader().CompressionTypeCalling);
-            if (compressionUsed is null)
-            {
-                throw new ArchiveErrorCodeException($"Errorcode 1. Given archive source {source} does not contain a valid Compression! ");
-            }
-
-            this.CompressionAlogrithmenUsed = compressionUsed;
         }
 
         public List<string> ReadArchiveFileAndReturnEntries()

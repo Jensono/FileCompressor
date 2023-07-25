@@ -7,14 +7,12 @@ namespace FileCompressor
     using System.Text;
     public class ArchiveHeader
     {
-        // todo fix the fields and propeties please
-
-        // is set as soon as the archive is beeing created
-        public DateTime TimeOfCreation { get; }
-
+        private DateTime timeOfCreation;
+        private string compressionTypeCalling;
         private int numberOfFilesInArchive;
-        public string CompressionTypeCalling { get; set; }
         private ParitiyByteEncoder byteEncoder;
+        private long sizeOfFilesCombined;
+        private FixedVariables fixedVariables;
 
         public ParitiyByteEncoder ParityByteEncoding
         {
@@ -52,7 +50,35 @@ namespace FileCompressor
             }
         }
 
-        private long sizeOfFilesCombined;
+        // is set as soon as the archive is beeing created
+        public DateTime TimeOfCreation
+        {
+            get
+            {
+                return this.timeOfCreation;
+            }
+            set 
+            {
+                this.timeOfCreation = value;
+            }
+        }
+
+        public string CompressionTypeCalling
+        {
+            get
+            {
+                return this.compressionTypeCalling;
+            }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.CompressionTypeCalling)} cannot be null!");
+                }
+
+                this.compressionTypeCalling = value;
+            }
+        }
 
         public long SizeOfFilesCombined
         {
@@ -72,7 +98,7 @@ namespace FileCompressor
             }
         }
 
-        private FixedVariables fixedVariables;
+        
 
         public FixedVariables FixedVariables
         {

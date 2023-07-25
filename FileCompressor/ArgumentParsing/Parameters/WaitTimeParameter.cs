@@ -16,6 +16,7 @@ namespace FileCompressor
             {
                 return this.longParameterArgument;
             }
+
             set
             {
                 if (value is null)
@@ -33,6 +34,7 @@ namespace FileCompressor
             {
                 return this.shortParameterArgument;
             }
+
             set
             {
                 if (value is null)
@@ -50,6 +52,7 @@ namespace FileCompressor
             {
                 return this.checkFunctionForParameterValidity;
             }
+
             set
             {
                 if (value is null)
