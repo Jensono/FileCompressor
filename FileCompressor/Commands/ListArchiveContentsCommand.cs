@@ -7,7 +7,7 @@ namespace FileCompressor
     using System.IO;
     public class ListArchiveContentsCommand : IArchiveCommand
     {
-        //todo fields and properties
+        // todo fields and properties
         private string ArchiveSource { get; set; }
 
         public ListArchiveContentsCommand(string source)
@@ -34,6 +34,7 @@ namespace FileCompressor
 
                 // return false;
             }
+
             return true;
         }
 

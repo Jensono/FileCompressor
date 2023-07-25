@@ -5,7 +5,7 @@ namespace FileCompressor
     using System;
     public class ArchiveErrorCodeException : Exception
     {
-        //todo checks?
+        // todo checks?
         public string ErrorCode { get; private set; }
 
         public ArchiveErrorCodeException(string errorcodeText)

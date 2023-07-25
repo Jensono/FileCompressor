@@ -31,7 +31,7 @@ namespace FileCompressor
             }
         }
 
-        //TODO WTF HAPPENS HERE maybe remove all the returning nulls
+        // TODO WTF HAPPENS HERE maybe remove all the returning nulls
 
         public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(ICompressionAlgorithm compressionAlgorithm, string[] filePathsToSkip)
         {
@@ -48,6 +48,7 @@ namespace FileCompressor
                 // WHAT THE FUCK HAPPENS IF YOU GIVE IT A DIRECTORY WITH MORE THAN int.max FILES????
                 // with this option all files will be put into the string array - "*.*" just means that all types of files and all names are valid.
                 string[] fileArray = Directory.GetFiles(this.givenSourceDirectory, "*.*", SearchOption.AllDirectories);
+
                 // removing all the entries in the fileArray that contains paths that are also in the string[] filePathsToSkipArray
                 if (filePathsToSkip != null && filePathsToSkip.Length > 0)
                 {
@@ -70,15 +71,14 @@ namespace FileCompressor
                 }
 
                 return fileInfoList;
-            }
-
-           
+            }           
             catch (Exception e)
             {
                 // therse a lot of exception for Directory.GetFiles
                 // this global try catch prevents weird shit like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.
                 // the documentation does not mention this possibility which is kinda fishy.
                 throw new ArchiveErrorCodeException($"Errorcode 1. Given directory: {this.givenSourceDirectory} could not be processed");
+
                 // Console.WriteLine($"Could not process directory: {this.givenSourceDirectory}. Error: {e.Message}");
                 // return null;
             }
@@ -119,6 +119,7 @@ namespace FileCompressor
                 DriveInfo drive = new DriveInfo(this.givenSourceDirectory);
 
                 long availableSpace = drive.AvailableFreeSpace;
+
                 // Define a threshold for the minimum required space. This could be a specific number or a percentage of the total drive space.
                 if (availableSpace < minimumRequiredSpace)
                 {

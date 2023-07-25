@@ -17,6 +17,7 @@ namespace FileCompressor
             {
                 return this.arguments;
             }
+
             set
             {
                 this.arguments = value;
@@ -29,6 +30,7 @@ namespace FileCompressor
             {
                 return this.currentlyUsableCommands;
             }
+
             set
             {
                 this.currentlyUsableCommands = value;
@@ -45,6 +47,7 @@ namespace FileCompressor
         {
             // remove whitespaces at the end / trailing of the string[]
             string[] argumentsWithoutWhitespaces = this.RemoveWhiteSpaceEntry(this.Arguments);
+
             // if the only argument given was a whitespace command
             if (argumentsWithoutWhitespaces.Length == 0)
             {
@@ -55,6 +58,7 @@ namespace FileCompressor
             // maybe this step is not needed but its easier to debug and also i never have to use the long names agai
             string[] smallNameCommands = this.TurnFoundCommandNamesIntoSmallNames(argumentsWithoutWhitespaces);
             string[] smallNameCommandsAndParameters = this.TurnFoundParameterNamesIntoSmallNames(smallNameCommands);
+
             // split the string array into smaller string arrays at every command
             // from  || -c || -s || [] || -d || [] || -rle || -a || -d || [] || -s || [] || ----to---> | -c | -s | [] | -d | [] |-rle || -a | -d | [] | -s | []  || .....
             List<string[]> commandStringArrays = new List<string[]>();
@@ -84,9 +88,11 @@ namespace FileCompressor
                 // i could also remove this exception and put it inside the CheckforRequiredParameter but then it would never return a bool and just throw Exception if false, which doesnt sound rigth.
                 throw new ArchiveErrorCodeException("Errorcode 1. There are missing required parameters.");
             }
+
             // the commands were first split by their commands , now we furhter split them by the parameters, but still grouping commands with parameters logical units,
             // as the first entry in the list of a list is always the command by itself
             List<List<string[]>> commandsSplitIntoLogicalUnitsWithParametersSplit = this.SplitCommandListArrayFurtherIntoParametersLogicalUnits(commandStringArrays);
+
             // we create a list of commandparameters, commandparameters just hold a list of Iparameters and the commands short names that is associated with the parameters.
             try
             {
@@ -134,6 +140,7 @@ namespace FileCompressor
         private List<CommandParameters> CreateCommandParametersFromCommandListListArray(List<List<string[]>> commandsListListArray)
         {
             List<CommandParameters> foundCommandParameters = new List<CommandParameters>();
+
             // for every command
             foreach (List<string[]> item in commandsListListArray)
             {
@@ -141,6 +148,7 @@ namespace FileCompressor
 
                 // short command name is always the first entry in the string array in the first entry in the list
                 string currentCommandShortName = item[0][0];
+
                 // Extract the commandshort name that is in the beginning
 
                 // for each part of one command that isnt the command itself
@@ -171,6 +179,7 @@ namespace FileCompressor
                 CommandParameters currentCommandParameters = new CommandParameters(parameterList, currentCommandShortName);
                 foundCommandParameters.Add(currentCommandParameters);
             }
+
             return foundCommandParameters;
         }
 
@@ -199,6 +208,7 @@ namespace FileCompressor
             }
 
             throw new ArchiveErrorCodeException($"Errorcode 1. Given Parameter {stringArray[0]} was not a valid Parameter !");
+
             // read the first entry in the string array and find the corrseponding ParameterType from the List.
             // create a new object from that IParameter object, validate the given rest of the string and create the value for the parameter, then return the parameter
         }
@@ -230,6 +240,7 @@ namespace FileCompressor
                     if (this.IsStringParameterShortName(commandStringArrays[i][j]) && j != 1)
                     {
                         string[] parameterGrouping = new string[j - currentParameterStartIndex];
+
                         // start copying the array from the commandstartindex of the smallnameCommands, for the length that was calculated in the commandGrouping
                         Array.Copy(commandStringArrays[i], currentParameterStartIndex, parameterGrouping, 0, parameterGrouping.Length);
                         currentCommandListSplitAtParameters.Add(parameterGrouping);
@@ -247,6 +258,7 @@ namespace FileCompressor
 
                 returnListSplitByParameter.Add(currentCommandListSplitAtParameters);
             }
+
             return returnListSplitByParameter;
         }
 
@@ -261,6 +273,7 @@ namespace FileCompressor
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -282,6 +295,7 @@ namespace FileCompressor
                 List<IParameter> requiredParameters = currentCommand.RequiredParamters;
 
                 bool[] foundRequiredParameters = new bool[requiredParameters.Count];
+
                 // create an array with the same number of reuiqred parameters and fill them with true if the parameter was found
                 for (int j = 1; j < commandStringArrays[i].Length; j++)
                 {
@@ -310,6 +324,7 @@ namespace FileCompressor
                     return false;
                 }
             }
+
             // if no errorcode is reached then the requirements are inside the string array, could cahnge throwing an error for a boolarray that is as long as the string array list,
             // and fill that array with trues as one parses all the argumetns:
             return true;
@@ -324,6 +339,7 @@ namespace FileCompressor
                     return false;
                 }
             }
+
             return true;
         }
 
@@ -336,6 +352,7 @@ namespace FileCompressor
                     return item;
                 }
             }
+
             return null;
         }
 
@@ -358,6 +375,7 @@ namespace FileCompressor
                 if (this.IsStringCommandShortName(smallNameCommands[i]) && i != 0)
                 {
                     string[] commandGrouping = new string[i - currentCommandStartIndex];
+
                     // start copying the array from the commandstartindex of the smallnameCommands, for the length that was calculated in the commandGrouping
                     Array.Copy(smallNameCommands, currentCommandStartIndex, commandGrouping, 0, commandGrouping.Length);
                     commandsSplitInList.Add(commandGrouping);
@@ -383,6 +401,7 @@ namespace FileCompressor
             for (int i = 0; i < oldArguments.Length; i++)
             {
                 bool commandLongNameFound = false;
+
                 // check all longnames, if it is the same use the small name
                 for (int j = 0; j < this.CurrentlyUsableCommands.Count; j++)
                 {
@@ -392,6 +411,7 @@ namespace FileCompressor
                         commandLongNameFound = true;
                     }
                 }
+
                 // if string is not the long name of any commands then just add whatever is in the oldstring
                 if (!commandLongNameFound)
                 {
@@ -412,6 +432,7 @@ namespace FileCompressor
             for (int i = 0; i < oldArguments.Length; i++)
             {
                 bool commandLongNameFound = false;
+
                 // check all longnames, if it is the same use the small name
                 for (int j = 0; j < availableParameters.Count; j++)
                 {
@@ -421,6 +442,7 @@ namespace FileCompressor
                         commandLongNameFound = true;
                     }
                 }
+
                 // if string is not the long name of any commands then just add whatever is in the oldstring
                 if (!commandLongNameFound)
                 {
@@ -435,6 +457,7 @@ namespace FileCompressor
         {
             List<IParameter> returnListParameters = new List<IParameter>();
             // add all the optional and required parameter list
+
             foreach (ICommandLineCommand item in currentlyUsableCommands)
             {
                 foreach (IParameter entry in item.RequiredParamters)
@@ -453,6 +476,7 @@ namespace FileCompressor
                     }
                 }
             }
+
             return returnListParameters;
         }
 
@@ -465,6 +489,7 @@ namespace FileCompressor
                     return true;
                 }
             }
+
             return false;
         }
     }

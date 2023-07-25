@@ -34,6 +34,7 @@ namespace FileCompressor
             {
                 return this.executeCommandAction;
             }
+
             set
             {
                 this.executeCommandAction = value;
@@ -46,6 +47,7 @@ namespace FileCompressor
             {
                 return this.optionalParameters;
             }
+
             set
             {
                 this.optionalParameters = value;
@@ -58,6 +60,7 @@ namespace FileCompressor
             {
                 return this.requiredParameters;
             }
+
             set
             {
                 this.requiredParameters = value;
@@ -70,6 +73,7 @@ namespace FileCompressor
             {
                 return this.longCommandArgument;
             }
+
             set
             {
                 this.longCommandArgument = value;
@@ -82,6 +86,7 @@ namespace FileCompressor
             {
                 return this.shortCommandArgument;
             }
+
             set
             {
                 this.shortCommandArgument = value;

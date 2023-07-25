@@ -36,6 +36,7 @@ namespace FileCompressor
 
                             // starts at 0 but already signals one occurance
                             byte currentByteOccuranceCounter = numberOfOccuranceThatByteLastLoop;
+
                             // i need to intialize it or else i get an error
                             byte lastReadByte = transferByteFromLastLoop;
                             for (int i = 0; i < realBuffer.Length; i++)
@@ -70,11 +71,13 @@ namespace FileCompressor
                                 {
                                     transferByteFromLastLoop = lastReadByte;
                                     numberOfOccuranceThatByteLastLoop = currentByteOccuranceCounter;
+
                                     // transfer the lastreadbyte and its occurances to the next loop cycle
                                     // if it is the last loop cycle just commit to the file
                                 }
                             }
                         }
+
                         // if there still is some leftover bytes that never were read, commit them to the file
                         if (numberOfOccuranceThatByteLastLoop != 0)
                         {
@@ -85,9 +88,9 @@ namespace FileCompressor
                         }
                     }
                 }
-                //TODO specify exceptions - //todo copy it also to no compresison algo
-            }
 
+                // TODO specify exceptions - //todo copy it also to no compresison algo
+            }
             catch (IOException e)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1, could not access the Files Inside the source");
@@ -151,10 +154,12 @@ namespace FileCompressor
 
                 // we read as long as we have found out we need to from the fileheader
                 long bytesLeft = fileHeader.SizeCompressed;
+
                 // read the archive contents in kilobit chunks and only start reading with less when nearing the end. Eg less than the usual buffer is left.
                 while (bytesLeft > standartBufferLength)
                 {
                     archiveFileStream.Read(buffer, 0, buffer.Length);
+
                     // going forward every two bytes as the rle compression always consists of 2 bytes, the first one as the counter and the second one as the actual byte that was saved
                     for (int i = 0; i < buffer.Length; i += 2)
                     {
@@ -164,6 +169,7 @@ namespace FileCompressor
 
                     bytesLeft -= buffer.Length;
                 }
+
                 // read the last remaining bits before the filecontent ends in the archive.
                 byte[] lastBuffer = new byte[bytesLeft];
                 archiveFileStream.Read(lastBuffer, 0, lastBuffer.Length);
@@ -232,24 +238,26 @@ namespace FileCompressor
                             {
                                 transferByteFromLastLoop = lastReadByte;
                                 numberOfOccuranceThatByteLastLoop = currentByteOccuranceCounter;
+
                                 // transfer the lastreadbyte and its occurances to the next loop cycle
                                 // if it is the last loop cycle just commit to the file
                             }
                         }
                     }
+
                     // if there still is some leftover bytes that never were read, commit them to the file
                     if (numberOfOccuranceThatByteLastLoop != 0)
                     {
                         expectedFileSize += 2;
                     }
                 }
-            }
-           
+            }           
             catch (Exception e)
             {
-                //TODO specify exceptions
+                // TODO specify exceptions
                 throw e;
             }
+
             return expectedFileSize;
         }
     }

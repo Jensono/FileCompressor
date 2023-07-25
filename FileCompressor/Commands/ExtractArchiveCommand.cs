@@ -6,7 +6,6 @@
         public string ArchiveSource { get; set; }
 
         public ExtractArchiveCommand(string archiveSource, string destination)
-
         {
             this.DestinationPathToDirectory = destination;
             this.ArchiveSource = archiveSource;
@@ -26,6 +25,7 @@
 
                 ////return false;
             }
+
             return true;
         }
     }

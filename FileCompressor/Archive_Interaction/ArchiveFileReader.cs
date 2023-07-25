@@ -8,12 +8,65 @@ namespace FileCompressor
     using System.Text;
     internal class ArchiveFileReader
     {
-        //TODO PROPERTIES
-        public string ArchiveSource { get; set; }
+        // TODO PROPERTIES
+       
+        private string archiveSource;
 
-        public FixedVariables FixedVariables { get; set; }
+        public string ArchiveSource
+        {
+            get
+            {
+                return this.archiveSource;
+            }
 
-        public ICompressionAlgorithm CompressionAlogrithmenUsed { get; private set; }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ArchiveSource)} can not be null!");
+                }
+                
+                this.archiveSource = value;
+            }
+        }
+
+        private FixedVariables fixedVariables;
+
+        public FixedVariables FixedVariables
+        {
+            get
+            {
+                return this.fixedVariables;
+            }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.FixedVariables)} cannot be null!");
+                }
+
+                this.fixedVariables = value;
+            }
+        }
+
+        private ICompressionAlgorithm compressionAlgorithmUsed;
+
+        public ICompressionAlgorithm CompressionAlogrithmenUsed
+        {
+            get
+            {
+                return this.compressionAlgorithmUsed;
+            }
+            private set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.CompressionAlogrithmenUsed)} cannot be null!");
+                }
+
+                this.compressionAlgorithmUsed = value;
+            }
+        }
 
         public ArchiveFileReader(string source)
         {
@@ -24,6 +77,7 @@ namespace FileCompressor
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Given archive source {source} does not contain a valid Compression! ");
             }
+
             this.CompressionAlogrithmenUsed = compressionUsed;
         }
 
@@ -138,6 +192,7 @@ namespace FileCompressor
                         currentPositionInFile = archiveFilestream.Position;
 
                         this.CompressionAlogrithmenUsed.Decompress(archiveFilestream, outputPath, currentPositionInFile, fileHeader);
+
                         // set the position in the file to the last position read.
                         currentPositionInFile = archiveFilestream.Position;
                     }
@@ -262,10 +317,13 @@ namespace FileCompressor
             }
 
             byte[] stringNameSizeBuffer = new byte[4];
+
             // Skip the first 21 Bytes as these are the Archive Header
             archiveFilestream.Seek(currentPositionInFile, SeekOrigin.Begin);
+
             // read from the filestream the length of the filename
             archiveFilestream.Read(stringNameSizeBuffer, 0, stringNameSizeBuffer.Length);
+
             // Convert the size to int
             int sizeOfNameInBytes = BitConverter.ToInt32(stringNameSizeBuffer, 0);
 
@@ -274,6 +332,7 @@ namespace FileCompressor
             {
                 throw new ArchiveErrorCodeException("Errorcode 1. Archive File is possibly corrupted");
             }
+
             byte[] fileNameBuffer = new byte[sizeOfNameInBytes];
 
             // get the file name from the fileheader

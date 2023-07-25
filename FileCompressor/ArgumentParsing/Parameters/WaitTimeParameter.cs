@@ -16,6 +16,7 @@ namespace FileCompressor
             {
                 return this.longParameterArgument;
             }
+
             set
             {
                 this.longParameterArgument = value;
@@ -28,6 +29,7 @@ namespace FileCompressor
             {
                 return this.shortParameterArgument;
             }
+
             set
             {
                 this.shortParameterArgument = value;
@@ -40,6 +42,7 @@ namespace FileCompressor
             {
                 return this.checkFunctionForParameterValidity;
             }
+
             set
             {
                 this.checkFunctionForParameterValidity = value;
@@ -52,6 +55,7 @@ namespace FileCompressor
             {
                 return this.value;
             }
+
             set
             {
                 if (value is null)
@@ -63,6 +67,7 @@ namespace FileCompressor
                 {
                     throw new ArgumentException($"{nameof(this.value)} must be an integer!");
                 }
+
                 this.value = value;
             }
         }
@@ -77,6 +82,7 @@ namespace FileCompressor
                 {
                     return false;
                 }
+
                 // if there is no extra argument then its also valid, taking the value of 1
                 if (parameter.Length == 0)
                 {
@@ -93,6 +99,7 @@ namespace FileCompressor
                 {
                     return false;
                 }
+
                 // only lands here if the lenght of the array is one and the string is a integer between
                 return true;
             };

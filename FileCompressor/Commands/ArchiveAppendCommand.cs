@@ -9,7 +9,7 @@ namespace FileCompressor
     /// // BIG ASS TODO this command needs to first create a copy of the file that needs to be appended and then delete the original file after the append happend. Otherwise the weirdest shit could happen while appending.
     /// //the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
 
-    //TODO TODO check the parameter properties source and destination can not be null compression can be
+    // TODO TODO check the parameter properties source and destination can not be null compression can be
     ///////OR - IF THE REQUIRED PARAMETERS ARE THERE ARE ALREADY CHECKED IN THE PROCESS OUTSIDE; BUT THEY DONT WANT THAT NORMALLY.
     /// </summary>
     internal class ArchiveAppendCommand : IArchiveCommand
@@ -28,6 +28,7 @@ namespace FileCompressor
             DateTime modifiedArchiveHeaderDateTime = archiveHeader.TimeOfCreation;
             long modifiedArchiveSumOfFileBytes = archiveHeader.SizeOfFilesCombined + this.GetSumOfSizeForAllFilesCompressed(fileMetaInformationList);
             int modifiedArchiveNumberOfFiles = archiveHeader.NumberOfFilesInArchive + fileMetaInformationList.Count;
+
             // kinda weird hack/workaround but the first time we got this homework we didnt already know how to serialize, so im prociding as if that still is the case.
             string compressionAlgorithmUsedCalling = archiveHeader.CompressionTypeCalling;
 
@@ -59,6 +60,7 @@ namespace FileCompressor
                 ICompressionAlgorithm compressionAlgorithm = archiveFileReader.CompressionAlogrithmenUsed;
 
                 DirectorySourceProcessor directorySourceProcessor = new DirectorySourceProcessor(this.SourcePathToDirectory);
+
                 // just needed for the creation command, when creating the list it skips over all files with names inside the array
                 // for now just add the archivename itself, so it doesnt try to copy itself when using this command
                 string[] fileNamesToSkip = new string[] { this.ArchiveFilePath };

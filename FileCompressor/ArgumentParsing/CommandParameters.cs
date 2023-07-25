@@ -6,7 +6,7 @@ namespace FileCompressor
 
     public class CommandParameters
     {
-        //todo checks and shit
+        // todo checks and shit
         public List<IParameter> ParameterList { get; set; }
 
         public string CommandShortName { get; set; }
@@ -22,11 +22,13 @@ namespace FileCompressor
         public string TurnIntoCommandString()
         {
             string returnString = this.CommandShortName;
+
             // todo null check for the properties
             foreach (IParameter item in this.ParameterList)
             {
                 returnString += $" {item.ShortParameterName} {item.Value}";
             }
+
             return returnString;
         }
     }

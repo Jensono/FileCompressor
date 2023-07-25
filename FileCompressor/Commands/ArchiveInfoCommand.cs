@@ -5,7 +5,7 @@ namespace FileCompressor
     using System.IO;
     public class ArchiveInfoCommand : IArchiveCommand
     {
-        //TODO FIELDS AND SHIT
+        // TODO FIELDS AND SHIT
         public string ArchiveSource { get; set; }
 
         public ArchiveInfoCommand(string source)
@@ -27,8 +27,7 @@ namespace FileCompressor
                 }
             }
             else
-
-            { //TODO CONVERT TO ERROR CODE
+            { // TODO CONVERT TO ERROR CODE
                 throw new ArchiveErrorCodeException($"The file at {this.ArchiveSource} was not found. ");
             }
 

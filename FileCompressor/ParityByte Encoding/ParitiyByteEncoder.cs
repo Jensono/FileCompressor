@@ -7,7 +7,8 @@ namespace FileCompressor
     public class ParitiyByteEncoder
     {
         public ParitiyByteEncoder()
-        { }
+        {
+        }
 
         public byte[] AddParityBytesToByteArray(byte[] byteArray)
         {
@@ -15,6 +16,7 @@ namespace FileCompressor
             {
                 throw new ArgumentException($"{nameof(byteArray)} must be a valid byte array, not null!");
             }
+
             if (byteArray.Length > int.MaxValue / 2)
             {
                 throw new ArgumentOutOfRangeException($"Method can only generate Byte arrays for arrays smaller than {int.MaxValue / 2}");
@@ -26,6 +28,7 @@ namespace FileCompressor
             {
                 // original byte in every odd spot
                 returnByteArray[i * 2] = byteArray[i];
+
                 // parity bit in all even places
                 returnByteArray[i * 2 + 1] = (byte)(255 - byteArray[i]);
             }

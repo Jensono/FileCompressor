@@ -16,6 +16,7 @@ namespace FileCompressor
             {
                 return this.longParameterArgument;
             }
+
             set
             {
                 this.longParameterArgument = value;
@@ -28,6 +29,7 @@ namespace FileCompressor
             {
                 return this.shortParameterArgument;
             }
+
             set
             {
                 this.shortParameterArgument = value;
@@ -40,6 +42,7 @@ namespace FileCompressor
             {
                 return this.checkFunctionForParameterValidity;
             }
+
             set
             {
                 this.checkFunctionForParameterValidity = value;
@@ -52,6 +55,7 @@ namespace FileCompressor
             {
                 return this.value;
             }
+
             set
             {
                 if (value is null)
@@ -63,6 +67,7 @@ namespace FileCompressor
                 {
                     throw new ArgumentException($"{nameof(this.value)} must be a string!");
                 }
+
                 this.value = value;
             }
         }
@@ -98,6 +103,7 @@ namespace FileCompressor
                 this.Value = argumentArray[0];
                 return true;
             }
+
             return false;
         }
 

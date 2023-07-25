@@ -7,9 +7,9 @@ namespace FileCompressor
     public class CreateArchiveCommand : IArchiveCommand
     {
         // source and destination, source is a path to a directory that should be compressed. Destination is just a file name that needs a ending. but maybe one should just be able to sepcify a name only
-        //TODO BOTH NEED TO BE CHECKED BEFORE STARTING THE CREATION PROCESS
+        // TODO BOTH NEED TO BE CHECKED BEFORE STARTING THE CREATION PROCESS
 
-        //todo null check for the compressionalgorithm
+        // todo null check for the compressionalgorithm
         public string SourcePathToDirectory { get; set; }
 
         public string DestinationNameForFile { get; set; }
@@ -34,6 +34,7 @@ namespace FileCompressor
                 ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count, this.UsedCompression.ReturnCompressionTypeCalling(), this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));
 
                 ArchiveFileWriter archiveFileWriter = new ArchiveFileWriter(this.SourcePathToDirectory, this.DestinationNameForFile, this.UsedCompression);
+
                 // disk space is checked inside there
                 archiveFileWriter.CreateArchive(currentArchiveHeader, fileMetaInfoList);
             }
@@ -43,6 +44,7 @@ namespace FileCompressor
             }
 
             return true;
+
             // TODO WHEN OVERWRITTING a file first needs to be safed under some kind of temporary name, if while the file should be overwritten there is an error both are lost!!!!!
             // the system right now could by itself produce corrupted files, but it would require major user interfirance in the programm or the process itself.
         }

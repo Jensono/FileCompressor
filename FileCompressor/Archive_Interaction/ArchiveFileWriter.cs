@@ -63,10 +63,11 @@ namespace FileCompressor
 
         public void CreateArchive(ArchiveHeader archiveHeader, List<FileMetaInformation> filesToBeWrittenIntoArchive)
         {
-            //TODO // TODO VALIDATE THAT GIVEN ARCHIVENAME IS IN FACT NOT A PATH BUT A FILENAME that is to be created, it just worked with a path, saying that it was the same path as the destination folder.
+            // TODO // TODO VALIDATE THAT GIVEN ARCHIVENAME IS IN FACT NOT A PATH BUT A FILENAME that is to be created, it just worked with a path, saying that it was the same path as the destination folder.
             string archiveFilePath = Path.Combine(this.DestinationFolder, this.ArchiveName);
 
             long[] expectedFileSizes = this.ReturnCompressedSizeForFilesAsArray(filesToBeWrittenIntoArchive);
+
             // checking available disk space on the drive that holds the desired archive directory
             if (!this.CheckExpectedFileSizeForAppend(filesToBeWrittenIntoArchive, expectedFileSizes))
             {
@@ -97,6 +98,7 @@ namespace FileCompressor
         private void WriteFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo, long compressedFileSize)
         {
             byte[] fileHeaderBytes;
+
             // get the file header as a byte array and write it into the file
             try
             {
@@ -165,6 +167,7 @@ namespace FileCompressor
             foreach (var item in fileMetaInformationList)
             {
                 IndividualFileHeaderInformation header;
+
                 // get the length of each individual file header
                 try
                 {

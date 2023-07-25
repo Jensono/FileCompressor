@@ -7,7 +7,7 @@ namespace FileCompressor
     using System.Text;
     public class ArchiveHeader
     {
-        //todo fix the fields and propeties please
+        // todo fix the fields and propeties please
 
         // is set as soon as the archive is beeing created
         public DateTime TimeOfCreation { get; }
@@ -22,12 +22,14 @@ namespace FileCompressor
             {
                 return this.byteEncoder;
             }
+
             set
             {
                 if (value is null)
                 {
                     throw new ArgumentNullException($"{nameof(this.ParityByteEncoding)} cannot be null!");
                 }
+
                 this.byteEncoder = value;
             }
         }
@@ -38,12 +40,14 @@ namespace FileCompressor
             { 
                 return this.numberOfFilesInArchive;
             }
+
             set
             {
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException($"{nameof(this.NumberOfFilesInArchive)} cannot be negative!");
                 }
+
                 this.numberOfFilesInArchive = value;
             }
         }
@@ -56,12 +60,14 @@ namespace FileCompressor
             {
                 return this.sizeOfFilesCombined; 
             }
+
             set
             {
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException($"{nameof(this.SizeOfFilesCombined)} cannot be negative!");
                 }
+
                 this.sizeOfFilesCombined = value;
             }
         }
@@ -74,12 +80,14 @@ namespace FileCompressor
             {
                 return this.fixedVariables;
             }
+
             set
             {
                 if (value == null)
                 {
                     throw new ArgumentNullException($"{nameof(this.FixedVariables)} cannot be null!");
                 }
+
                 this.fixedVariables = value;
             }
         }
@@ -154,6 +162,7 @@ namespace FileCompressor
             // needed in all constructors
             this.FixedVariables = new FixedVariables();
             this.ParityByteEncoding = new ParitiyByteEncoder();
+
             // Just to make sure the expected size is also found in the given argument
             int archiveHeaderExpectedLength = this.FixedVariables.ArchiveHeaderLength;
 

@@ -16,6 +16,7 @@ namespace FileCompressor
             {
                 return this.longParameterArgument;
             }
+
             set
             {
                 this.longParameterArgument = value;
@@ -28,6 +29,7 @@ namespace FileCompressor
             {
                 return this.shortParameterArgument;
             }
+
             set
             {
                 this.shortParameterArgument = value;
@@ -40,6 +42,7 @@ namespace FileCompressor
             {
                 return this.checkFunctionForParameterValidity;
             }
+
             set
             {
                 this.checkFunctionForParameterValidity = value;
@@ -52,6 +55,7 @@ namespace FileCompressor
             {
                 return this.value;
             }
+
             set
             {
                 if (value is null)
@@ -63,6 +67,7 @@ namespace FileCompressor
                 {
                     throw new ArgumentException($"{nameof(this.value)} must be an instace of {nameof(ICompressionAlgorithm)}!");
                 }
+
                 this.value = value;
             }
         }
@@ -77,6 +82,7 @@ namespace FileCompressor
                 {
                     return true;
                 }
+
                 return false;
             };
         }
@@ -88,6 +94,7 @@ namespace FileCompressor
                 this.Value = new RLECompressionAlgorithm();
                 return true;
             }
+
             return false;
         }
 

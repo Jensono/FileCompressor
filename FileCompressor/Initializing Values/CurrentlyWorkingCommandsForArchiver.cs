@@ -10,10 +10,11 @@ namespace FileCompressor
     // Available compression algorithms are also specified here.
     public class CurrentlyWorkingCommandsAndCompressionsForArchiver
     {
-        //todo ok, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
+        // todo ok, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
 
         public CurrentlyWorkingCommandsAndCompressionsForArchiver()
-        { }
+        {
+        }
 
         public List<ICompressionAlgorithm> ReturnCurrentlyWorkingCompressionAlgorithms()
         {
@@ -34,17 +35,18 @@ namespace FileCompressor
                 {
                     return true;
                 }
+
                 return false;
             };
 
             // command can only contain one string that can be parsed into an integer. The integer can only be between 1 and 10.
             Func<string[], bool> checkForWaitAndRetryParameterValidity = (parameter) =>
-
             {
                 if (parameter.Length >= 2)
                 {
                     return false;
                 }
+
                 // if there is no extra argument then its also valid, taking the value of 1
                 if (parameter.Length == 0)
                 {
@@ -61,6 +63,7 @@ namespace FileCompressor
                 {
                     return false;
                 }
+
                 // only lands here if the lenght of the array is one and the string is a integer between
                 return true;
             };
@@ -93,6 +96,7 @@ namespace FileCompressor
             List<IParameter> createOptionalParameters = new List<IParameter>() { rleCompressionParameter, retriesParameter, waitTimeBetweenTriesParameter };
             List<IParameter> allOtherCommandsOptionalParameters = new List<IParameter>() { retriesParameter, waitTimeBetweenTriesParameter };
             List<IParameter> helpCommandOptionalParameters = new List<IParameter>() { };
+
             // create all required parameter list for the commands
             List<IParameter> createAppendExtractRequiredParameters = new List<IParameter>() { destinationParameter, sourceParameter };
             List<IParameter> listInfoCommandRequiredParameters = new List<IParameter>() { sourceParameter };
@@ -145,6 +149,7 @@ namespace FileCompressor
                             // break;
                     }
                 }
+
                 // if any of the required parameters were not intialized then throw a archive error
                 if (sourceString.Equals(string.Empty) || destinationString.Equals(string.Empty))
                 {
@@ -158,6 +163,7 @@ namespace FileCompressor
                     try
                     {   // try to execute the command and catch potential errorcodes
                         createArchive.Execute();
+
                         // break the loop after one succeful retry
                         break;
                     }
@@ -168,6 +174,7 @@ namespace FileCompressor
                         {
                             throw e;
                         }
+
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }
@@ -224,6 +231,7 @@ namespace FileCompressor
                     try
                     {
                         appendArchiveCommand.Execute();
+
                         // break the loop after one succeful retry
                         break;
                     }
@@ -234,6 +242,7 @@ namespace FileCompressor
                         {
                             throw e;
                         }
+
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }
@@ -291,6 +300,7 @@ namespace FileCompressor
                     try
                     {
                         extractArchiveCommand.Execute();
+
                         // break the loop after one succeful retry
                         break;
                     }
@@ -301,6 +311,7 @@ namespace FileCompressor
                         {
                             throw e;
                         }
+
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }
@@ -350,6 +361,7 @@ namespace FileCompressor
                     try
                     {
                         infoArchiveCommand.Execute();
+
                         // break the loop after one succeful retry
                         break;
                     }
@@ -360,6 +372,7 @@ namespace FileCompressor
                         {
                             throw e;
                         }
+
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }
@@ -407,6 +420,7 @@ namespace FileCompressor
                     try
                     {
                         infoArchiveCommand.Execute();
+
                         // break the loop after one succeful retry
                         break;
                     }
@@ -417,6 +431,7 @@ namespace FileCompressor
                         {
                             throw e;
                         }
+
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }

@@ -64,6 +64,7 @@ namespace FileCompressor
 
                 // we read as long as we have found out we need to from the fileheader
                 long bytesLeft = fileHeader.SizeCompressed;
+
                 // read the archive contents in kilobit chunks and only start reading with less when nearing the end. Eg less than the usual buffer is left.
                 while (bytesLeft > standartBufferLength)
                 {
@@ -71,6 +72,7 @@ namespace FileCompressor
                     extratedNewFileStream.Write(buffer, 0, buffer.Length);
                     bytesLeft -= buffer.Length;
                 }
+
                 // read the last remaining bits before the filecontent ends in the archive.
                 byte[] lastBuffer = new byte[bytesLeft];
                 archiveFilestream.Read(lastBuffer, 0, lastBuffer.Length);
@@ -87,7 +89,7 @@ namespace FileCompressor
             }
             catch (Exception e)
             {
-                //TODO SPECIFIY EXCEPTION
+                // TODO SPECIFIY EXCEPTION
                 throw e;
             }
         }

@@ -17,16 +17,19 @@ namespace FileCompressor
             {
                 return this.name;
             }
+
             set
             {
                 if (value == null)
                 {
                     throw new ArgumentNullException($"{nameof(this.Name)} cannot be null!");
                 }
+
                 if (value.Equals(string.Empty))
                 {
                     throw new ArgumentException("A filename can not be null!");
                 }
+
                 this.name = value;
             }
         }
@@ -39,12 +42,14 @@ namespace FileCompressor
             {
                 return this.relativePath;
             }
+
             set
             {
                 if (value == null)
                 {
                     throw new ArgumentNullException($"{nameof(this.RelativePath)} cannot be null!");
                 }
+
                 this.relativePath = value;
             }
         }
@@ -57,12 +62,14 @@ namespace FileCompressor
             {
                 return this.sizeOriginal; 
             }
+
             set
             {
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException($"{nameof(this.SizeOriginal)} cannot be negative!");
                 }
+
                 this.sizeOriginal = value;
             }
         }
@@ -75,12 +82,14 @@ namespace FileCompressor
             {
                 return this.sizeCompressed; 
             }
+
             set
             {
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException($"{nameof(this.SizeCompressed)} cannot be negative!");
                 }
+
                 this.sizeCompressed = value;
             }
         }
@@ -93,12 +102,14 @@ namespace FileCompressor
             {
                 return this.nameSize;
             }
+
             set
             {
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException($"{nameof(this.NameSize)} cannot be negative!");
                 }
+
                 this.nameSize = value;
             }
         }
@@ -111,12 +122,14 @@ namespace FileCompressor
             { 
                 return this.relativePathSize;
             }
+
             set
             {
                 if (value < 0)
                 {
                     throw new ArgumentOutOfRangeException($"{nameof(this.RelativePathSize)} cannot be negative!");
                 }
+
                 this.relativePathSize = value;
             }
         }
@@ -126,6 +139,7 @@ namespace FileCompressor
             this.Name = givenFileName;
             this.RelativePath = givenFileRelativePath;
             this.SizeOriginal = givenFileSizeOriginal;
+
             // the file size with compression is first set to the original size, where ever this object is created. there is a loop outside that that after writing the bytes to the .dat file, returns to the individualfile header and
             // rewrites the correct size, given that we already use long there is no way a size bigger than that is created.
             this.SizeCompressed = givenFileSizeCompressed;
