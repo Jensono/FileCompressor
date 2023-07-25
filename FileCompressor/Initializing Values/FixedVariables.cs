@@ -136,7 +136,7 @@ namespace FileCompressor
                 {
                     throw new ArgumentNullException($"{nameof(this.CompressionCallingTypeRLECompression)} cannot be null!");
                 }
-                this.compressionCallingTypeNoCompression = value;
+                this.compressionCallingTypeRLECompression = value;
             }
         }
 
