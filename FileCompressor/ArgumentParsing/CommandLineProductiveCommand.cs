@@ -5,7 +5,7 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
 
-    internal class CommandLineProductiveCommand : ICommandLineCommand
+    public class CommandLineProductiveCommand : ICommandLineCommand
     {
         private Action<List<IParameter>> executeCommandAction;
         private List<IParameter> optionalParameters;
@@ -37,6 +37,11 @@ namespace FileCompressor
 
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ExecuteCommandAction)} cannot be null!");
+                }
+
                 this.executeCommandAction = value;
             }
         }
@@ -50,6 +55,11 @@ namespace FileCompressor
 
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.OptionalParameters)} cannot be null!");
+                }
+
                 this.optionalParameters = value;
             }
         }
@@ -63,6 +73,11 @@ namespace FileCompressor
 
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.RequiredParamters)} cannot be null!");
+                }
+
                 this.requiredParameters = value;
             }
         }
@@ -76,6 +91,11 @@ namespace FileCompressor
 
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.LongCommandName)} cannot be null!");
+                }
+
                 this.longCommandArgument = value;
             }
         }
@@ -89,6 +109,11 @@ namespace FileCompressor
 
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ShortCommandName)} cannot be null!");
+                }
+
                 this.shortCommandArgument = value;
             }
         }

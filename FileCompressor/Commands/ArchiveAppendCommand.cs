@@ -14,8 +14,44 @@ namespace FileCompressor
     /// </summary>
     internal class ArchiveAppendCommand : IArchiveCommand
     {
-        public string SourcePathToDirectory { get; set; }
-        public string ArchiveFilePath { get; set; }
+        private string sourcePathToDirectory;
+        private string archiveFilePath;
+
+        public string SourcePathToDirectory
+        {
+            get
+            {
+                return this.sourcePathToDirectory;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.SourcePathToDirectory)} cannot be null!");
+                }
+
+                this.sourcePathToDirectory = value;
+            }
+        }
+
+        public string ArchiveFilePath
+        {
+            get
+            {
+                return this.archiveFilePath;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ArchiveFilePath)} cannot be null!");
+                }
+
+                this.archiveFilePath = value;
+            }
+        }
 
         public ArchiveAppendCommand(string sourcePathToDirectory, string archiveFilePath)
         {

@@ -38,7 +38,7 @@ namespace FileCompressor
             this.CheckForDirectoryValidity();
             if (!this.isSourceValid)
             {
-                return null;
+                throw new ArchiveErrorCodeException("Errorcode 1. Given Source is not valid!");
             }
 
             List<FileMetaInformation> fileInfoList = new List<FileMetaInformation>();
@@ -78,9 +78,6 @@ namespace FileCompressor
                 // this global try catch prevents weird shit like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.
                 // the documentation does not mention this possibility which is kinda fishy.
                 throw new ArchiveErrorCodeException($"Errorcode 1. Given directory: {this.givenSourceDirectory} could not be processed");
-
-                // Console.WriteLine($"Could not process directory: {this.givenSourceDirectory}. Error: {e.Message}");
-                // return null;
             }
         }
 

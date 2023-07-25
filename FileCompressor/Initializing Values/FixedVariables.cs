@@ -83,6 +83,7 @@ namespace FileCompressor
                 }
             }
 
+            //the one class that uses this, thrown an exception if it happens, still not a good solution, todo ok turn into a tryparse method
             return null;
         }
     }

@@ -10,7 +10,6 @@ namespace FileCompressor
         private string[] arguments;
         private List<ICommandLineCommand> currentlyUsableCommands;
 
-        // todo exceptions for properties
         public string[] Arguments
         {
             get
@@ -20,6 +19,11 @@ namespace FileCompressor
 
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.Arguments)} cannot be null!");
+                }
+
                 this.arguments = value;
             }
         }
@@ -33,6 +37,11 @@ namespace FileCompressor
 
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.CurrentlyUsableCommands)} cannot be null!");
+                }
+
                 this.currentlyUsableCommands = value;
             }
         }
@@ -343,6 +352,7 @@ namespace FileCompressor
             return true;
         }
 
+        
         private ICommandLineCommand ReturnCorrespondingCommandFromShortName(string commandShortName)
         {
             foreach (var item in this.CurrentlyUsableCommands)
@@ -353,6 +363,7 @@ namespace FileCompressor
                 }
             }
 
+            //the only class that uses this method returns false if null is returned so its safe for now
             return null;
         }
 

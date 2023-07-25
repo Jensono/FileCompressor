@@ -2,14 +2,49 @@
 
 namespace FileCompressor
 {
+    using System;
     using System.Collections.Generic;
 
     public class CommandParameters
     {
-        // todo checks and shit
-        public List<IParameter> ParameterList { get; set; }
+        private List<IParameter> parameterList;
+        private string commandShortName;
 
-        public string CommandShortName { get; set; }
+        public List<IParameter> ParameterList
+        {
+            get
+            {
+                return this.parameterList;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ParameterList)} cannot be null!");
+                }
+
+                this.parameterList = value;
+            }
+        }
+
+        public string CommandShortName
+        {
+            get
+            {
+                return this.commandShortName;
+            }
+
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.CommandShortName)} cannot be null!");
+                }
+
+                this.commandShortName = value;
+            }
+        }
 
         // dont check these strings, if there false errorcodes will be thrown in the respective commands anyways, nobody can know if a given path is valid or not before executing a command , becouse paths can change during runtime.
         // THE COMPRESSIONALGO also doesnt need validation, it is null by defoult and only changes when the given command is create so leave it as is.

@@ -6,12 +6,65 @@ namespace FileCompressor
     using System.Collections.Generic;
     using System.IO;
     public class ArchiveFileWriter
-    {        
-        // TODO WRITE PROPERTIES AND FIELDS
-        private string DestinationFolder;
+    {
+        private string destinationFolder;
 
-        private string ArchiveName;
-        private ICompressionAlgorithm CompressionAlgorithm;
+        public string DestinationFolder
+        {
+            get
+            {
+                return this.destinationFolder;
+            }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.DestinationFolder)} cannot be null!");
+                }
+
+                this.destinationFolder = value;
+            }
+        }
+
+
+        private string archiveName;
+
+        public string ArchiveName
+        {
+            get
+            {
+                return this.archiveName;
+            }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ArchiveName)} cannot be null!");
+                }
+
+                this.archiveName = value;
+            }
+        }
+
+        private ICompressionAlgorithm compressionAlgorithm;
+
+        public ICompressionAlgorithm CompressionAlgorithm
+        {
+            get
+            {
+                return this.compressionAlgorithm;
+            }
+            set
+            {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.CompressionAlgorithm)} cannot be null!");
+                }
+
+                this.compressionAlgorithm = value;
+            }
+        }
+
 
         public ArchiveFileWriter(string destination, string archiveName, ICompressionAlgorithm compressionAlgorithm)
         {

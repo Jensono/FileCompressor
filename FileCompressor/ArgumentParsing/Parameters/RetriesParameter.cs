@@ -6,11 +6,10 @@ namespace FileCompressor
 
     public class RetriesParameter : IParameter
     {
-        private object value;
         private string shortParameterArgument;
         private string longParameterArgument;
-
         private Func<string[], bool> checkFunctionForParameterValidity;
+        private object value;
 
         public string LongParameterName
         {
@@ -18,9 +17,13 @@ namespace FileCompressor
             {
                 return this.longParameterArgument;
             }
-
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.LongParameterName)} cannot be null!");
+                }
+
                 this.longParameterArgument = value;
             }
         }
@@ -31,9 +34,13 @@ namespace FileCompressor
             {
                 return this.shortParameterArgument;
             }
-
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.ShortParameterName)} cannot be null!");
+                }
+
                 this.shortParameterArgument = value;
             }
         }
@@ -44,9 +51,13 @@ namespace FileCompressor
             {
                 return this.checkFunctionForParameterValidity;
             }
-
             set
             {
+                if (value is null)
+                {
+                    throw new ArgumentNullException($"{nameof(this.CheckParameterSpecificationForValidity)} cannot be null!");
+                }
+
                 this.checkFunctionForParameterValidity = value;
             }
         }
