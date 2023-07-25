@@ -1,20 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace FileCompressor
 {
     public class IndividualFileHeaderInformation
     {
-
-
         //sizes of the path and name as 8 bytes respectivly
 
         //could also just use unsigned int to get more bytes
 
         private string name;
+
         public string Name
         {
             get { return this.name; }
@@ -33,6 +29,7 @@ namespace FileCompressor
         }
 
         private string relativePath;
+
         public string RelativePath
         {
             get { return this.relativePath; }
@@ -47,6 +44,7 @@ namespace FileCompressor
         }
 
         private long sizeOriginal;
+
         public long SizeOriginal
         {
             get { return this.sizeOriginal; }
@@ -61,6 +59,7 @@ namespace FileCompressor
         }
 
         private long sizeCompressed;
+
         public long SizeCompressed
         {
             get { return this.sizeCompressed; }
@@ -75,6 +74,7 @@ namespace FileCompressor
         }
 
         private int nameSize;
+
         public int NameSize
         {
             get { return this.nameSize; }
@@ -89,6 +89,7 @@ namespace FileCompressor
         }
 
         private int relativePathSize;
+
         public int RelativePathSize
         {
             get { return this.relativePathSize; }
@@ -102,25 +103,20 @@ namespace FileCompressor
             }
         }
 
-        public IndividualFileHeaderInformation(string givenFileName,string givenFileRelativePath,long givenFileSizeOriginal,long givenFileSizeCompressed)
+        public IndividualFileHeaderInformation(string givenFileName, string givenFileRelativePath, long givenFileSizeOriginal, long givenFileSizeCompressed)
         {
-
             this.Name = givenFileName;
             this.RelativePath = givenFileRelativePath;
             this.SizeOriginal = givenFileSizeOriginal;
-            //the file size with compression is first set to the original size, where ever this object is created. there is a looop outside that that after writing the bytes to the .dat file, returns to the individualfile header and 
+            //the file size with compression is first set to the original size, where ever this object is created. there is a looop outside that that after writing the bytes to the .dat file, returns to the individualfile header and
             // rewrites the correct size, given that we already use long there is no way a size bigger than that is created.
             this.SizeCompressed = givenFileSizeCompressed;
             this.NameSize = Encoding.UTF8.GetByteCount(givenFileName);
             this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);
             //there is no way this should ever happen
-            
-
-
-
         }
 
-        public byte[] GetFileHeaderAsByteArray()      
+        public byte[] GetFileHeaderAsByteArray()
         {
             // fileSIzeName(int)+ filename + filepathsize(INT) + FileRelativePath + filesizeoriginal (long) + filesizecompressed (long)
             long sumOfNumberOfBytesForFileHeader = 4 + this.NameSize + 4 + this.RelativePathSize + 8 + 8;
@@ -133,28 +129,18 @@ namespace FileCompressor
             byte[] fileOriginialSizeAsBytes = BitConverter.GetBytes(this.SizeOriginal);
             byte[] fileCompressionSizeAsBytes = BitConverter.GetBytes(this.SizeCompressed);
 
-            fileNameSizeAsBytes.CopyTo(fileHeaderAsBytes,0);
+            fileNameSizeAsBytes.CopyTo(fileHeaderAsBytes, 0);
             fileNameAsBytes.CopyTo(fileHeaderAsBytes, 4);
-            filePathSizeAsBytes.CopyTo(fileHeaderAsBytes, 4+this.NameSize);
+            filePathSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize);
             filePathAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize + 4);
             fileOriginialSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize + 4 + this.RelativePathSize);
             fileCompressionSizeAsBytes.CopyTo(fileHeaderAsBytes, 4 + this.NameSize + 4 + this.RelativePathSize + 8);
 
             if (true)
             {
-
             }
 
-
             return fileHeaderAsBytes;
-
-
-
-
-
-
         }
-
-
     }
 }

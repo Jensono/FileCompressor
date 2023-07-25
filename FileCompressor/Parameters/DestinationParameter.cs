@@ -4,11 +4,11 @@ namespace FileCompressor
 {
     public class DestinationParameter : IParameter
     {
-
         private string shortParameterArgument;
         private string longParameterArgument;
         private Func<string[], bool> checkFunctionForParameterValidity;
         private object value;
+
         public string LongParameterName
         {
             get
@@ -44,7 +44,7 @@ namespace FileCompressor
                 this.checkFunctionForParameterValidity = value;
             }
         }
-        
+
         public object Value
         {
             get
@@ -66,13 +66,12 @@ namespace FileCompressor
             }
         }
 
-    public DestinationParameter(string shortCommandName, string longCommandName)
+        public DestinationParameter(string shortCommandName, string longCommandName)
         {
             this.LongParameterName = longCommandName;
             this.ShortParameterName = shortCommandName;
             this.CheckParameterSpecificationForValidity = (parameter) =>
             {
-
                 if (parameter.Length >= 2)
                 {
                     return false;
@@ -88,10 +87,7 @@ namespace FileCompressor
                 //also commands can have paths in them that will only be created after the command entered runtime which makes
                 //it impossible to confirm if a path is valid or not before excectuion and runtime.
                 return true;
-
             };
-
-          
         }
 
         public bool TryParseValueAndSetIt(string[] argumentArray)

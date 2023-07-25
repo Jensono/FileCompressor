@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileCompressor
 {
     //command that actually does something
-    class CommandLineProductiveCommand : ICommandLineCommand
+    internal class CommandLineProductiveCommand : ICommandLineCommand
     {
         private Action<List<IParameter>> executeCommandAction;
         private List<IParameter> optionalParameters;
@@ -29,7 +26,7 @@ namespace FileCompressor
             this.RequiredParamters = requiredOptionalParameters;
         }
 
-        // null checks maybe also 
+        // null checks maybe also
         public Action<List<IParameter>> ExecuteCommandAction
         {
             get
@@ -41,6 +38,7 @@ namespace FileCompressor
                 this.executeCommandAction = value;
             }
         }
+
         public List<IParameter> OptionalParameters
         {
             get
@@ -52,6 +50,7 @@ namespace FileCompressor
                 this.optionalParameters = value;
             }
         }
+
         public List<IParameter> RequiredParamters
         {
             get
@@ -63,6 +62,7 @@ namespace FileCompressor
                 this.requiredParameters = value;
             }
         }
+
         public string LongCommandName
         {
             get
@@ -74,6 +74,7 @@ namespace FileCompressor
                 this.longCommandArgument = value;
             }
         }
+
         public string ShortCommandName
         {
             get

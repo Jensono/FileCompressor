@@ -2,26 +2,21 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileCompressor
 {
     //this class is given a source and checks if the given string is a valid directory on the machine, if so it then can create a list of fileMetaInformation about the directory and give that information back
-    class DirectorySourceProcessor
+    internal class DirectorySourceProcessor
     {
-
-
         //getter and setters TODO fields and properties
         //public List<FileMetaInformation> ContainedFileInfo { get; private set; }
         public string givenSourceDirectory { get; private set; }
+
         public bool isSourceValid { get; private set; }
 
-        public DirectorySourceProcessor(string sourceDirectory) 
+        public DirectorySourceProcessor(string sourceDirectory)
         {
-
-
-            if (sourceDirectory is null || sourceDirectory == string.Empty )
+            if (sourceDirectory is null || sourceDirectory == string.Empty)
             {
                 throw new ArgumentException("Source directory must not be null or empty.");
             }
@@ -32,18 +27,13 @@ namespace FileCompressor
             if (!this.isSourceValid)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Given Path  {sourceDirectory} does not exist ");
-              
             }
-
-
         }
 
         //TODO WTF HAPPENS HERE maybe remove all the returning nulls
 
-        public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(ICompressionAlgorithm compressionAlgorithm,string[] filePathsToSkip)
+        public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(ICompressionAlgorithm compressionAlgorithm, string[] filePathsToSkip)
         {
-
-           
             this.CheckForDirectoryValidity();
             if (!this.isSourceValid)
             {
@@ -52,13 +42,12 @@ namespace FileCompressor
 
             List<FileMetaInformation> fileInfoList = new List<FileMetaInformation>();
 
-
             try
             {
                 // WHAT THE FUCK HAPPENS IF YOU GIVE IT A DIRECTORY WITH MORE THAN int.max FILES????
                 //with this option all files will be put into the string array - "*.*" just means that all types of files and all names are valid.
                 string[] fileArray = Directory.GetFiles(this.givenSourceDirectory, "*.*", SearchOption.AllDirectories);
-               //removing all the entries in the fileArray that contains paths that are also in the string[] filePathsToSkipArray
+                //removing all the entries in the fileArray that contains paths that are also in the string[] filePathsToSkipArray
                 if (filePathsToSkip != null && filePathsToSkip.Length > 0)
                 {
                     fileArray = fileArray.Where(filePath => !filePathsToSkip.Contains(filePath)).ToArray();
@@ -72,8 +61,6 @@ namespace FileCompressor
                         string relativePathForFile = this.GetRelativePath(this.givenSourceDirectory, fileInfo.FullName);
 
                         fileInfoList.Add(new FileMetaInformation(fileInfo, relativePathForFile));
-
-                      
                     }
                     catch (Exception e)
                     {
@@ -89,14 +76,10 @@ namespace FileCompressor
             //the documentation does not mention this possibility which is kinda fishy.
             catch (Exception e)
             {
-
                 throw new ArchiveErrorCodeException($"Errorcode 1. Given directory: {this.givenSourceDirectory} could not be processed");
                 //Console.WriteLine($"Could not process directory: {this.givenSourceDirectory}. Error: {e.Message}");
                 //return null;
             }
-
-            
-
         }
 
         public void CheckForDirectoryValidity()
@@ -104,8 +87,6 @@ namespace FileCompressor
             if (Directory.Exists(this.givenSourceDirectory))
             {
                 this.isSourceValid = true;
-
-
 
                 try
                 {
@@ -118,7 +99,7 @@ namespace FileCompressor
                     Console.WriteLine($"Directory at {this.givenSourceDirectory} is not accessible");
                     this.isSourceValid = false;
                 }
-                catch(Exception e) 
+                catch (Exception e)
                 {
                     throw e;
                 }
@@ -127,7 +108,6 @@ namespace FileCompressor
             {
                 this.isSourceValid = false;
             }
-
         }
 
         public bool CheckForEnoughDriveSpace(long minimumRequiredSpace)
@@ -138,11 +118,10 @@ namespace FileCompressor
 
                 long availableSpace = drive.AvailableFreeSpace;
                 // Define a threshold for the minimum required space. This could be a specific number or a percentage of the total drive space.
-                
+
                 if (availableSpace < minimumRequiredSpace)
                 {
                     throw new ArchiveErrorCodeException($"Errorcode 1. Not enough space on the drive to create a new file. Required: {minimumRequiredSpace}, Available: {availableSpace}");
-                    
                 }
 
                 return true;
@@ -151,17 +130,13 @@ namespace FileCompressor
             {
                 //probably exceptions like unauthorized, InvalidArgument, io,
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not check Drive and/or Diskspace for {this.givenSourceDirectory}! ");
-                
             }
-
-
         }
-
 
         public string GetRelativePath(string directoryPath, string filePath)
         {
             //could be better: if (!filePath.StartsWith(directoryPath, StringComparison.OrdinalIgnoreCase)) but we never learned this i think . TODO!! ASK IN FORUM
-            
+
             if (!filePath.Contains(directoryPath))
             {
                 throw new ArgumentException($"{filePath} is not in {directoryPath}");

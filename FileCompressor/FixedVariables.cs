@@ -22,9 +22,8 @@ namespace FileCompressor
         {
             // todo ok  could add specification for the individual file headers
 
-
             this.ArchiveHeaderOriginalLength = 30;
-            this.ArchiveHeaderLength = this.ArchiveHeaderOriginalLength*2;
+            this.ArchiveHeaderLength = this.ArchiveHeaderOriginalLength * 2;
             this.ArchiveHeaderDateTimeStartByteIndex = 0;
             this.ArchiveHeaderCompressionTypeStartByteIndex = 8;
             this.ArchiveHeaderNumberOfFilesStartByteIndex = 18;
@@ -67,7 +66,6 @@ namespace FileCompressor
 
                                    "Example: -c -s [directory] -d [filename] -rle -a -s [second directory] -d [directory/filename for archive] -x -s [directory/filename for archive] -d [third directory]\r\n" +
                                    "This would create a new RLE-compressed archive in the directory, append files from the second directory, and then extract the contents into the third directory.";
-
         }
 
         public ICompressionAlgorithm GetCompressionAlgorithmFromCalling(string calling)
@@ -79,7 +77,7 @@ namespace FileCompressor
             {
                 if (calling.Equals(algorithm.ReturnCompressionTypeCalling()))
                 {
-                    //todo ok in the future it would be wise to not give the object by refrence, but make a deep copy 
+                    //todo ok in the future it would be wise to not give the object by refrence, but make a deep copy
                     return algorithm;
                 }
             }

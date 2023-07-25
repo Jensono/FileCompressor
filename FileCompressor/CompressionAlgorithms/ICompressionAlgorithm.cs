@@ -6,7 +6,7 @@ namespace FileCompressor
     {
         void Compress(string inputOriginalFilePath, string outputArchiveFilePath);
 
-        void Decompress(FileStream archiveFileStream, string outputNewFilePath,long decompressionStartIndexInFile, IndividualFileHeaderInformation fileHeader);
+        void Decompress(FileStream archiveFileStream, string outputNewFilePath, long decompressionStartIndexInFile, IndividualFileHeaderInformation fileHeader);
 
         string ReturnCompressionTypeCalling();
 

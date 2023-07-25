@@ -9,7 +9,6 @@ namespace FileCompressor
         private object value;
         private Func<string[], bool> checkFunctionForParameterValidity;
 
-
         public string LongParameterName
         {
             get
@@ -73,7 +72,6 @@ namespace FileCompressor
             this.ShortParameterName = shortCommandName;
             this.CheckParameterSpecificationForValidity = (parameter) =>
             {
-
                 if (parameter.Length >= 2)
                 {
                     return false;
@@ -89,10 +87,7 @@ namespace FileCompressor
                 //also commands can have paths in them that will only be created after the command entered runtime which makes
                 //it impossible to confirm if a path is valid or not before excectuion and runtime.
                 return true;
-
             };
-
-            
         }
 
         public bool TryParseValueAndSetIt(string[] array)
@@ -102,9 +97,8 @@ namespace FileCompressor
                 if (array[0] != null)
                 {
                     this.Value = array[0];
-
                 }
-               
+
                 return true;
             }
             return false;

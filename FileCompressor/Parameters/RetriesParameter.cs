@@ -10,7 +10,6 @@ namespace FileCompressor
 
         private Func<string[], bool> checkFunctionForParameterValidity;
 
-
         public string LongParameterName
         {
             get
@@ -47,7 +46,6 @@ namespace FileCompressor
             }
         }
 
-        
         public object Value
         {
             get
@@ -68,6 +66,7 @@ namespace FileCompressor
                 this.value = value;
             }
         }
+
         public RetriesParameter(string shortCommandName, string longCommandName)
         {
             this.LongParameterName = longCommandName;
@@ -97,8 +96,6 @@ namespace FileCompressor
                 //only lands here if the lenght of the array is one and the string is a integer between
                 return true;
             };
-
-           
         }
 
         public bool TryParseValueAndSetIt(string[] argumentArray)
@@ -114,15 +111,12 @@ namespace FileCompressor
                 return true;
             }
             //must be a string array with one entry and parseable as an int
-            else 
+            else
             {
                 this.Value = int.Parse(argumentArray[0]);
                 return true;
             }
-            
         }
-
-       
 
         public IParameter DeepCloneSelf()
         {

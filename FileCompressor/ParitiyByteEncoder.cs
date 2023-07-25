@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileCompressor
 {
     public class ParitiyByteEncoder
     {
-
-        public ParitiyByteEncoder() { }
-
+        public ParitiyByteEncoder()
+        { }
 
         public byte[] AddParityBytesToByteArray(byte[] byteArray)
         {
             if (byteArray == null)
             {
-               throw new ArgumentException($"{nameof(byteArray)} must be a valid byte array, not null!");
+                throw new ArgumentException($"{nameof(byteArray)} must be a valid byte array, not null!");
             }
             if (byteArray.Length > int.MaxValue / 2)
             {
-                throw new ArgumentOutOfRangeException($"Method can only generate Byte arrays for arrays smaller than {int.MaxValue/2}");
+                throw new ArgumentOutOfRangeException($"Method can only generate Byte arrays for arrays smaller than {int.MaxValue / 2}");
             }
 
             byte[] returnByteArray = new byte[byteArray.Length * 2];
@@ -34,10 +29,9 @@ namespace FileCompressor
             }
 
             return returnByteArray;
-
         }
 
-       public bool CheckByteArrayForParityBytes(byte[] byteArrayWithParityBytes)
+        public bool CheckByteArrayForParityBytes(byte[] byteArrayWithParityBytes)
         {
             //If the array is not dividable by two it cant be checked for parity bytes
             if (byteArrayWithParityBytes.Length % 2 != 0)
@@ -56,7 +50,7 @@ namespace FileCompressor
                 }
             }
 
-            //all byte pairs seem to be correct 
+            //all byte pairs seem to be correct
             return true;
         }
 

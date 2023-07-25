@@ -1,26 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.IO;
 
 namespace FileCompressor
 {
-    class ArchiveInfoCommand : IArchiveCommand
+    internal class ArchiveInfoCommand : IArchiveCommand
     {
-
         //TODO FIELDS AND SHIT
         public string ArchiveSource { get; set; }
 
         public ArchiveInfoCommand(string source)
         {
-            
             this.ArchiveSource = source;
-
-            
         }
-
 
         public bool Execute()
         {
@@ -29,26 +19,21 @@ namespace FileCompressor
                 try
                 {
                     ReadAndConvertArchiveHeader();
-
                 }
                 catch (ArchiveErrorCodeException e)
                 {
-                    
                     throw e;
 
                     //return false;
                 }
-                
             }
             else
 
             { //TODO CONVERT TO ERROR CODE
-
                 throw new ArchiveErrorCodeException($"The file at {this.ArchiveSource} was not found. ");
 
                 ////return false;
             }
-           
 
             return true;
         }
@@ -64,10 +49,8 @@ namespace FileCompressor
             }
             catch (ArchiveErrorCodeException e)
             {
-
                 throw e;
             }
-            
         }
     }
 }

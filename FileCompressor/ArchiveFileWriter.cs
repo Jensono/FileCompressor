@@ -76,8 +76,6 @@ namespace FileCompressor
 
             // creating a new file or overwritting the old one with this filemode
 
-            
-
             //write the archive header to the file
             this.WriteArchiveHeaderToFile(archiveFilePath, archiveHeader);
 
@@ -104,16 +102,14 @@ namespace FileCompressor
             // get the file header as a byte array and write it into the file
             try
             {
-               fileHeaderBytes = new IndividualFileHeaderInformation(fileInfo.Name, fileInfo.RelativePathForArchive, fileInfo.Length, compressedFileSize).GetFileHeaderAsByteArray();
+                fileHeaderBytes = new IndividualFileHeaderInformation(fileInfo.Name, fileInfo.RelativePathForArchive, fileInfo.Length, compressedFileSize).GetFileHeaderAsByteArray();
             }
             catch (ArgumentNullException)
             {
-
                 throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
             }
             catch (ArgumentOutOfRangeException)
             {
-
                 throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
             }
 
@@ -150,7 +146,7 @@ namespace FileCompressor
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}. File may be read only.");
             }
-            catch (DirectoryNotFoundException e) 
+            catch (DirectoryNotFoundException e)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read part of the Filepath: {archiveFilePath}. Does given directory already exist?.");
             }
@@ -180,16 +176,13 @@ namespace FileCompressor
                 }
                 catch (ArgumentNullException)
                 {
-
                     throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
                 }
                 catch (ArgumentOutOfRangeException)
                 {
-
                     throw new ArchiveErrorCodeException("Errorcode 1. Given Source may be corrupted! ");
                 }
 
-                
                 byte[] headerArray = header.GetFileHeaderAsByteArray();
                 sumExpectedFileSize += headerArray.Length;
 

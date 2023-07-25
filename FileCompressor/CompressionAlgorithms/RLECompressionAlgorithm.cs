@@ -90,10 +90,10 @@ namespace FileCompressor
             //TODO specify exceptions - //todo copy it also to no compresison algo
             catch (IOException e)
             {
-               
                 throw new ArchiveErrorCodeException($"Errorcode 1, could not access the Files Inside the source");
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 //todo ok specify possbile exception more,even though they are probably not going to happen!
 
                 ////catch (UnauthorizedAccessException e)

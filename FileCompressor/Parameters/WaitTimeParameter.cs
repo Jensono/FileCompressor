@@ -9,7 +9,6 @@ namespace FileCompressor
         private object value;
         private Func<string[], bool> checkFunctionForParameterValidity;
 
-
         public string LongParameterName
         {
             get
@@ -46,7 +45,6 @@ namespace FileCompressor
             }
         }
 
-      
         public object Value
         {
             get
@@ -97,8 +95,6 @@ namespace FileCompressor
                 //only lands here if the lenght of the array is one and the string is a integer between
                 return true;
             };
-
-           
         }
 
         public bool TryParseValueAndSetIt(string[] array)
@@ -113,7 +109,7 @@ namespace FileCompressor
                 this.Value = 1;
                 return true;
             }
-            else 
+            else
             {
                 this.Value = int.Parse(array[0]);
                 return true;

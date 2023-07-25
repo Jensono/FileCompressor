@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace FileCompressor
 {
@@ -13,8 +12,6 @@ namespace FileCompressor
         public ListArchiveContentsCommand(string source)
         {
             this.ArchiveSource = source;
-
-           
         }
 
         public bool Execute()
@@ -27,10 +24,8 @@ namespace FileCompressor
                 }
                 catch (ArchiveErrorCodeException e)
                 {
-                    
                     throw e;
                 }
-                
             }
             else
             {
@@ -50,24 +45,17 @@ namespace FileCompressor
             {
                 ArchiveFileReader archiveReader = new ArchiveFileReader(this.ArchiveSource);
 
-                
                 entries = archiveReader.ReadArchiveFileAndReturnEntries();
             }
             catch (ArchiveErrorCodeException e)
             {
-
                 throw e;
             }
-           
 
             foreach (var item in entries)
             {
                 Console.WriteLine(item);
             }
-
-
         }
-
     }
 }
-

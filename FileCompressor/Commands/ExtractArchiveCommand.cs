@@ -10,27 +10,23 @@
         {
             this.DestinationPathToDirectory = destination;
             this.ArchiveSource = archiveSource;
-
         }
 
         public bool Execute()
         {
             try
             {
-
                 ArchiveFileReader archiveReader = new ArchiveFileReader(this.ArchiveSource);
 
                 archiveReader.ExtractArchiveFiles(this.DestinationPathToDirectory);
             }
             catch (ArchiveErrorCodeException e)
             {
-                
                 throw e;
 
                 ////return false;
             }
             return true;
-            
         }
     }
 }

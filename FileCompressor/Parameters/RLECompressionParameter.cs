@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FileCompressor
 {
@@ -43,12 +39,12 @@ namespace FileCompressor
             {
                 return this.checkFunctionForParameterValidity;
             }
-             set
+            set
             {
                 this.checkFunctionForParameterValidity = value;
             }
         }
-        
+
         public object Value
         {
             get
@@ -56,7 +52,7 @@ namespace FileCompressor
                 return this.value;
             }
             set
-            { 
+            {
                 if (value is null)
                 {
                     throw new ArgumentNullException($"{nameof(this.value)} can not be null!");
@@ -70,8 +66,7 @@ namespace FileCompressor
             }
         }
 
-
-        public RLECompressionParameter(string shortCommandName,string longCommandName)
+        public RLECompressionParameter(string shortCommandName, string longCommandName)
         {
             this.LongParameterName = longCommandName;
             this.ShortParameterName = shortCommandName;
@@ -83,9 +78,6 @@ namespace FileCompressor
                 }
                 return false;
             };
-            
-
-
         }
 
         public bool TryParseValueAndSetIt(string[] array)
