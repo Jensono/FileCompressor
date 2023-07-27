@@ -79,6 +79,7 @@ namespace FileCompressor
                 this.currentlyUsableCommands = value;
             }
         }
+
         public void ParseCommandsAndExecute()
         {
             // remove whitespaces at the end / trailing of the string[]

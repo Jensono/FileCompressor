@@ -11,6 +11,10 @@ namespace FileCompressor
 {
     using System;
     using System.IO;
+
+    /// <summary>
+    /// This class is the contains information on how to compress and decompress a file that uses no specific compression algorithm.
+    /// </summary>
     public class NoCompressionAlgorithm : ICompressionAlgorithm
     {
         public NoCompressionAlgorithm()

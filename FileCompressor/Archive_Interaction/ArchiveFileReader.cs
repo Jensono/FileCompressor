@@ -45,8 +45,12 @@ namespace FileCompressor
             }
 
             this.CompressionAlogrithmenUsed = compressionUsed;
-        }      
+        }
 
+        /// <summary>
+        /// Gets or sets the Source to the archive as a path.
+        /// </summary>
+        /// <value> The Source to the archive as a path. </value>
         public string ArchiveSource
         {
             get
@@ -65,6 +69,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="FixedVariables"/> class used inside the reader.
+        /// </summary>
+        /// <value> A fixed variable object. </value>
         public FixedVariables FixedVariables
         {
             get
@@ -83,6 +91,12 @@ namespace FileCompressor
             }
         }
 
+
+        /// <summary>
+        /// The property for the  <see cref="ICompressionAlgorithm"/> Compression Algorithm that is used in the archive.
+        /// <summary>
+        /// <value>  </value>
+        
         public ICompressionAlgorithm CompressionAlogrithmenUsed
         {
             get
@@ -101,6 +115,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method reads the entity of the archive and returns a list of strings, containing the file names that were found in the header.
+        /// </summary>
+        /// <returns> A list of string, in which each entry is a filename for a file that is contained inside the archive.</returns>
         public List<string> ReadArchiveFileAndReturnEntries()
         {
             List<string> foundFileNames = new List<string>();

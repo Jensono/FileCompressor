@@ -12,6 +12,9 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// This class is used to save the parameters used for command execution. It contains the command itself and the given parameters.
+    /// </summary>
     public class CommandParameters
     {
         /// <summary>
@@ -37,7 +40,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the List of <see cref="IParameter"/> that is used for the Command.
         /// </summary>
-        ///  <value> The List of <see cref="IParameter"/> that is used for the Command.</value>
+        /// <value> The List of <see cref="IParameter"/> that is used for the Command.</value>
         public List<IParameter> ParameterList
         {
             get

@@ -12,6 +12,10 @@ namespace FileCompressor
     using System;
     using System.IO;
     using System.Linq;
+
+    /// <summary>
+    /// This class is the contains information on how to compress and decompress a file that uses the RLE compression algorithm.
+    /// </summary>
     public class RLECompressionAlgorithm : ICompressionAlgorithm
     {
         public RLECompressionAlgorithm()

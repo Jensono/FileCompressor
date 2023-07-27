@@ -11,6 +11,9 @@ namespace FileCompressor
 {
     using System;
 
+    /// <summary>
+    /// This class marks the entry for the program. From here all the commands will be analyst and, if valid executed.
+    /// </summary>
     internal class Program
     {
         private static void Main(string[] args)

@@ -11,16 +11,40 @@ namespace FileCompressor
 {
     using System;
     using System.Text;
+
+    /// <summary>
+    ///  This class contains description on what meta information will be saved inside the archive for each individual file contained.
+    /// </summary>
     public class IndividualFileHeaderInformation
     {
-        // sizes of the path and name as 8 bytes respectivly
-
-        // could also just use unsigned int to get more bytes
+        /// <summary>
+        /// The field for the name of the file for which the file header is created.
+        /// </summary>
         private string name;
+
+        /// <summary>
+        /// The field for the relative path of the file.
+        /// </summary>
         private string relativePath;
+
+        /// <summary>
+        /// The field for the uncompressed size of the file.
+        /// </summary>
         private long sizeOriginal;
+
+        /// <summary>
+        /// The field for the size of the file after compression in bytes.
+        /// </summary>
         private long sizeCompressed;
+
+        /// <summary>
+        /// The field for the length of the name of the file in bytes.
+        /// </summary>
         private int nameSize;
+
+        /// <summary>
+        /// The field for the length of the relative path of the file in bytes.
+        /// </summary>
         private int relativePathSize;
 
         public IndividualFileHeaderInformation(string givenFileName, string givenFileRelativePath, long givenFileSizeOriginal, long givenFileSizeCompressed)
@@ -36,6 +60,10 @@ namespace FileCompressor
             this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);
         }
 
+        /// <summary>
+        /// Gets or sets the name of the file for which the file header is created.
+        /// </summary>
+        /// <value> The name of the file for which the file header is created. </value>
         public string Name
         {
             get 
@@ -59,6 +87,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the relative path of the file.
+        /// </summary>
+        /// <value> The relative path of the file. </value>
         public string RelativePath
         {
             get 
@@ -76,8 +108,11 @@ namespace FileCompressor
                 this.relativePath = value;
             }
         }
-       
 
+        /// <summary>
+        /// Gets or sets the uncompressed size of the file.
+        /// </summary>
+        /// <value> The uncompressed size of the file. </value>
         public long SizeOriginal
         {
             get 
@@ -95,8 +130,11 @@ namespace FileCompressor
                 this.sizeOriginal = value;
             }
         }
-        
 
+        /// <summary>
+        /// Gets or sets the size of the file after compression in bytes.
+        /// </summary>
+        /// <value> The size of the file after compression in bytes. </value>
         public long SizeCompressed
         {
             get
@@ -115,6 +153,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the length of the name of the file in bytes.
+        /// </summary>
+        /// <value> The length of the name of the file in bytes. </value>
         public int NameSize
         {
             get 
@@ -133,6 +175,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the length of the relative path of the file in bytes.
+        /// </summary>
+        /// <value> The length of the relative path of the file in bytes. </value>
         public int RelativePathSize
         {
             get 

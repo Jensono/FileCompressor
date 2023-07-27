@@ -14,23 +14,75 @@ namespace FileCompressor
     using System.Collections.Generic;
 
     // TODO ok THIS NEEDS TO CHANGE TO SOMETHING ELse, ITS IMPORTANT THAT I have all of the information in somekind of class but its kinda retarded
+
+    /// <summary>
+    /// This class contains information on fixed variables that are used in many different parts of the program.
+    /// Is currently used as a "dictionary" to save values that should remain consistent throughout the program but still able
+    /// to be modified if so needed.
+    /// </summary>
     public class FixedVariables
     {
-        private string givenSourceDirectory;
-        private bool isSourceValid;
+        /// <summary>
+        /// The field for the set archive header length inside the program.
+        /// </summary>
         private int archiveHeaderLength;
+
+        /// <summary>
+        /// The field for the  archive header length without any parity bytes inside the program.
+        /// </summary>
         private int archiveHeaderOriginalLength;
+
+        /// <summary>
+        /// The field for the index of the first byte of the date time inside the archive header.
+        /// </summary>
         private int archiveHeaderDateTimeStartByteIndex;
+
+        /// <summary>
+        /// The field for the index of the first byte of the compression type inside the archive header.
+        /// </summary>
         private int archiveHeaderCompressionTypeStartByteIndex;
+
+        /// <summary>
+        /// The field for the index of the first byte of the number of files attribute inside the archive header.
+        /// </summary>
         private int archiveHeaderNumberOfFilesStartByteIndex;
+
+        /// <summary>
+        /// The field for the index of the first byte of the sum of files size attribute inside the archive header.
+        /// </summary>
         private int archiveHeaderSumOfFileSizeStartByteIndex;
+
+        /// <summary>
+        ///  The field for the number of bytes used for the  length of the compression calling.
+        /// </summary>
         private int archiveHeaderLengthOfCompressionCalling;
+
+        /// <summary>
+        /// The field for the string of the calling for no compression.
+        /// </summary>
         private string compressionCallingTypeNoCompression;
+
+        /// <summary>
+        /// The field for the string of the calling for RLE compression.
+        /// </summary>
         private string compressionCallingTypeRLECompression;
+
+        /// <summary>
+        /// The field for the byte that is used as a filler byte inside the archive header if the compression calling is smaller that the compression calling byte array length.
+        /// </summary>
         private byte archiveHeaderCompressionCallingFillerByte;
+
+        /// <summary>
+        /// The field for the the absolute limit a file name or path can have inside this application.
+        /// </summary>
         private int absoluteLimitBytesForFileNameAndPath;
+
+        /// <summary>
+        /// The field for the string that is displayed on the console, when the help command is executed.
+        /// </summary>
         private string helpCommandString;
 
+        
         public FixedVariables()
         {
             // todo ok  could add specification for the individual file headers
@@ -80,6 +132,10 @@ namespace FileCompressor
                                    "This would create a new RLE-compressed archive in the directory, append files from the second directory, and then extract the contents into the third directory.";
         }
 
+        /// <summary>
+        /// Gets the archive header length inside the program.
+        /// </summary>
+        /// <value> The archive header length inside the program .</value>
         public int ArchiveHeaderLength
         {
             get
@@ -93,6 +149,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets the archive header length without any parity bytes inside the program.
+        /// </summary>
+        /// <value> The archive header length without any parity bytes inside the program .</value>
         public int ArchiveHeaderOriginalLength
         {
             get
@@ -106,6 +166,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets the index of the first byte of the date time inside the archive header.
+        /// </summary>
+        /// <value> The index of the first byte of the date time inside the archive header. </value>
         public int ArchiveHeaderDateTimeStartByteIndex
         {
             get
@@ -119,6 +183,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets the index of the first byte of the compression type inside the archive header.
+        /// </summary>
+        /// <value> The index of the first byte of the compression type inside the archive header. </value>
         public int ArchiveHeaderCompressionTypeStartByteIndex
         {
             get
@@ -132,6 +200,11 @@ namespace FileCompressor
             }
         }
 
+
+        /// <summary>
+        /// Gets the index of the first byte of the number of files attribute inside the archive header.
+        /// </summary>
+        /// <value> The index of the first byte of the number of files attribute inside the archive header. </value>
         public int ArchiveHeaderNumberOfFilesStartByteIndex
         {
             get
@@ -145,6 +218,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets the index of the first byte of the sum of files size attribute inside the archive header.
+        /// </summary>
+        /// <value> The index of the first byte of the sum of files size attribute inside the archive header. </value>
         public int ArchiveHeaderSumOfFileSizeStartByteIndex
         {
             get
@@ -158,6 +235,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets the number of bytes used for the  length of the compression calling.
+        /// </summary>
+        /// <value> The number of bytes used for the  length of the compression calling. </value>
         public int ArchiveHeaderLengthOfCompressionCalling
         {
             get
@@ -171,6 +252,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets the string of the calling for no compression.
+        /// </summary>
+        /// <value> The string of the calling for no compression. </value>
         public string CompressionCallingTypeNoCompression
         {
             get
@@ -184,10 +269,15 @@ namespace FileCompressor
                 {
                     throw new ArgumentNullException($"{nameof(this.CompressionCallingTypeNoCompression)} cannot be null!");
                 }
+
                 this.compressionCallingTypeNoCompression = value;
             }
         }
 
+        /// <summary>
+        /// Gets the string of the calling for RLE compression.
+        /// </summary>
+        /// <value> The string of the calling for RLE compression. </value>
         public string CompressionCallingTypeRLECompression
         {
             get
@@ -201,40 +291,56 @@ namespace FileCompressor
                 {
                     throw new ArgumentNullException($"{nameof(this.CompressionCallingTypeRLECompression)} cannot be null!");
                 }
+
                 this.compressionCallingTypeRLECompression = value;
             }
         }
 
+        /// <summary>
+        /// Gets the byte that is used as a filler byte inside the archive header if the compression calling is smaller that the compression calling byte array length.
+        /// </summary>
+        /// <value> The byte that is used as a filler byte inside the archive header if the compression calling is smaller that the compression calling byte array length. </value>
         public byte ArchiveHeaderCompressionCallingFillerByte
         {
             get
             {
                 return this.archiveHeaderCompressionCallingFillerByte;
             }
+
             private set
             {
                 this.archiveHeaderCompressionCallingFillerByte = value;
             }
         }
 
+        /// <summary>
+        /// Gets the the absolute limit a file name or path can have inside this application.
+        /// </summary>
+        /// <value> The the absolute limit a file name or path can have inside this application. </value>
         public int AbsoluteLimitBytesForFileNameAndPath
         {
             get
             {
                 return this.absoluteLimitBytesForFileNameAndPath;
             }
+
             private set
             {
                 this.absoluteLimitBytesForFileNameAndPath = value;
             }
         }
 
+        /// <summary>
+        /// Gets the string that is displayed on the console, when the help command is executed.
+        /// </summary>
+        /// <value> The string that is displayed on the console, when the help command is executed. </value>
         public string HelpCommandString
         {
             get
             {
                 return this.helpCommandString;
             }
+
             private set
             {
                 if (value is null)

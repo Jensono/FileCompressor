@@ -70,7 +70,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// Gets the boolean that shows whether or not the given path source is a valid directory.
+        /// Gets a value indicating whether or not the given path source is a valid directory.
         /// </summary>
         /// <value> The boolean value that shows whether or not the given path source is a valid directory. </value>
         public bool IsSourceValid

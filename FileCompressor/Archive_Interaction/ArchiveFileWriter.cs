@@ -42,6 +42,10 @@ namespace FileCompressor
             this.CompressionAlgorithm = compressionAlgorithm;
         }
 
+        /// <summary>
+        /// Gets or sets the path of the destination folder from which to compress files from.
+        /// </summary>
+        /// <value> The path of the destination folder from which to compress files from. </value>
         public string DestinationFolder
         {
             get
@@ -60,8 +64,10 @@ namespace FileCompressor
             }
         }
 
-
-
+        /// <summary>
+        /// Gets or sets the name of the archive.
+        /// </summary>
+        /// <value> The name of the archive. </value>
         public string ArchiveName
         {
             get
@@ -80,8 +86,11 @@ namespace FileCompressor
             }
         }
 
-      
 
+        /// <summary>
+        /// Gets or sets the compression algorithm used to compress files.
+        /// </summary>
+        /// <value> The compression algorithm used to compress files. </value>
         public ICompressionAlgorithm CompressionAlgorithm
         {
             get

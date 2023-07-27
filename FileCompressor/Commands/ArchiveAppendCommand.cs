@@ -43,7 +43,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the source path to the directory from which to append files from.
         /// </summary>
-        /// <value> </value>
+        /// <value> The source path to the directory from which to append files from. </value>
         public string SourcePathToDirectory
         {
             get
@@ -65,7 +65,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the path to the archive file to which to append the new files.
         /// </summary>
-        /// <value> </value>
+        /// <value> The path to the archive file to which to append the new files. </value>
         public string ArchiveFilePath
         {
             get

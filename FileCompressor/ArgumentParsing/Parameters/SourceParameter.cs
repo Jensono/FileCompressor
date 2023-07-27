@@ -10,6 +10,10 @@
 namespace FileCompressor
 {
     using System;
+
+    /// <summary>
+    /// This class is used to save information about a parameter that contains a source to a file or directory.
+    /// </summary>
     public class SourceParameter : IParameter
     {
         /// <summary>

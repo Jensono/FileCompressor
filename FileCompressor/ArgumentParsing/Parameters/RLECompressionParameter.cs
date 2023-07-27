@@ -10,6 +10,10 @@
 namespace FileCompressor
 {
     using System;
+
+    /// <summary>
+    /// This class is used to specify wheter or not a given command should use RLE Compression. 
+    /// </summary>
     public class RLECompressionParameter : IParameter
     {
         /// <summary>

@@ -10,6 +10,10 @@
 namespace FileCompressor
 {
     using System;
+
+    /// <summary>
+    /// This class can save values for the the wait time parameters that is used inside some commands. It specifies  how much time should pass before a given command should be repeated, after it failed to execute the first time.
+    /// </summary>
     public class WaitTimeParameter : IParameter
     { 
         /// <summary>

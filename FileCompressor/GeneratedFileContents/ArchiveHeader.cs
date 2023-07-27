@@ -12,13 +12,40 @@ namespace FileCompressor
     using System;
     using System.Linq;
     using System.Text;
+
+    /// <summary>
+    /// This class describes the what information is found inside the Archive Header in its purest form.
+    /// </summary>
     public class ArchiveHeader
     {
+        /// <summary>
+        /// The field for the DateTime that show when the archive was created.
+        /// </summary>
         private DateTime timeOfCreation;
+
+        /// <summary>
+        /// The field for the compression calling of the compression algorithm used for the files inside the archive.
+        /// </summary>
         private string compressionTypeCalling;
+
+        /// <summary>
+        /// The field for the amount of files saved inside the archive.
+        /// </summary>
         private int numberOfFilesInArchive;
+
+        /// <summary>
+        /// The field for the Parity Byte encoder used by this class.
+        /// </summary>
         private ParitiyByteEncoder byteEncoder;
+
+        /// <summary>
+        /// The field for the size of all the files, inside of the archive, combined.
+        /// </summary>
         private long sizeOfFilesCombined;
+
+        /// <summary>
+        /// The field for the  <see cref="FixedVariables"/>Fixed Variables class used inside.
+        /// </summary>
         private FixedVariables fixedVariables;
 
         public ArchiveHeader(int numberOfFilesInsideDirectory, string compressionTypeCalling, long combinedSizeForAllFiles)
@@ -80,6 +107,10 @@ namespace FileCompressor
             this.SizeOfFilesCombined = BitConverter.ToInt64(archiveHeaderAsBytesParityRemoved, this.FixedVariables.ArchiveHeaderSumOfFileSizeStartByteIndex);
         }
 
+        /// <summary>
+        /// Gets or sets the Parity Byte encoder used by this class.
+        /// </summary>
+        /// <value> The Parity Byte encoder used by this class. </value>
         public ParitiyByteEncoder ParityByteEncoding
         {
             get 
@@ -98,6 +129,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the amount of files saved inside the archive.
+        /// </summary>
+        /// <value> The amount of files saved inside the archive.</value>
         public int NumberOfFilesInArchive
         {
             get
@@ -117,18 +152,27 @@ namespace FileCompressor
         }
 
         // is set as soon as the archive is beeing created
+        /// <summary>
+        /// Gets or sets the DateTime that show when the archive was created.
+        /// </summary>
+        /// <value> The DateTime that show when the archive was created. </value>
         public DateTime TimeOfCreation
         {
             get
             {
                 return this.timeOfCreation;
             }
+
             set 
             {
                 this.timeOfCreation = value;
             }
         }
 
+        /// <summary>
+        /// Gets or sets the compression calling of the compression algorithm used for the files inside the archive.
+        /// </summary>
+        /// <value> The compression calling of the compression algorithm used for the files inside the archive. </value>
         public string CompressionTypeCalling
         {
             get
@@ -146,6 +190,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the size of all the files IN bytes, inside of the archive, combined.
+        /// </summary>
+        /// <value> Tor the size of all the files, inside of the archive, combined. </value>
         public long SizeOfFilesCombined
         {
             get 
@@ -164,8 +212,11 @@ namespace FileCompressor
             }
         }
 
-        
 
+        /// <summary>
+        /// Gets or sets the  <see cref="FixedVariables"/>Fixed Variables class used inside.
+        /// </summary>
+        /// <value> The  <see cref="FixedVariables"/>Fixed Variables class used inside. </value>
         public FixedVariables FixedVariables
         {
             get 

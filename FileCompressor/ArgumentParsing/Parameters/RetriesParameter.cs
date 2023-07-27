@@ -12,6 +12,10 @@ namespace FileCompressor
 {
     using System;
 
+    /// <summary>
+    /// This class can save values for the the retries parameters that is used inside some commands. It specifies  how many times a given command should be repeat , (and fail to execute) until
+    /// the command was deemed "failed".
+    /// </summary>
     public class RetriesParameter : IParameter
     {
         /// <summary>

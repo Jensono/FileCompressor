@@ -11,6 +11,9 @@ namespace FileCompressor
 {
     using System;
 
+    /// <summary>
+    /// This class is used to add, validate and extract parity bytes from a byte array.
+    /// </summary>
     public class ParitiyByteEncoder
     {
         public ParitiyByteEncoder()
