@@ -29,7 +29,7 @@ namespace FileCompressor
                         int standartBufferLength = 1048576; // 1MB buffer
                         var rawBuffer = new byte[standartBufferLength];
 
-                        ///TODO look closer as how this actually functions.
+                        // TODO look closer as how this actually functions.
                         int bytesRead;
 
                         byte transferByteFromLastLoop = 0;
@@ -199,7 +199,7 @@ namespace FileCompressor
                     int standartBufferLength = 1048576; // 1MB buffer
                     var rawBuffer = new byte[standartBufferLength];
 
-                    ///TODO ok look closer as how this actually functions.
+                    // TODO ok look closer as how this actually functions.
                     int bytesRead;
 
                     byte transferByteFromLastLoop = 0;

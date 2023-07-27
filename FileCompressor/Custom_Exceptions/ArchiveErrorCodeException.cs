@@ -27,8 +27,9 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// Gets or sets the string that represents the resulting error code that is displayed on the console.
+        /// Gets the string that represents the resulting error code that is displayed on the console.
         /// </summary>
+        /// <value> The string that represents the resulting error code that is displayed on the console. </value>
         public string ErrorCode
         {
             get

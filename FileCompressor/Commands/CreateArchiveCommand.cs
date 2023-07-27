@@ -48,6 +48,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the path to the directory from which to compress files into an archive.
         /// </summary>
+        /// <value> The path to the directory from which to compress files into an archive.</value>
         public string SourcePathToDirectory
         {
             get
@@ -69,6 +70,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the destination name of the resulting archive file.
         /// </summary>
+        /// <value> The destination name of the resulting archive file. </value>
         public string DestinationNameForFile
         {
             get
@@ -90,6 +92,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the <see cref="ICompressionAlgorithm"/> compression algorithm used for the compression of files.
         /// </summary>
+        /// <value> The <see cref="ICompressionAlgorithm"/> compression algorithm used for the compression of files.</value>
         public ICompressionAlgorithm UsedCompression
         {
             get

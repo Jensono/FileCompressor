@@ -37,6 +37,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the List of <see cref="IParameter"/> that is used for the Command.
         /// </summary>
+        ///  <value> The List of <see cref="IParameter"/> that is used for the Command.</value>
         public List<IParameter> ParameterList
         {
             get
@@ -58,6 +59,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the associated commands short calling.
         /// </summary>
+        /// <value> The associated commands short calling. </value>
         public string CommandShortName
         {
             get

@@ -30,6 +30,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the path to the archive from which to extract information of the files inside.
         /// </summary>
+        /// <value> The path to the archive from which to extract information of the files inside.</value>
         public string ArchiveSource
         {
             get

@@ -30,6 +30,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the path to the source to the archive from which to read the meta information about the archive itself.
         /// </summary>
+        /// <value> The path to the source to the archive from which to read the meta information about the archive itself. </value>
         public string ArchiveSource
         {
             get

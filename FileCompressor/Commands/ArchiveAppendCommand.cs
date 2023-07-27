@@ -20,7 +20,7 @@ namespace FileCompressor
     // OR - IF THE REQUIRED PARAMETERS ARE THERE ARE ALREADY CHECKED IN THE PROCESS OUTSIDE; BUT THEY DONT WANT THAT NORMALLY.
 
     /// <summary>
-    /// This class is the append command. When executed it appends files inside a given diretory to an archive file, and modifies the archives main header to reflect changes.
+    /// This class is the append command. When executed it appends files inside a given directory to an archive file, and modifies the archives main header to reflect changes.
     /// </summary>
     public class ArchiveAppendCommand : IArchiveCommand
     {
@@ -43,6 +43,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the source path to the directory from which to append files from.
         /// </summary>
+        /// <value> </value>
         public string SourcePathToDirectory
         {
             get
@@ -64,6 +65,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the path to the archive file to which to append the new files.
         /// </summary>
+        /// <value> </value>
         public string ArchiveFilePath
         {
             get

@@ -61,7 +61,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the List of the <see cref="ICommandLineCommand"/> that are currently usable inside the application.
         /// </summary>
-        /// <value> a List of <see cref="ICommandLineCommand"/> that can be used inside the applications command line.</value>
+        /// <value> A List of <see cref="ICommandLineCommand"/> that can be used inside the applications command line.</value>
         public List<ICommandLineCommand> CurrentlyUsableCommands
         {
             get

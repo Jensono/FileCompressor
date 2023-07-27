@@ -55,7 +55,7 @@
     <Compile Include="Commands\ArchiveHelpCommand.cs" />
     <Compile Include="Commands\ArchiveInfoCommand.cs" />
     <Compile Include="Commands\ExtractArchiveCommand.cs" />
-    <Compile Include="Initializing Values\CurrentlyWorkingCommandsForArchiver.cs" />
+    <Compile Include="Initializing Values\CurrentlyWorkingCommandsAndCompressionsForArchiver.cs" />
     <Compile Include="ArgumentParsing\Parameters\DestinationParameter.cs" />
     <Compile Include="Initializing Values\FixedVariables.cs" />
     <Compile Include="GeneratedFileContents\ArchiveHeader.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="GeneratedFileContents\IndividualFileHeaderInformation.cs" />
     <Compile Include="Commands\ListArchiveContentsCommand.cs" />
     <Compile Include="CompressionAlgorithms\ICompressionAlgorithm.cs" />
-    <Compile Include="CompressionAlgorithms\NoCompressionAlogorithm.cs" />
+    <Compile Include="CompressionAlgorithms\NoCompressionAlgorithm.cs" />
     <Compile Include="Initializing Values\IArchiveCommand.cs" />
     <Compile Include="ParityByte Encoding\ParitiyByteEncoder.cs" />
     <Compile Include="Program.cs" />

@@ -13,7 +13,7 @@ namespace FileCompressor
     using System.IO;
 
     /// <summary>
-    /// This class is used to compress needed file information for the archiver into one class.
+    /// This class is used to compress needed file information for the archive creator into one class.
     /// </summary>
     public class FileMetaInformation
     {        
@@ -48,6 +48,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets the full name of the file. Meaning its full path , name and file ending.
         /// </summary>
+        /// <value> The full name of the file. Meaning its full path , name and file ending. </value>
         public string FullName
         {
             get
@@ -69,6 +70,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets the short name of the file. Only the name and file ending.
         /// </summary>
+        /// <value> The short name of the file. Only the name and file ending.</value>
         public string Name
         {
             get
@@ -88,8 +90,9 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// Gets the the length of the size in bytes.
+        /// Gets the length of the size in bytes.
         /// </summary>
+        /// <value> The length of the size in bytes.</value>
         public long Length
         {
             get
@@ -111,6 +114,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets the relative path the file is located on, in relation to another path.
         /// </summary>
+        /// <value> The relative path the file is located on, in relation to another path. </value>
         public string RelativePathForArchive
         {
             get

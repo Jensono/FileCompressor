@@ -48,8 +48,9 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// Gets or sets the source path to the directory that should be processed.
+        /// Gets the source path to the directory that should be processed.
         /// </summary>
+        /// <value> The source path to the directory that should be processed. </value>
         public string GivenSourceDirectory
         {
             get
@@ -69,8 +70,9 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// Gets or sets the bool that shows whether or not the given path source is a valid directory.
+        /// Gets the boolean that shows whether or not the given path source is a valid directory.
         /// </summary>
+        /// <value> The boolean value that shows whether or not the given path source is a valid directory. </value>
         public bool IsSourceValid
         {
             get

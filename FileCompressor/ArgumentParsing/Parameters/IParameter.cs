@@ -31,12 +31,13 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the Function that checks whether or not a parameter specification is valid.
         /// </summary>
-        /// <value> the Function that checks if the parameter specification are fulfilled. </value>
+        /// <value> The Function that checks if the parameter specification are fulfilled. </value>
         Func<string[], bool> CheckParameterSpecificationForValidity { get; set; }
 
         /// <summary>
         /// Gets or sets the value the parameter holds.
         /// </summary>
+        /// <value> The value of the parameter that is saved inside the class. </value>
         object Value { get; set; }
         bool TryParseValueAndSetIt(string[] array);
 

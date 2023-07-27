@@ -28,7 +28,7 @@ namespace FileCompressor
         private Func<string[], bool> checkFunctionForParameterValidity;
 
         /// <summary>
-        /// The field for the value the parameter holds
+        /// The field for the value the parameter holds.
         /// </summary>
         private object value;
 
@@ -103,7 +103,7 @@ namespace FileCompressor
         /// <summary>
         /// Gets or sets the Function that checks whether or not a parameter specification is valid.
         /// </summary>
-        /// <value> the Function that checks if the parameter specification are fulfilled. </value>
+        /// <value> The Function that checks if the parameter specification are fulfilled. </value>
         public Func<string[], bool> CheckParameterSpecificationForValidity
         {
             get
@@ -123,7 +123,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// Gets or sets the value the parameter holds. Must be an string that either contains the path to a file or a directory
+        /// Gets or sets the value the parameter holds. Must be an string that either contains the path to a file or a directory.
         /// </summary>
         /// <value> The value of the parameter. Must be an string that either contains the path to a file or a directory. </value>
         public object Value

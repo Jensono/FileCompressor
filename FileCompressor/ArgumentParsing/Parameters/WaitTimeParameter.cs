@@ -28,7 +28,7 @@ namespace FileCompressor
         private Func<string[], bool> checkFunctionForParameterValidity;
 
         /// <summary>
-        /// The field for the value the parameter holds
+        /// The field for the value the parameter holds.
         /// </summary>
         private object value;
 
@@ -132,7 +132,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// Gets or sets the value the parameter holds. Must be an integer
+        /// Gets or sets the value the parameter holds. Must be an integer.
         /// </summary>
         /// <value> The value of the parameter. Must be an integer. </value>
         public object Value
