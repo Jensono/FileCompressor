@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ArchiveInfoCommand.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This is the class for the Info command. When executed it displays meta information about an archive file.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;

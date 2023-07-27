@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ArchiveFileWriter.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is used to create and append archive files. It contains operations to append all the crucial parts that make up the meta information in the archive itself.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;

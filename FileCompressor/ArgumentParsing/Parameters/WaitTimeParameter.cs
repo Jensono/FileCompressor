@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="xxxxxxx.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class can save values for the the wait time parameters that is used inside some commands. It speficies how much time should pass before a given command should be repeated, after it failed to execute the first time.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -9,6 +16,39 @@ namespace FileCompressor
         private string longParameterArgument;
         private Func<string[], bool> checkFunctionForParameterValidity;
         private object value;
+
+        public WaitTimeParameter(string shortCommandName, string longCommandName)
+        {
+            this.LongParameterName = longCommandName;
+            this.ShortParameterName = shortCommandName;
+            this.CheckParameterSpecificationForValidity = (parameter) =>
+            {
+                if (parameter.Length >= 2)
+                {
+                    return false;
+                }
+
+                // if there is no extra argument then its also valid, taking the value of 1
+                if (parameter.Length == 0)
+                {
+                    return true;
+                }
+
+                int potentialRepeatArgument;
+                if (!int.TryParse(parameter[0], out potentialRepeatArgument))
+                {
+                    return false;
+                }
+
+                if (potentialRepeatArgument < 0 || potentialRepeatArgument > 10)
+                {
+                    return false;
+                }
+
+                // only lands here if the lenght of the array is one and the string is a integer between
+                return true;
+            };
+        }
 
         public string LongParameterName
         {
@@ -87,38 +127,7 @@ namespace FileCompressor
             }
         }
 
-        public WaitTimeParameter(string shortCommandName, string longCommandName)
-        {
-            this.LongParameterName = longCommandName;
-            this.ShortParameterName = shortCommandName;
-            this.CheckParameterSpecificationForValidity = (parameter) =>
-            {
-                if (parameter.Length >= 2)
-                {
-                    return false;
-                }
-
-                // if there is no extra argument then its also valid, taking the value of 1
-                if (parameter.Length == 0)
-                {
-                    return true;
-                }
-
-                int potentialRepeatArgument;
-                if (!int.TryParse(parameter[0], out potentialRepeatArgument))
-                {
-                    return false;
-                }
-
-                if (potentialRepeatArgument < 0 || potentialRepeatArgument > 10)
-                {
-                    return false;
-                }
-
-                // only lands here if the lenght of the array is one and the string is a integer between
-                return true;
-            };
-        }
+        
 
         public bool TryParseValueAndSetIt(string[] array)
         {

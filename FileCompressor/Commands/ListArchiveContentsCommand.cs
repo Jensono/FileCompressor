@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ListArchiveContentsCommand.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is the list command for an archive. When executed it list all files contained inside of an archive file.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -8,6 +15,11 @@ namespace FileCompressor
     public class ListArchiveContentsCommand : IArchiveCommand
     {
         private string archiveSource;
+        public ListArchiveContentsCommand(string source)
+        {
+            this.ArchiveSource = source;
+        }
+
         public string ArchiveSource
         {
             get
@@ -26,10 +38,7 @@ namespace FileCompressor
             }
         }
 
-        public ListArchiveContentsCommand(string source)
-        {
-            this.ArchiveSource = source;
-        }
+        
 
         public bool Execute()
         {

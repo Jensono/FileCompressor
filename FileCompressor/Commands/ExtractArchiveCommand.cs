@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ExtractArchiveCommand.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is the command for exctracting a archive file. When executed it extracts all files contained in a given source archive file into a destination folder.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;

@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ArchiveAppendCommand.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is the append command. When executed it appends files inside a given diretory to an archive file, and modifies the archives main header to reflect changes.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -16,6 +23,12 @@ namespace FileCompressor
     {
         private string sourcePathToDirectory;
         private string archiveFilePath;
+
+        public ArchiveAppendCommand(string sourcePathToDirectory, string archiveFilePath)
+        {
+            this.ArchiveFilePath = archiveFilePath;
+            this.SourcePathToDirectory = sourcePathToDirectory;
+        }
 
         public string SourcePathToDirectory
         {
@@ -53,11 +66,7 @@ namespace FileCompressor
             }
         }
 
-        public ArchiveAppendCommand(string sourcePathToDirectory, string archiveFilePath)
-        {
-            this.ArchiveFilePath = archiveFilePath;
-            this.SourcePathToDirectory = sourcePathToDirectory;
-        }
+       
 
         private ArchiveHeader ModifyArchiveHeaderForAdditionalFiles(ArchiveHeader archiveHeader, List<FileMetaInformation> fileMetaInformationList)
         {

@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="ArchiveHeader.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class describes the what information is found inside the Archiver Header in its purest form.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -13,6 +20,16 @@ namespace FileCompressor
         private ParitiyByteEncoder byteEncoder;
         private long sizeOfFilesCombined;
         private FixedVariables fixedVariables;
+
+        public ArchiveHeader(int numberOfFilesInsideDirectory, string compressionTypeCalling, long combinedSizeForAllFiles)
+        {
+            this.TimeOfCreation = DateTime.Now;
+            this.SizeOfFilesCombined = combinedSizeForAllFiles;
+            this.NumberOfFilesInArchive = numberOfFilesInsideDirectory;
+            this.CompressionTypeCalling = compressionTypeCalling;
+            this.FixedVariables = new FixedVariables();
+            this.ParityByteEncoding = new ParitiyByteEncoder();
+        }
 
         public ParitiyByteEncoder ParityByteEncoding
         {
@@ -118,15 +135,7 @@ namespace FileCompressor
             }
         }
 
-        public ArchiveHeader(int numberOfFilesInsideDirectory, string compressionTypeCalling, long combinedSizeForAllFiles)
-        {
-            this.TimeOfCreation = DateTime.Now;
-            this.SizeOfFilesCombined = combinedSizeForAllFiles;
-            this.NumberOfFilesInArchive = numberOfFilesInsideDirectory;
-            this.CompressionTypeCalling = compressionTypeCalling;
-            this.FixedVariables = new FixedVariables();
-            this.ParityByteEncoding = new ParitiyByteEncoder();
-        }
+        
 
         // this constructor is used for appending files to a archive, and to modfiy the existing  ArchiveHeader
         public ArchiveHeader(DateTime oldDate, int numberOfFilesInsideDirectory, string compressionTypeCalling, long combinedSizeForAllFiles)

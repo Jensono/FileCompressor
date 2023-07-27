@@ -1,5 +1,13 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="CommandLineArgumentParser.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is used to parse user given commands into usable classes that contain the action needed to perform the command. It reads user input, analyses it and creates commands with the specified parameters based on the 
+// given strings.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -111,7 +119,6 @@ namespace FileCompressor
             {
                 throw e;
             }
-
         }
 
         private string[] RemoveWhiteSpaceEntry(string[] arguments)
@@ -362,7 +369,7 @@ namespace FileCompressor
                 }
             }
 
-            //the only class that uses this method returns false if null is returned so its safe for now
+            // the only class that uses this method returns false if null is returned so its safe for now
             return null;
         }
 

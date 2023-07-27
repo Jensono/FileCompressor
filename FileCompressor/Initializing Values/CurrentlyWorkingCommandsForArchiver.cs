@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="CurrentlyWorkingCommandsAndCompressionsForArchiver.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class initializes all currently working compression types and Commands that can be used with this programm. If any new commands should be added to the application, add them here first.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -19,9 +26,9 @@ namespace FileCompressor
         public List<ICompressionAlgorithm> ReturnCurrentlyWorkingCompressionAlgorithms()
         {
             NoCompressionAlgorithm noCompressionAlgorithm = new NoCompressionAlgorithm();
-            RLECompressionAlgorithm rLECompressionAlgorithm = new RLECompressionAlgorithm();
+            RLECompressionAlgorithm rleCompressionAlgorithm = new RLECompressionAlgorithm();
 
-            return new List<ICompressionAlgorithm> { noCompressionAlgorithm, rLECompressionAlgorithm };
+            return new List<ICompressionAlgorithm> { noCompressionAlgorithm, rleCompressionAlgorithm };
         }
 
         public List<ICommandLineCommand> ReturnCurrentlyWokringCommandList()
@@ -214,7 +221,6 @@ namespace FileCompressor
 
                         default:
                             throw new ArchiveErrorCodeException("Errorcode 1. Given Parameter does not exist for this command.");
-
                     }
                 }
 

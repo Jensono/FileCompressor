@@ -1,5 +1,13 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="RetriesParameter.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class can save values for the the retries parameters that is used inside some commands. It speficies how many times a given command should be repeat , (and fail to execute) until
+// the command was deemed "failed".
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;

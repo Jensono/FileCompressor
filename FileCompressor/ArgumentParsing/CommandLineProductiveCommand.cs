@@ -1,5 +1,13 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="CommandLineProductiveCommand.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is on form of Command line argument. It specifies what parameters are nessacary and which are optional to a command. It also sets the calling of the command that the user has to use.
+// Further, does it contain an action that is performed if the command should be executed.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;

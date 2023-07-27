@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="FileMetaInformation.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is used to compress needed file information for the archiver into one class.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;

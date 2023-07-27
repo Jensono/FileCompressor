@@ -1,5 +1,13 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="FixedVariables.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class contains information on fixed variables that are used in many diffrent parts of the programm. Is currently used as a "dictonary" to save values that should remain consistend throught the programm but still able
+// to be modified if so needed.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -252,7 +260,7 @@ namespace FileCompressor
                 }
             }
 
-            //the one class that uses this, thrown an exception if it happens, still not a good solution, todo ok turn into a tryparse method
+            // the one class that uses this, thrown an exception if it happens, still not a good solution, todo ok turn into a tryparse method
             return null;
         }
     }

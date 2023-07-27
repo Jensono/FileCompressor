@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DestinationParameter.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is used to save infomration on the destination of a file or directory.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;

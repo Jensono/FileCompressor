@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="DirectorySourceProcessor.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class validates a given path, to make sure it is a valid directory and can extract further information form there,.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;

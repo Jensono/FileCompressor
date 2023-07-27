@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="IndividualFileHeaderInformation.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class contains describtion on what meta information will be saved inside the archive for each indiviual file contained.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -145,8 +152,7 @@ namespace FileCompressor
             // rewrites the correct size, given that we already use long there is no way a size bigger than that is created.
             this.SizeCompressed = givenFileSizeCompressed;
             this.NameSize = Encoding.UTF8.GetByteCount(givenFileName);
-            this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);
-            
+            this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);            
         }
 
         public byte[] GetFileHeaderAsByteArray()

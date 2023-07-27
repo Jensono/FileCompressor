@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="SourceParameter.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is used to save information about a parameter that contains a source to a file or directory.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -9,6 +16,30 @@ namespace FileCompressor
         private string longParameterArgument;
         private Func<string[], bool> checkFunctionForParameterValidity;
         private object value;
+
+        public SourceParameter(string shortCommandName, string longCommandName)
+        {
+            this.LongParameterName = longCommandName;
+            this.ShortParameterName = shortCommandName;
+            this.CheckParameterSpecificationForValidity = (parameter) =>
+            {
+                if (parameter.Length >= 2)
+                {
+                    return false;
+                }
+
+                if (parameter.Length == 0)
+                {
+                    return false;
+                }
+
+                // no additional validation can be done becouse souce and destination can be very diffrent things depending on the command,
+                // they can be filenames, directories, i could check if it is a valid path or not but the commands do that anyway.
+                // also commands can have paths in them that will only be created after the command entered runtime which makes
+                // it impossible to confirm if a path is valid or not before excectuion and runtime.
+                return true;
+            };
+        }
 
         public string LongParameterName
         {
@@ -87,29 +118,7 @@ namespace FileCompressor
             }
         }
 
-        public SourceParameter(string shortCommandName, string longCommandName)
-        {
-            this.LongParameterName = longCommandName;
-            this.ShortParameterName = shortCommandName;
-            this.CheckParameterSpecificationForValidity = (parameter) =>
-            {
-                if (parameter.Length >= 2)
-                {
-                    return false;
-                }
-
-                if (parameter.Length == 0)
-                {
-                    return false;
-                }
-
-                // no additional validation can be done becouse souce and destination can be very diffrent things depending on the command,
-                // they can be filenames, directories, i could check if it is a valid path or not but the commands do that anyway.
-                // also commands can have paths in them that will only be created after the command entered runtime which makes
-                // it impossible to confirm if a path is valid or not before excectuion and runtime.
-                return true;
-            };
-        }
+        
 
         public bool TryParseValueAndSetIt(string[] array)
         {

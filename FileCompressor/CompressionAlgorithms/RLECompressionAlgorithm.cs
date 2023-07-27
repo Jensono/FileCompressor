@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="RLECompressionAlgorithm.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class is the contains information on how to compress and decompress a file that uses the RLE compression algorithm.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -225,7 +232,8 @@ namespace FileCompressor
                                     currentByteOccuranceCounter++;
                                 }                                
                                 else
-                                {// else if there already are 255 occurances of the byte write it into the file and start the counting a new  or start a new count for the new byte value.
+                                {
+                                    // else if there already are 255 occurances of the byte write it into the file and start the counting a new  or start a new count for the new byte value.
                                     expectedFileSize += 2;
 
                                     lastReadByte = realBuffer[i];

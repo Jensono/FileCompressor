@@ -1,5 +1,12 @@
-﻿
-
+﻿//-----------------------------------------------------------------------
+// <copyright file="Program.cs" company="FHWN">
+//     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
+// </copyright>
+// <author>Jens Hanssen</author>
+// <summary>
+// This class marks the entry for the programm. From here all the commands will be analyst and, if valid executed.
+// </summary>
+//-----------------------------------------------------------------------
 namespace FileCompressor
 {
     using System;
@@ -30,7 +37,6 @@ namespace FileCompressor
                     Console.WriteLine(e.ErrorCode);
                 }
             }
-
         }
     }
 }
