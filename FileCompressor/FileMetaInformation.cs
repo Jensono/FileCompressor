@@ -12,12 +12,29 @@ namespace FileCompressor
     using System;
     using System.IO;
 
+    /// <summary>
+    /// This class is used to compress needed file information for the archiver into one class.
+    /// </summary>
     public class FileMetaInformation
-    {
-        
+    {        
+        /// <summary>
+        /// The field for the full name of the file. Meaning its full path , name and file ending.
+        /// </summary>
         private string fullName;
+
+        /// <summary>
+        /// The field for the short name of the file. Only the name and file ending.
+        /// </summary>
         private string name;
+
+        /// <summary>
+        /// The field for the the length of the size in bytes.
+        /// </summary>
         private long length;
+
+        /// <summary>
+        /// The field for the relative path the file is located on, in relation to another path.
+        /// </summary>
         private string relativePathForArchive;
 
         public FileMetaInformation(FileInfo fileInfo, string relativePathOfFileInsideArchive)
@@ -28,6 +45,9 @@ namespace FileCompressor
             this.RelativePathForArchive = relativePathOfFileInsideArchive;
         }
 
+        /// <summary>
+        /// Gets the full name of the file. Meaning its full path , name and file ending.
+        /// </summary>
         public string FullName
         {
             get
@@ -46,6 +66,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets the short name of the file. Only the name and file ending.
+        /// </summary>
         public string Name
         {
             get
@@ -64,6 +87,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets the the length of the size in bytes.
+        /// </summary>
         public long Length
         {
             get
@@ -82,6 +108,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets the relative path the file is located on, in relation to another path.
+        /// </summary>
         public string RelativePathForArchive
         {
             get

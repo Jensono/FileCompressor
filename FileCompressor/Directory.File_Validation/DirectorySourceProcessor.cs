@@ -4,7 +4,7 @@
 // </copyright>
 // <author>Jens Hanssen</author>
 // <summary>
-// This class validates a given path, to make sure it is a valid directory and can extract further information form there,.
+// This class validates a given path, to make sure it is a valid directory and can extract further information form there.
 // </summary>
 //-----------------------------------------------------------------------
 namespace FileCompressor
@@ -13,10 +13,22 @@ namespace FileCompressor
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
+
     // this class is given a source and checks if the given string is a valid directory on the machine, if so it then can create a list of fileMetaInformation about the directory and give that information back
+
+    /// <summary>
+    /// This class validates a given path, to make sure it is a valid directory and can extract further information form there.
+    /// </summary>
     public class DirectorySourceProcessor
     {
+        /// <summary>
+        /// The field for the source path to the directory that should be processed.
+        /// </summary>
         private string givenSourceDirectory;
+
+        /// <summary>
+        /// This fields shows whether or not the given path source is a valid directory.
+        /// </summary>
         private bool isSourceValid;        
 
         public DirectorySourceProcessor(string sourceDirectory)
@@ -35,9 +47,11 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the source path to the directory that should be processed.
+        /// </summary>
         public string GivenSourceDirectory
         {
-
             get
             {
                 return this.givenSourceDirectory;
@@ -54,6 +68,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the bool that shows whether or not the given path source is a valid directory.
+        /// </summary>
         public bool IsSourceValid
         {
             get

@@ -10,8 +10,15 @@
 namespace FileCompressor
 {
     using System;
+
+    /// <summary>
+    /// This class is the help command. When used it displays instrutions on how to use the application to the consol.
+    /// </summary>
     public class ArchiveHelpCommand : IArchiveCommand
     {
+        /// <summary>
+        /// The field for the <see cref="FixedVariables"/> that are used inside the class.
+        /// </summary>
         private FixedVariables fixedVariables;
 
         public ArchiveHelpCommand()
@@ -19,6 +26,9 @@ namespace FileCompressor
             this.FixedVariables = new FixedVariables();
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="FixedVariables"/> that are used inside the class.
+        /// </summary>
         public FixedVariables FixedVariables
         {
             get

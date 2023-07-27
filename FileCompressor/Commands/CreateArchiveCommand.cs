@@ -13,14 +13,29 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
     using System.IO;
+
+    /// <summary>
+    /// This class is the command to create an archive. When executed it creates a "compressed" file for a given directory. The resulting file contains all files given in the directory, meta information about the files contained,
+    /// and meta information about the archive itself.
+    /// </summary>
     public class CreateArchiveCommand : IArchiveCommand
     {
         // source and destination, source is a path to a directory that should be compressed. Destination is just a file name that needs a ending. but maybe one should just be able to sepcify a name only
         // TODO BOTH NEED TO BE CHECKED BEFORE STARTING THE CREATION PROCESS
 
-        // todo null check for the compressionalgorithm
+        /// <summary>
+        /// The field for the path to the directory from which to compress files into an archive.
+        /// </summary>
         private string sourcePathToDirectory;
+
+        /// <summary>
+        /// The field for the destination name of the resulting archive file.
+        /// </summary>
         private string destinationNameForFile;
+
+        /// <summary>
+        /// The field for the <see cref="ICompressionAlgorithm"/> compression algorithm used for the compression of files.
+        /// </summary>
         private ICompressionAlgorithm usedCompression;
 
         public CreateArchiveCommand(string sourcePathToDirectory, string destinationNameForTheFile, ICompressionAlgorithm compressionAlgorithm)
@@ -30,7 +45,9 @@ namespace FileCompressor
             this.SourcePathToDirectory = sourcePathToDirectory;
         }
 
-
+        /// <summary>
+        /// Gets or sets the path to the directory from which to compress files into an archive.
+        /// </summary>
         public string SourcePathToDirectory
         {
             get
@@ -49,6 +66,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the destination name of the resulting archive file.
+        /// </summary>
         public string DestinationNameForFile
         {
             get
@@ -67,6 +87,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the <see cref="ICompressionAlgorithm"/> compression algorithm used for the compression of files.
+        /// </summary>
         public ICompressionAlgorithm UsedCompression
         {
             get

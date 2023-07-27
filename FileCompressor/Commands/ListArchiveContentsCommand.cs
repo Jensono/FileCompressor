@@ -12,14 +12,24 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
     using System.IO;
+
+    /// <summary>
+    /// This class is the list command for an archive. When executed it list all files contained inside of an archive file.
+    /// </summary>
     public class ListArchiveContentsCommand : IArchiveCommand
     {
+        /// <summary>
+        /// The field for the path to the archive from which to extract information of the files inside.
+        /// </summary>
         private string archiveSource;
         public ListArchiveContentsCommand(string source)
         {
             this.ArchiveSource = source;
         }
 
+        /// <summary>
+        /// Gets or sets the path to the archive from which to extract information of the files inside.
+        /// </summary>
         public string ArchiveSource
         {
             get

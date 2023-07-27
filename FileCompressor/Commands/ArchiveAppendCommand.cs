@@ -12,16 +12,26 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
 
-    /// <summary>
-    /// // BIG ASS TODO this command needs to first create a copy of the file that needs to be appended and then delete the original file after the append happend. Otherwise the weirdest shit could happen while appending.
-    /// //the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
+
+    // BIG ASS TODO this command needs to first create a copy of the file that needs to be appended and then delete the original file after the append happend. Otherwise the weirdest shit could happen while appending.
+    // the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
 
     // TODO TODO check the parameter properties source and destination can not be null compression can be
-    ///////OR - IF THE REQUIRED PARAMETERS ARE THERE ARE ALREADY CHECKED IN THE PROCESS OUTSIDE; BUT THEY DONT WANT THAT NORMALLY.
+    // OR - IF THE REQUIRED PARAMETERS ARE THERE ARE ALREADY CHECKED IN THE PROCESS OUTSIDE; BUT THEY DONT WANT THAT NORMALLY.
+
+    /// <summary>
+    /// This class is the append command. When executed it appends files inside a given diretory to an archive file, and modifies the archives main header to reflect changes.
     /// </summary>
-    internal class ArchiveAppendCommand : IArchiveCommand
+    public class ArchiveAppendCommand : IArchiveCommand
     {
+        /// <summary>
+        /// The field for the source path to the directory from which to append files from.
+        /// </summary>
         private string sourcePathToDirectory;
+
+        /// <summary>
+        /// The field for the path to the archive file to which to append the new files.
+        /// </summary>
         private string archiveFilePath;
 
         public ArchiveAppendCommand(string sourcePathToDirectory, string archiveFilePath)
@@ -30,6 +40,9 @@ namespace FileCompressor
             this.SourcePathToDirectory = sourcePathToDirectory;
         }
 
+        /// <summary>
+        /// Gets or sets the source path to the directory from which to append files from.
+        /// </summary>
         public string SourcePathToDirectory
         {
             get
@@ -48,6 +61,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the path to the archive file to which to append the new files.
+        /// </summary>
         public string ArchiveFilePath
         {
             get
@@ -64,21 +80,7 @@ namespace FileCompressor
 
                 this.archiveFilePath = value;
             }
-        }
-
-       
-
-        private ArchiveHeader ModifyArchiveHeaderForAdditionalFiles(ArchiveHeader archiveHeader, List<FileMetaInformation> fileMetaInformationList)
-        {
-            DateTime modifiedArchiveHeaderDateTime = archiveHeader.TimeOfCreation;
-            long modifiedArchiveSumOfFileBytes = archiveHeader.SizeOfFilesCombined + this.GetSumOfSizeForAllFilesCompressed(fileMetaInformationList);
-            int modifiedArchiveNumberOfFiles = archiveHeader.NumberOfFilesInArchive + fileMetaInformationList.Count;
-
-            // kinda weird hack/workaround but the first time we got this homework we didnt already know how to serialize, so im prociding as if that still is the case.
-            string compressionAlgorithmUsedCalling = archiveHeader.CompressionTypeCalling;
-
-            return new ArchiveHeader(modifiedArchiveHeaderDateTime, modifiedArchiveNumberOfFiles, compressionAlgorithmUsedCalling, modifiedArchiveSumOfFileBytes);
-        }
+        }        
 
         public long GetSumOfSizeForAllFilesCompressed(List<FileMetaInformation> fileList)
         {
@@ -128,6 +130,18 @@ namespace FileCompressor
             }
 
             return true;
+        }
+
+        private ArchiveHeader ModifyArchiveHeaderForAdditionalFiles(ArchiveHeader archiveHeader, List<FileMetaInformation> fileMetaInformationList)
+        {
+            DateTime modifiedArchiveHeaderDateTime = archiveHeader.TimeOfCreation;
+            long modifiedArchiveSumOfFileBytes = archiveHeader.SizeOfFilesCombined + this.GetSumOfSizeForAllFilesCompressed(fileMetaInformationList);
+            int modifiedArchiveNumberOfFiles = archiveHeader.NumberOfFilesInArchive + fileMetaInformationList.Count;
+
+            // kinda weird hack/workaround but the first time we got this homework we didnt already know how to serialize, so im prociding as if that still is the case.
+            string compressionAlgorithmUsedCalling = archiveHeader.CompressionTypeCalling;
+
+            return new ArchiveHeader(modifiedArchiveHeaderDateTime, modifiedArchiveNumberOfFiles, compressionAlgorithmUsedCalling, modifiedArchiveSumOfFileBytes);
         }
     }
 }

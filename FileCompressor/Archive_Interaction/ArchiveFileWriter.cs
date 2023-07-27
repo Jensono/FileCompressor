@@ -12,10 +12,25 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
     using System.IO;
+
+    /// <summary>
+    /// This class is used to create and append archive files. It contains operations to append all the crucial parts that make up the meta information in the archive itself.
+    /// </summary>
     public class ArchiveFileWriter
     {
+        /// <summary>
+        /// The field for the path of the destination folder from which to compress files from.
+        /// </summary>
         private string destinationFolder;
+
+        /// <summary>
+        /// The field for the compression algorithm used to compress files.
+        /// </summary>
         private ICompressionAlgorithm compressionAlgorithm;
+
+        /// <summary>
+        /// The field for the name of the archive.
+        /// </summary>
         private string archiveName;
 
 
@@ -105,29 +120,7 @@ namespace FileCompressor
 
             this.ChangeArchiveHeaderToNewHeader(archiveFilePath, newModifiedArchiveHeader);
         }
-
-        private void ChangeArchiveHeaderToNewHeader(string archiveFilePath, ArchiveHeader newModifiedArchiveHeader)
-        {
-            byte[] newArchiveHeaderAsBytes = newModifiedArchiveHeader.GetArchiveHeaderAsBytes();
-
-            try
-            {
-                // Just overwrite the old ArchiveHeader
-                using (FileStream fs = new FileStream(archiveFilePath, FileMode.Open, FileAccess.Write))
-                {
-                    fs.Write(newArchiveHeaderAsBytes, 0, newArchiveHeaderAsBytes.Length);
-                }
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath} .");
-            }
-            catch (Exception e)
-            {            // TODO Specify more
-                throw e;
-            }
-        }
-
+        
         public void CreateArchive(ArchiveHeader archiveHeader, List<FileMetaInformation> filesToBeWrittenIntoArchive)
         {
             // TODO // TODO VALIDATE THAT GIVEN ARCHIVENAME IS IN FACT NOT A PATH BUT A FILENAME that is to be created, it just worked with a path, saying that it was the same path as the destination folder.
@@ -150,6 +143,41 @@ namespace FileCompressor
             {
                 FileMetaInformation fileInfo = filesToBeWrittenIntoArchive[i];
                 this.AppendFileWithFileHeaderToArchive(archiveFilePath, fileInfo, expectedFileSizes[i]);
+            }
+        }
+
+        public long[] ReturnCompressedSizeForFilesAsArray(List<FileMetaInformation> fileMetaInformationList)
+        {
+            long[] expectedSize = new long[fileMetaInformationList.Count];
+
+            // add the archiveheadersize
+            for (int i = 0; i < fileMetaInformationList.Count; i++)
+            {
+                expectedSize[i] = this.CompressionAlgorithm.ReturnExpectedDataSizeCompressed(fileMetaInformationList[i].FullName);
+            }
+
+            return expectedSize;
+        }
+
+        private void ChangeArchiveHeaderToNewHeader(string archiveFilePath, ArchiveHeader newModifiedArchiveHeader)
+        {
+            byte[] newArchiveHeaderAsBytes = newModifiedArchiveHeader.GetArchiveHeaderAsBytes();
+
+            try
+            {
+                // Just overwrite the old ArchiveHeader
+                using (FileStream fs = new FileStream(archiveFilePath, FileMode.Open, FileAccess.Write))
+                {
+                    fs.Write(newArchiveHeaderAsBytes, 0, newArchiveHeaderAsBytes.Length);
+                }
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath} .");
+            }
+            catch (Exception e)
+            {            // TODO Specify more
+                throw e;
             }
         }
 
@@ -267,17 +295,5 @@ namespace FileCompressor
             return false;
         }
 
-        public long[] ReturnCompressedSizeForFilesAsArray(List<FileMetaInformation> fileMetaInformationList)
-        {
-            long[] expectedSize = new long[fileMetaInformationList.Count];
-
-            // add the archiveheadersize
-            for (int i = 0; i < fileMetaInformationList.Count; i++)
-            {
-                expectedSize[i] = this.CompressionAlgorithm.ReturnExpectedDataSizeCompressed(fileMetaInformationList[i].FullName);
-            }
-
-            return expectedSize;
-        }
     }
 }

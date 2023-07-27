@@ -10,8 +10,15 @@
 namespace FileCompressor
 {
     using System;
+
+    /// <summary>
+    /// This class is the Exception that is thrown if any Error, that is associated with the archive, occurs.
+    /// </summary>
     public class ArchiveErrorCodeException : Exception
     {
+        /// <summary>
+        /// The field for the string that represents the resulting error code that is displayed on the console.
+        /// </summary>
         private string errorCode;
 
         public ArchiveErrorCodeException(string errorcodeText)
@@ -19,6 +26,9 @@ namespace FileCompressor
             this.ErrorCode = errorcodeText;
         }
 
+        /// <summary>
+        /// Gets or sets the string that represents the resulting error code that is displayed on the console.
+        /// </summary>
         public string ErrorCode
         {
             get

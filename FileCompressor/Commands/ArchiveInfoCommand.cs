@@ -11,9 +11,15 @@ namespace FileCompressor
 {
     using System;
     using System.IO;
+
+    /// <summary>
+    /// This is the class for the Info command. When executed it displays meta information about an archive file.
+    /// </summary>
     public class ArchiveInfoCommand : IArchiveCommand
     {
-        
+        /// <summary>
+        /// The field for the path to the source to the archive from which to read the meta information about the archive itself.
+        /// </summary>
         private string archiveSource;
 
         public ArchiveInfoCommand(string source)
@@ -21,6 +27,9 @@ namespace FileCompressor
             this.ArchiveSource = source;
         }
 
+        /// <summary>
+        /// Gets or sets the path to the source to the archive from which to read the meta information about the archive itself.
+        /// </summary>
         public string ArchiveSource
         {
             get

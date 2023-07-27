@@ -13,12 +13,35 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
 
+    /// <summary>
+    /// This class is on form of Command line argument. It specifies what parameters are necessary and which are optional to a command. It also sets the calling of the command that the user has to use.
+    /// Further, does it contain an action that is performed if the command should be executed.
+    /// </summary>
     public class CommandLineProductiveCommand : ICommandLineCommand
     {
+        /// <summary>
+        /// The field for the Action that tries to execute the given command.
+        /// </summary>
         private Action<List<IParameter>> executeCommandAction;
+
+        /// <summary>
+        /// The field for the List of <see cref="IParameter"/> that are optionally added to the command.
+        /// </summary>
         private List<IParameter> optionalParameters;
+
+        /// <summary>
+        /// The field for the List of <see cref="IParameter"/> that are required to execute the command.
+        /// </summary>
         private List<IParameter> requiredParameters;
+
+        /// <summary>
+        /// The field for the long name or calling of the command. Is used by the user to invoke the command in the command line.
+        /// </summary>
         private string longCommandArgument;
+
+        /// <summary>
+        /// The field for the short name or calling of the command. Is used by the user to invoke the command in the command line.
+        /// </summary>
         private string shortCommandArgument;
 
         public CommandLineProductiveCommand(
@@ -35,7 +58,11 @@ namespace FileCompressor
             this.RequiredParamters = requiredOptionalParameters;
         }
 
-        // null checks maybe also
+
+        /// <summary>
+        /// Gets or sets the Action that tries to execute the given command.
+        /// </summary>
+        /// <value> The action to execute this command. </value>
         public Action<List<IParameter>> ExecuteCommandAction
         {
             get
@@ -54,6 +81,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the List of <see cref="IParameter"/> that are optionally added to the command.
+        /// </summary>
+        /// <value> The list of <see cref="IParameter"/> optional parameters for the command. </value>
         public List<IParameter> OptionalParameters
         {
             get
@@ -72,6 +103,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the List of <see cref="IParameter"/> that are required to execute the command.
+        /// </summary>
+        /// <value> The list of <see cref="IParameter"/> required parameters for the command. </value>
         public List<IParameter> RequiredParamters
         {
             get
@@ -90,6 +125,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the long name or calling of the command. Is used by the user to invoke the command in the command line.
+        /// </summary>
+        /// <value> The long command name or calling of the command. </value>
         public string LongCommandName
         {
             get
@@ -108,6 +147,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the short name or calling of the command. Is used by the user to invoke the command in the command line.
+        /// </summary>
+        /// <value> The short command name or calling for the command.</value>
         public string ShortCommandName
         {
             get

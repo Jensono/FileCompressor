@@ -12,9 +12,24 @@ namespace FileCompressor
     using System;
     public class SourceParameter : IParameter
     {
+        /// <summary>
+        ///  The field for the short name or calling of the parameter, that is also used by the user in the command line.
+        /// </summary>
         private string shortParameterArgument;
+
+        /// <summary>
+        /// The field for the long name or calling of the parameter, that is also used by the user in the command line.
+        /// </summary>
         private string longParameterArgument;
+
+        /// <summary>
+        /// The field for the Function that checks whether or not a parameter specification is valid.
+        /// </summary>
         private Func<string[], bool> checkFunctionForParameterValidity;
+
+        /// <summary>
+        /// The field for the value the parameter holds
+        /// </summary>
         private object value;
 
         public SourceParameter(string shortCommandName, string longCommandName)
@@ -41,6 +56,10 @@ namespace FileCompressor
             };
         }
 
+        /// <summary>
+        /// Gets or sets the long name or calling of the parameter, that is also used by the user in the command line.
+        /// </summary>
+        /// <value> The long name or calling for the parameter. </value>
         public string LongParameterName
         {
             get
@@ -59,6 +78,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the short name or calling of the parameter, that is also used by the user in the command line.
+        /// </summary>
+        /// <value> The short name or calling for the parameter. </value>
         public string ShortParameterName
         {
             get
@@ -77,6 +100,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the Function that checks whether or not a parameter specification is valid.
+        /// </summary>
+        /// <value> the Function that checks if the parameter specification are fulfilled. </value>
         public Func<string[], bool> CheckParameterSpecificationForValidity
         {
             get
@@ -95,6 +122,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the value the parameter holds. Must be an string that either contains the path to a file or a directory
+        /// </summary>
+        /// <value> The value of the parameter. Must be an string that either contains the path to a file or a directory. </value>
         public object Value
         {
             get

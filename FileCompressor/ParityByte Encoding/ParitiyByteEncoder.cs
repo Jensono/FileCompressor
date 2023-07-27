@@ -37,7 +37,7 @@ namespace FileCompressor
                 returnByteArray[i * 2] = byteArray[i];
 
                 // parity bit in all even places
-                returnByteArray[i * 2 + 1] = (byte)(255 - byteArray[i]);
+                returnByteArray[(i * 2) + 1] = (byte)(255 - byteArray[i]);
             }
 
             return returnByteArray;

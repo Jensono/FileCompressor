@@ -13,9 +13,21 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
     using System.Linq;
+
+    /// <summary>
+    /// This class is used to parse user given commands into usable classes that contain the action needed to perform the command. It reads user input, analyses it and creates commands with the specified parameters based on the 
+    /// given strings. 
+    /// </summary>
     public class CommandLineArgumentParser
     {
+        /// <summary>
+        /// The field for the string array of the arguments that need to be parsed.
+        /// </summary>
         private string[] arguments;
+
+        /// <summary>
+        /// The field for the List of the <see cref="ICommandLineCommand"/> that are currently usable inside the application.
+        /// </summary>
         private List<ICommandLineCommand> currentlyUsableCommands;
                
         public CommandLineArgumentParser(List<ICommandLineCommand> usableCommands, string[] givenArguments)
@@ -24,6 +36,10 @@ namespace FileCompressor
             this.Arguments = givenArguments;
         }
 
+        /// <summary>
+        /// Gets or sets the string array of the arguments that need to be parsed.
+        /// </summary>
+        /// <value> Returns the list of arguments that should be parsed.</value>
         public string[] Arguments
         {
             get
@@ -42,6 +58,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the List of the <see cref="ICommandLineCommand"/> that are currently usable inside the application.
+        /// </summary>
+        /// <value> a List of <see cref="ICommandLineCommand"/> that can be used inside the applications command line.</value>
         public List<ICommandLineCommand> CurrentlyUsableCommands
         {
             get
@@ -229,8 +249,8 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// Returns a List of List of String Arrays, inside the string arrays are string that were found between spaces when the user started the application, the first list layer groups commands toegther for example:
-        /// -c -d [] -s [] ..... the list belowe that only contains parameters or the command itself so |-c | or |-d []| and groups them together. These logical units can later be testes for validity by themself.
+        /// Returns a List of List of String Arrays, inside the string arrays are string that were found between spaces when the user started the application, the first list layer groups commands together for example:
+        /// -c -d [] -s [] ..... the list below that only contains parameters or the command itself so |-c | or |-d []| and groups them together. These logical units can later be testes for validity by themself.
         /// </summary>
         /// <param name="commandStringArrays"></param>
         /// <returns></returns>

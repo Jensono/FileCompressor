@@ -1,5 +1,5 @@
 ﻿//-----------------------------------------------------------------------
-// <copyright file="xxxxxxx.cs" company="FHWN">
+// <copyright file="CommandParameters.cs" company="FHWN">
 //     Copyright (c) Monkey with a Typewriter GMBH. All rights reserved.
 // </copyright>
 // <author>Jens Hanssen</author>
@@ -14,7 +14,14 @@ namespace FileCompressor
 
     public class CommandParameters
     {
+        /// <summary>
+        /// The field for the List of <see cref="IParameter"/> that is used for the Command.
+        /// </summary>
         private List<IParameter> parameterList;
+
+        /// <summary>
+        /// The field for the associated commands short calling.
+        /// </summary>
         private string commandShortName;
 
        
@@ -27,6 +34,9 @@ namespace FileCompressor
             this.CommandShortName = commandShortName;
         }
 
+        /// <summary>
+        /// Gets or sets the List of <see cref="IParameter"/> that is used for the Command.
+        /// </summary>
         public List<IParameter> ParameterList
         {
             get
@@ -45,6 +55,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the associated commands short calling.
+        /// </summary>
         public string CommandShortName
         {
             get

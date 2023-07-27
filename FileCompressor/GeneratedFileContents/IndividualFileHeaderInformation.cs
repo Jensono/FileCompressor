@@ -23,6 +23,19 @@ namespace FileCompressor
         private int nameSize;
         private int relativePathSize;
 
+        public IndividualFileHeaderInformation(string givenFileName, string givenFileRelativePath, long givenFileSizeOriginal, long givenFileSizeCompressed)
+        {
+            this.Name = givenFileName;
+            this.RelativePath = givenFileRelativePath;
+            this.SizeOriginal = givenFileSizeOriginal;
+
+            // the file size with compression is first set to the original size, where ever this object is created. there is a loop outside that that after writing the bytes to the .dat file, returns to the individualfile header and
+            // rewrites the correct size, given that we already use long there is no way a size bigger than that is created.
+            this.SizeCompressed = givenFileSizeCompressed;
+            this.NameSize = Encoding.UTF8.GetByteCount(givenFileName);
+            this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);
+        }
+
         public string Name
         {
             get 
@@ -46,7 +59,6 @@ namespace FileCompressor
             }
         }
 
-
         public string RelativePath
         {
             get 
@@ -64,7 +76,6 @@ namespace FileCompressor
                 this.relativePath = value;
             }
         }
-
        
 
         public long SizeOriginal
@@ -84,7 +95,6 @@ namespace FileCompressor
                 this.sizeOriginal = value;
             }
         }
-
         
 
         public long SizeCompressed
@@ -123,7 +133,6 @@ namespace FileCompressor
             }
         }
 
-
         public int RelativePathSize
         {
             get 
@@ -141,19 +150,7 @@ namespace FileCompressor
                 this.relativePathSize = value;
             }
         }
-
-        public IndividualFileHeaderInformation(string givenFileName, string givenFileRelativePath, long givenFileSizeOriginal, long givenFileSizeCompressed)
-        {
-            this.Name = givenFileName;
-            this.RelativePath = givenFileRelativePath;
-            this.SizeOriginal = givenFileSizeOriginal;
-
-            // the file size with compression is first set to the original size, where ever this object is created. there is a loop outside that that after writing the bytes to the .dat file, returns to the individualfile header and
-            // rewrites the correct size, given that we already use long there is no way a size bigger than that is created.
-            this.SizeCompressed = givenFileSizeCompressed;
-            this.NameSize = Encoding.UTF8.GetByteCount(givenFileName);
-            this.RelativePathSize = Encoding.UTF8.GetByteCount(givenFileRelativePath);            
-        }
+        
 
         public byte[] GetFileHeaderAsByteArray()
         {

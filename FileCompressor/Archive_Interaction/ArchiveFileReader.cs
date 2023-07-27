@@ -13,12 +13,25 @@ namespace FileCompressor
     using System.Collections.Generic;
     using System.IO;
     using System.Text;
+
+    /// <summary>
+    /// This class is used to read files, validate that they are archive files and perform operation on them like appending them or reading out information contained within.
+    /// </summary>
     public class ArchiveFileReader
     {
+        /// <summary>
+        /// The field for the source path of the archive.
+        /// </summary>
         private string archiveSource;
 
+        /// <summary>
+        /// The field for the FixedVariables class used inside the File reader.
+        /// </summary>
         private FixedVariables fixedVariables;
 
+        /// <summary>
+        /// The field for the Compression Algorithm that is used in the archive.
+        /// </summary>
         private ICompressionAlgorithm compressionAlgorithmUsed;
 
         public ArchiveFileReader(string source)
@@ -272,49 +285,7 @@ namespace FileCompressor
             }
         }
 
-        private bool IsArchiveHeaderValid(out ArchiveHeader header)
-        {
-            byte[] buffer = new byte[this.FixedVariables.ArchiveHeaderLength];
-
-            try
-            {
-                using (FileStream fs = new FileStream(this.ArchiveSource, FileMode.Open, FileAccess.Read))
-                {
-                    fs.Read(buffer, 0, buffer.Length);
-                }
-            }
-            catch (UnauthorizedAccessException e)
-            {
-                throw new ArchiveErrorCodeException($"Errocode 1. Given FileName could not be accesed: {this.ArchiveSource}");
-            }
-            catch (FileNotFoundException e)
-            {
-                throw new ArchiveErrorCodeException($"Errocode 1. Given FileName does not exist : {this.ArchiveSource}");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-
-            try
-            {
-                ArchiveHeader foundArchiveHeader = new ArchiveHeader(buffer);
-                header = foundArchiveHeader;
-                return true;
-            }
-            catch (ArgumentNullException e)
-            {
-                throw new ArchiveErrorCodeException($"Errorcode 1.The source file {this.ArchiveSource} did not contain a valid header");
-            }
-            catch (ArgumentOutOfRangeException e)
-            {
-                throw new ArchiveErrorCodeException($"Errorcode 1.The source file {this.ArchiveSource} did not contain a valid header");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-        }
+        
 
         public IndividualFileHeaderInformation ReadIndividualFileHeader(FileStream archiveFilestream, long currentPositionInFile)
         {
@@ -385,6 +356,50 @@ namespace FileCompressor
             }
 
             return individualFileHeader;
+        }
+
+        private bool IsArchiveHeaderValid(out ArchiveHeader header)
+        {
+            byte[] buffer = new byte[this.FixedVariables.ArchiveHeaderLength];
+
+            try
+            {
+                using (FileStream fs = new FileStream(this.ArchiveSource, FileMode.Open, FileAccess.Read))
+                {
+                    fs.Read(buffer, 0, buffer.Length);
+                }
+            }
+            catch (UnauthorizedAccessException e)
+            {
+                throw new ArchiveErrorCodeException($"Errocode 1. Given FileName could not be accesed: {this.ArchiveSource}");
+            }
+            catch (FileNotFoundException e)
+            {
+                throw new ArchiveErrorCodeException($"Errocode 1. Given FileName does not exist : {this.ArchiveSource}");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+
+            try
+            {
+                ArchiveHeader foundArchiveHeader = new ArchiveHeader(buffer);
+                header = foundArchiveHeader;
+                return true;
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1.The source file {this.ArchiveSource} did not contain a valid header");
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1.The source file {this.ArchiveSource} did not contain a valid header");
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
         }
     }
 }

@@ -11,9 +11,19 @@ namespace FileCompressor
 {
     using System;
 
+    /// <summary>
+    /// This class is the command for exctracting a archive file. When executed it extracts all files contained in a given source archive file into a destination folder.
+    /// </summary>
     public class ExtractArchiveCommand : IArchiveCommand
     {
+        /// <summary>
+        /// The field for the destination path into which to extract the archive into.
+        /// </summary>
         private string destinationPathToDirectory;
+
+        /// <summary>
+        /// The field for the path to the souce (the archive) from which to extract files.
+        /// </summary>
         private string archiveSource;
               
         public ExtractArchiveCommand(string archiveSource, string destination)
@@ -22,6 +32,9 @@ namespace FileCompressor
             this.ArchiveSource = archiveSource;
         }
 
+        /// <summary>
+        /// Gets or sets the destination path into which to extract the archive into.
+        /// </summary>
         public string DestinationPathToDirectory
         {
             get
@@ -40,6 +53,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// Gets or sets the path to the souce (the archive) from which to extract files.
+        /// </summary>
         public string ArchiveSource
         {
             get
