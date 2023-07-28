@@ -52,7 +52,10 @@ namespace FileCompressor
         }
 
        
-
+        /// <summary>
+        /// This method executes the help command, it prints the help string to the console which contains all the information needed to operate the application.
+        /// </summary>
+        /// <returns> A boolean indicating whether or not the operation succeded.</returns>
         public bool Execute()
         {
             Console.WriteLine(this.FixedVariables.HelpCommandString);

@@ -54,8 +54,11 @@ namespace FileCompressor
             }
         }
 
-        
-
+        /// <summary>
+        /// This method executes the list content command. It reads all individual file header in the archive, makes a list of the names and prints them to the console
+        /// </summary>
+        /// <returns> A boolean value indicating whether or not the execution was succesful. </returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if , during execution a archive error was caught.</exception>
         public bool Execute()
         {
             if (File.Exists(this.ArchiveSource))
@@ -79,6 +82,9 @@ namespace FileCompressor
             return true;
         }
 
+        /// <summary>
+        /// This method reads all the files inside a archive file and and lists the found names as string to the console.
+        /// </summary>
         private void ReadArchiveFileAndListEntries()
         {
             // method only utilizes the filerader

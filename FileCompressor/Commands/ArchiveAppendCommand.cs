@@ -89,6 +89,12 @@ namespace FileCompressor
             }
         }        
 
+        /// <summary>
+        /// This method calcuates the sum of all the files if they were to be compressed with the given compression algorithm.
+        /// </summary>
+        /// <param name="fileList"> The files for which to calculate the sum of all bytes , if compressed.</param>
+        /// <returns> The sum of the compressed sizes for the files.</returns>
+        /// <exception cref="ArgumentNullException"> Is thrown if the given file list is null.</exception>
         public long GetSumOfSizeForAllFilesCompressed(List<FileMetaInformation> fileList)
         {
             if (fileList is null)
@@ -105,6 +111,11 @@ namespace FileCompressor
             return sum;
         }
 
+        /// <summary>
+        /// This method executes the append process with the parameters given when creating the class.
+        /// </summary>
+        /// <returns> A boolean value indicating whether or not the execution succeded.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown when there way a Archive error thrown during the excecution process.</exception>
         public bool Execute()
         {
             // TODO WHEN OVERWRITTING a file first needs to be safed under some kind of temporary name, if while the file should be overwritten there is an error both are lost!!!!!
@@ -139,14 +150,20 @@ namespace FileCompressor
             return true;
         }
 
-        private ArchiveHeader ModifyArchiveHeaderForAdditionalFiles(ArchiveHeader archiveHeader, List<FileMetaInformation> fileMetaInformationList)
+        /// <summary>
+        /// This method modifies the old Archive header inside the archive file to reflect the append of new files.
+        /// </summary>
+        /// <param name="oldArchiveHeader"> The old archive header before appending new files. </param>
+        /// <param name="fileMetaInformationList"> The list of files which will be appended during the append command.</param>
+        /// <returns> A modified Archive Header with adjusted information for the append. New sum number of files , sum number of uncompressed bytes and so forth.</returns>
+        private ArchiveHeader ModifyArchiveHeaderForAdditionalFiles(ArchiveHeader oldArchiveHeader, List<FileMetaInformation> fileMetaInformationList)
         {
-            DateTime modifiedArchiveHeaderDateTime = archiveHeader.TimeOfCreation;
-            long modifiedArchiveSumOfFileBytes = archiveHeader.SizeOfFilesCombined + this.GetSumOfSizeForAllFilesCompressed(fileMetaInformationList);
-            int modifiedArchiveNumberOfFiles = archiveHeader.NumberOfFilesInArchive + fileMetaInformationList.Count;
+            DateTime modifiedArchiveHeaderDateTime = oldArchiveHeader.TimeOfCreation;
+            long modifiedArchiveSumOfFileBytes = oldArchiveHeader.SizeOfFilesCombined + this.GetSumOfSizeForAllFilesCompressed(fileMetaInformationList);
+            int modifiedArchiveNumberOfFiles = oldArchiveHeader.NumberOfFilesInArchive + fileMetaInformationList.Count;
 
             // kinda weird hack/workaround but the first time we got this homework we didnt already know how to serialize, so im prociding as if that still is the case.
-            string compressionAlgorithmUsedCalling = archiveHeader.CompressionTypeCalling;
+            string compressionAlgorithmUsedCalling = oldArchiveHeader.CompressionTypeCalling;
 
             return new ArchiveHeader(modifiedArchiveHeaderDateTime, modifiedArchiveNumberOfFiles, compressionAlgorithmUsedCalling, modifiedArchiveSumOfFileBytes);
         }

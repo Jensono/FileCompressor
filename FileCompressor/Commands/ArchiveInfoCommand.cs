@@ -53,6 +53,11 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method executes the info command, reading the archive file, extracting its header and printing the contents to the console.
+        /// </summary>
+        /// <returns> A boolean value indicating whether or not the execution was succesful.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown when anopther archive error is thrown during executionö</exception>
         public bool Execute()
         {
             if (File.Exists(this.ArchiveSource))
@@ -75,6 +80,11 @@ namespace FileCompressor
         }
 
         // for reading the file header we dont need a specific compressionAlogrithm as all headers are written the same, regardeless of compression
+
+        /// <summary>
+        /// This method reads the Archive Header from a archive file
+        /// </summary>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if the same error was cought during execution.</exception>
         private void ReadAndConvertArchiveHeader()
         {
             try

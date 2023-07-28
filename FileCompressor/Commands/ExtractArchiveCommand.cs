@@ -81,6 +81,11 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method executes the extract command. It tries to read all files from the archive and extract them one by one into the specified directory.
+        /// </summary>
+        /// <returns> A boolean value indicating whether or not the execution was succesful.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if during the execution a archive error is caught. </exception>
         public bool Execute()
         {
             try

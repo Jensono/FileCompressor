@@ -117,7 +117,13 @@ namespace FileCompressor
             }
         }
 
-
+        /// <summary>
+        /// This method executes the create command. It create a new archive file or overwrites the old fiel if it is not read only, and compressed all the given files into the archive. A archive consists of 3 
+        /// major components. The Archive header, containg all the meta information about the contents of the archive etc., the individual file header for a file, detailing the name of the file, its size and path, and finally
+        /// the file data itself. The archive header is only at the top and is the same for all compression types. After that follows indivual file header - file content- individual file header - file content ... and so forth.
+        /// </summary>
+        /// <returns> A boolean value indicating whether or not the execution was succesful.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if a Archive error is thrown during execution.</exception>
         public bool Execute()
         {
             try
@@ -144,6 +150,11 @@ namespace FileCompressor
             // the system right now could by itself produce corrupted files, but it would require major user interfirance in the programm or the process itself.
         }
 
+        /// <summary>
+        /// This method returns the compressed file size sum of all files that will be contained in the archive. Mainly used for checking disk space.
+        /// </summary>
+        /// <param name="fileList"> The file list for which to calculate the sum for.</param>
+        /// <returns> The calculated sum of bytes for all the files in their compressed state.</returns>
         public long GetSumOfSizeForAllFilesCompressed(List<FileMetaInformation> fileList)
         {
             long sum = 0;

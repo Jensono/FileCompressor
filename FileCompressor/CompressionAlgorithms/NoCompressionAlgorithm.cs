@@ -25,6 +25,13 @@ namespace FileCompressor
         }
 
         // In theory a compress is just a append, because right now i dont need to compress at any other place other then
+
+        /// <summary>
+        /// This method compresses a file, from a given source path into an archive file with a destination path, with no compression at all.It just copys the files bytes into the archive file
+        /// </summary>
+        /// <param name="inputOriginalFilePath"> The source path to the file which should be compressed.</param>
+        /// <param name="outputArchiveFilePath"> The destination path to the archive into which the file should be written.</param>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if there was a <see cref="IOException"/> caught during compression.</exception>
         public void Compress(string inputOriginalFilePath, string outputArchiveFilePath)
         {
             try
@@ -55,14 +62,19 @@ namespace FileCompressor
             }
             catch (Exception e)
             {
+                // TODO REMOVE
                 throw e;
             }
         }
 
-        // create a class or enum or something that holds these values, so they dont lose meaning over time.
+        // todo small: create a class or enum or something that holds these values, so they dont lose meaning over time.
+        /// <summary>
+        /// /
+        /// </summary>
+        /// <returns></returns>
         public string ReturnCompressionTypeCalling()
         {
-            return "None";
+            return new FixedVariables().CompressionCallingTypeNoCompression;
         }
 
         public void Decompress(FileStream archiveFilestream, string outputNewFilePath, long archiveDecompressionStartPoint, IndividualFileHeaderInformation fileHeader)

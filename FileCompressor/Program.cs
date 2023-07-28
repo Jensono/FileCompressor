@@ -27,6 +27,7 @@ namespace FileCompressor
             // TODO TODO CHANGE ALL TRY-CATCH(Exceptions) to at least throw a ARCHIVEERROR not a normal one.
             // TODO change all internals to public or private !
             // check all the todos!
+            // todo PRINT HELP COMMAND IF ARCHIVE ERROR HAPPENDED AND ITS USER FOULT
             while (true)
             {
                 string readShit = Console.ReadLine();
