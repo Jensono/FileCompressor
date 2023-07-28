@@ -229,8 +229,8 @@ namespace FileCompressor
         /// This method produces a relative path given two paths. One directly to a file, another to a directory in which the file lies in some way.
         /// </summary>
         /// <param name="directoryPath"> The directory path in which the file can be deeply buried.</param>
-        /// <param name="filePath"> The path to the file for which to create a relativ path for.</param>
-        /// <returns> The relative path of the given file in relation to the diretory.</returns>
+        /// <param name="filePath"> The path to the file for which to create a relative path for.</param>
+        /// <returns> The relative path of the given file in relation to the directory.</returns>
         /// <exception cref="ArgumentException"> Is raised when the directory path is not a sub sequence of the file path.</exception>
         public string GetRelativePath(string directoryPath, string filePath)
         {

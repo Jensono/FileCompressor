@@ -160,7 +160,7 @@ namespace FileCompressor
         /// This method removes all entries from a string array, that only consist of white spaces.
         /// </summary>
         /// <param name="array"> The array that should be changed to not containing any more entries, only consisting of white spaces.</param>
-        /// <returns> A string array, that only contains entries that are not exclusibly made out of white spaces.</returns>
+        /// <returns> A string array, that only contains entries that are not exclusively made out of white spaces.</returns>
         private string[] RemoveWhiteSpaceEntry(string[] array)
         {
             return array.Where(arg => !string.IsNullOrWhiteSpace(arg)).ToArray();
@@ -198,7 +198,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method creates a list of Command parameter objects from a list list array of string that were premodified, but initially given by the user.
+        /// This method creates a list of Command parameter objects from a list list array of string that were modified earlier, but initially given by the user.
         /// </summary>
         /// <param name="commandsListListArray"> A list of command blocks , which each contains a list of string arrays which are the logical units of either a command or a parameter with its specification.</param>
         /// <returns> A list of CommandParameters that could be extracted from the list of list of string arrays.</returns>
@@ -254,7 +254,7 @@ namespace FileCompressor
         /// This method combines all entries of a string array and returns the resulting string. Used primarily with string arrays from the command line .
         /// </summary>
         /// <param name="array"> The array of strings that should be combined to one string.</param>
-        /// <returns> A string that combines each entry and seperates them with a space.</returns>
+        /// <returns> A string that combines each entry and separates them with a space.</returns>
         private string ReverseStringArrayToString(string[] array)
         {
             string returnString = string.Empty;
@@ -269,7 +269,7 @@ namespace FileCompressor
         // before using this method we also validated that the given first entry is a available command so no checking
 
         /// <summary>
-        /// This method build a <see cref="IParameter"/> object for a string array that contains a composit unit of a parameter calling and it specification. All of theses are their own entries in the string array.
+        /// This method build a <see cref="IParameter"/> object for a string array that contains a composite unit of a parameter calling and it specification. All of theses are their own entries in the string array.
         /// </summary>
         /// <param name="stringArray">The string array containing the parameters short name, in the first entry and specification parameters and their specification in all other entries.</param>
         /// <returns> A IParameter when the string array was a valid combination.</returns>
@@ -444,7 +444,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method returns a coresponding <see cref="ICommandLineCommand"/> for a given command short name calling.
+        /// This method returns a corresponding <see cref="ICommandLineCommand"/> for a given command short name calling.
         /// </summary>
         /// <param name="commandShortName"> The string of the command short name for which, a command line command should be returned.</param>
         /// <returns> A command line command that is associated with the command short name. If no such command is found, null is returned. </returns>
@@ -463,7 +463,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method splits a argument by the command short name callings and seperates the  list entries at the split point.
+        /// This method splits a argument by the command short name callings and separates the  list entries at the split point.
         /// </summary>
         /// <param name="smallNameCommands"> The command line input that was given that should be split the short command names.</param>
         /// <returns> A List of string arrays, each entry in the list is a command that should be able to execute own its own with its own parameters and parameter specifications.</returns>
@@ -507,7 +507,7 @@ namespace FileCompressor
         /// <summary>
         /// This method searches a string array for command long names and turns them into command short names.
         /// </summary>
-        /// <param name="oldArguments"> The intial array which should be modified.</param>
+        /// <param name="oldArguments"> The initial array which should be modified.</param>
         /// <returns> A string array which now contains command short names, where before there were entries with command long names.</returns>
         private string[] TurnFoundCommandNamesIntoSmallNames(string[] oldArguments)
         {
@@ -540,7 +540,7 @@ namespace FileCompressor
         /// <summary>
         /// This method searches a string array for parameter long names and turns them into command short names.
         /// </summary>
-        /// <param name="oldArguments">  The intial array which should be modified. </param>
+        /// <param name="oldArguments">  The initial array which should be modified. </param>
         /// <returns> A string array which now contains parameter short names, where before there were entries with parameter long names.</returns>
         private string[] TurnFoundParameterNamesIntoSmallNames(string[] oldArguments)
         {

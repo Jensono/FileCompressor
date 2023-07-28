@@ -258,7 +258,7 @@ namespace FileCompressor
         /// <summary>
         /// This method returns the Archive Header as a byte array so it can be written to files.
         /// </summary>
-        /// <returns> The given archive header as a byte array. First comes the datetime (8 bytes) then the compression calling name (10 bytes with filler bytes if the name is not long enough).
+        /// <returns> The given archive header as a byte array. First comes the <see cref="DateTime"/>(8 bytes) then the compression calling name (10 bytes with filler bytes if the name is not long enough).
         /// Then comes the number of files as a long (8 Bytes) and finally the sum number of all files uncompressed as a long (8 bytes). Then a Parity Byte encoding is used to encode the byte array further.
         /// The class used for this is <see cref="ParitiyByteEncoder"/>.</returns>
         public byte[] GetArchiveHeaderAsBytes()
@@ -304,8 +304,7 @@ namespace FileCompressor
 
         // for a high safty factor im just going to add the same number of bytes as the length of the array itself. first is always the the actual byte, behind it the parity byte. Parity bytes are just the number
         // from 0-255 to reach a sum of 255 from the normal byte and the parity byt
-
-       
+               
         /// <summary>
         /// This method is used to print a archive header to the console.
         /// </summary>

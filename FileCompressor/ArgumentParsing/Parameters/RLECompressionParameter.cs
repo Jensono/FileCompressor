@@ -152,8 +152,8 @@ namespace FileCompressor
         /// <summary>
         /// This method tries to parse the value for the RLE Compression parameters.
         /// </summary>
-        /// <param name="array"> The arguments that should be parsed for the parameter specifcation.</param>
-        /// <returns> Returns true if the string array was parsable as the parameters specfications. </returns>
+        /// <param name="array"> The arguments that should be parsed for the parameter specification.</param>
+        /// <returns> Returns true if the string array could be parsed as the parameters specification. </returns>
         public bool TryParseValueAndSetIt(string[] array)
         {
             if (this.CheckParameterSpecificationForValidity(array))

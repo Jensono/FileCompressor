@@ -117,7 +117,7 @@ namespace FileCompressor
         /// </summary>
         /// <param name="archiveFilePath"> The path to the Archive file.</param>
         /// <param name="filesToBeWrittenIntoArchive"> The list of files that should be appended to the archive.</param>
-        /// <param name="newModifiedArchiveHeader"> The new archive header that needs to overwritte the old archive header. Filled with adjusted information for the append.</param>
+        /// <param name="newModifiedArchiveHeader"> The new archive header that needs to overwrite the old archive header. Filled with adjusted information for the append.</param>
         /// <exception cref="ArchiveErrorCodeException"> Is raised when there is not enough disk space on the drive that contains the archive file.</exception>
         public void AppendToArchive(string archiveFilePath, List<FileMetaInformation> filesToBeWrittenIntoArchive, ArchiveHeader newModifiedArchiveHeader)
         {
@@ -355,7 +355,6 @@ namespace FileCompressor
                 driveInfo = new DriveInfo(driveLetter);
 
             }
-
             catch (Exception)
             {
                 // drive is assumed to be non existend.

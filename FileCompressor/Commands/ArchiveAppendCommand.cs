@@ -89,9 +89,9 @@ namespace FileCompressor
         }        
 
         /// <summary>
-        /// This method calcuates the sum of all the files if they were to be compressed with the given compression algorithm.
+        /// This method calculates the sum of all the files if they were to be compressed with the given compression algorithm.
         /// </summary>
-        /// <param name="fileList"> The files for which to calculate the sum of all bytes , if compressed.</param>
+        /// <param name="fileList"> The files for which to calculates the sum of all bytes , if compressed.</param>
         /// <returns> The sum of the compressed sizes for the files.</returns>
         /// <exception cref="ArgumentNullException"> Is thrown if the given file list is null.</exception>
         public long GetSumOfSizeForAllFilesCompressed(List<FileMetaInformation> fileList)

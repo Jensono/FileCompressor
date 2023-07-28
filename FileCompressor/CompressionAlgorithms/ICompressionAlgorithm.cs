@@ -43,7 +43,7 @@ namespace FileCompressor
         /// <summary>
         /// This method returns the expected data size for a file (for which the file path is given), when it would be compressed with this algorithm.
         /// </summary>
-        /// <param name="inputOriginalFilePath"> The file path to the orignal file.</param>
+        /// <param name="inputOriginalFilePath"> The file path to the original file.</param>
         /// <returns> The expected file size of the file after it will be compressed in bytes.</returns>
         long ReturnExpectedDataSizeCompressed(string inputOriginalFilePath);
     }

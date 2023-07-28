@@ -17,7 +17,7 @@ namespace FileCompressor
         /// <summary>
         /// Every Archive must be executable so the command can be executed.
         /// </summary>
-        /// <returns> A boolean value indicating whether or not the execution was succeful.</returns>
+        /// <returns> A boolean value indicating whether or not the execution was successful.</returns>
         bool Execute();
     }
 }

@@ -29,9 +29,9 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method returns the currently working Compression algoithms for the programm.
+        /// This method returns the currently working Compression algorithms for the program.
         /// </summary>
-        /// <returns> A list of <see cref="ICompressionAlgorithm"/> that only contain algorithms which can be used in the programm right now.</returns>
+        /// <returns> A list of <see cref="ICompressionAlgorithm"/> that only contain algorithms which can be used in the program right now.</returns>
         public List<ICompressionAlgorithm> ReturnCurrentlyWorkingCompressionAlgorithms()
         {
             NoCompressionAlgorithm noCompressionAlgorithm = new NoCompressionAlgorithm();
