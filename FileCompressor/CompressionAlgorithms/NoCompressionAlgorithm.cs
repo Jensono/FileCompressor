@@ -68,15 +68,24 @@ namespace FileCompressor
         }
 
         // todo small: create a class or enum or something that holds these values, so they dont lose meaning over time.
+
         /// <summary>
-        /// /
+        /// This method returns the compression calling for no compression algorithm.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> A string that indicates the type of compression is no compression.</returns>
         public string ReturnCompressionTypeCalling()
         {
             return new FixedVariables().CompressionCallingTypeNoCompression;
         }
 
+        /// <summary>
+        /// This method decompresses or extracts a File from a given archive file into a given directory.
+        /// </summary>
+        /// <param name="archiveFilestream"> The archive file stream assosiated with a archive file.</param>
+        /// <param name="outputNewFilePath"> The output file path for the file that should be extracted.</param>
+        /// <param name="archiveDecompressionStartPoint"> The index in the file stream or archive file from which to start reading the file content.</param>
+        /// <param name="fileHeader"> The individual file header of the file.</param>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if something unexcpeted happens during decompresson.</exception>
         public void Decompress(FileStream archiveFilestream, string outputNewFilePath, long archiveDecompressionStartPoint, IndividualFileHeaderInformation fileHeader)
         {
             // Writting the new file here.
@@ -106,6 +115,11 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method returns the expected size of a file compressed with no compression. Meaning it just returns the uncompressed file size in this case.
+        /// </summary>
+        /// <param name="inputOriginalFilePath"> The path to the original file for which to calculate the amount of bytes compressed.</param>
+        /// <returns> The number of bytes the the file will have if compressed with this algorithm.</returns>
         public long ReturnExpectedDataSizeCompressed(string inputOriginalFilePath)
         {
             try

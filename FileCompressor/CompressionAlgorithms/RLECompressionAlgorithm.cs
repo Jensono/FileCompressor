@@ -150,11 +150,23 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method returns the compression calling for no compression algorithm.
+        /// </summary>
+        /// <returns> A string that indicates the type of compression is no compression.</returns>
         public string ReturnCompressionTypeCalling()
         {
             return new FixedVariables().CompressionCallingTypeRLECompression;
         }
 
+        /// <summary>
+        /// This method decompresses or extracts a File from a given archive file into a given directory.
+        /// </summary>
+        /// <param name="archiveFileStream"> The archive file stream assosiated with a archive file.</param>
+        /// <param name="outputNewFilePath"> The output file path for the file that should be extracted.</param>
+        /// <param name="decompressionStartIndexInFile"> The index in the file stream or archive file from which to start reading the file content.</param>
+        /// <param name="fileHeader"> The individual file header of the file.</param>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if something unexcpeted happens during decompresson.</exception>
         public void Decompress(FileStream archiveFileStream, string outputNewFilePath, long decompressionStartIndexInFile, IndividualFileHeaderInformation fileHeader)
         {
             // Writting the new file here.
@@ -196,6 +208,11 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method returns the expected file size if a given file would be compressed with RLE Compression.
+        /// </summary>
+        /// <param name="inputOriginalFilePath"> The string path to the original file.</param>
+        /// <returns> The size of file when compressed with the RLE Compression.</returns>
         public long ReturnExpectedDataSizeCompressed(string inputOriginalFilePath)
         {
             long expectedFileSize = 0;

@@ -52,8 +52,10 @@ namespace FileCompressor
             }
         }
 
-        
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="additionalInformation"></param>
         public void AppendErrorCodeInformation(string additionalInformation)
         {
             this.ErrorCode += additionalInformation;
