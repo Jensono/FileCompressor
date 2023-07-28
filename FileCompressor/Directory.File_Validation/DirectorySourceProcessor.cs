@@ -29,8 +29,12 @@ namespace FileCompressor
         /// <summary>
         /// This fields shows whether or not the given path source is a valid directory.
         /// </summary>
-        private bool isSourceValid;        
+        private bool isSourceValid;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirectorySourceProcessor"/> class. 
+        /// </summary>
+        /// <param name="sourceDirectory"> The source path to the directory that should be validated and or extracted information from.</param>
         public DirectorySourceProcessor(string sourceDirectory)
         {
             if (sourceDirectory is null || sourceDirectory == string.Empty)

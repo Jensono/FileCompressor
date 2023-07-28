@@ -39,6 +39,7 @@ namespace FileCompressor
         /// </summary>
         /// <value> The value of the parameter that is saved inside the class. </value>
         object Value { get; set; }
+
         bool TryParseValueAndSetIt(string[] array);
 
         IParameter DeepCloneSelf();

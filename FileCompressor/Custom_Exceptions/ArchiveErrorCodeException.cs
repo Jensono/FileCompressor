@@ -21,6 +21,10 @@ namespace FileCompressor
         /// </summary>
         private string errorCode;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArchiveErrorCodeException"/> class. 
+        /// </summary>
+        /// <param name="errorcodeText"> The error code string that should be contained within the exception.</param>
         public ArchiveErrorCodeException(string errorcodeText)
         {
             this.ErrorCode = errorcodeText;

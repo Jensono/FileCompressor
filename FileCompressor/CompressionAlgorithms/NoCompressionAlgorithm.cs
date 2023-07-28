@@ -17,6 +17,9 @@ namespace FileCompressor
     /// </summary>
     public class NoCompressionAlgorithm : ICompressionAlgorithm
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="NoCompressionAlgorithm"/> class. 
+        /// </summary>
         public NoCompressionAlgorithm()
         {
         }

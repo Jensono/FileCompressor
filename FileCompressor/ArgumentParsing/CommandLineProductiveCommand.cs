@@ -44,6 +44,14 @@ namespace FileCompressor
         /// </summary>
         private string shortCommandArgument;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLineProductiveCommand"/> class. 
+        /// </summary>
+        /// <param name="shortCommand"> The short for name for the command. Usually starts with a '-' .</param>
+        /// <param name="longCommand"> The long for name for the command. Usually starts with a '--' .</param>
+        /// <param name="executionAction"> The Action that should be performed when the command is executed and called.</param>
+        /// <param name="allowedOptionalParameters"> The Parameters that can be voluntarily added to the command.</param>
+        /// <param name="requiredOptionalParameters"> The parameters that are required for the command to execute.</param>
         public CommandLineProductiveCommand(
             string shortCommand,
             string longCommand,

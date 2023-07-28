@@ -38,10 +38,15 @@ namespace FileCompressor
         /// </summary>
         private object value;
 
-        public RetriesParameter(string shortCommandName, string longCommandName)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RetriesParameter"/> class. 
+        /// </summary>
+        /// <param name="shortParameterName"> The short parameter name for the retries parameter.</param>
+        /// <param name="longParameterName"> The long parameter name for the retries parameter.</param>
+        public RetriesParameter(string shortParameterName, string longParameterName)
         {
-            this.LongParameterName = longCommandName;
-            this.ShortParameterName = shortCommandName;
+            this.LongParameterName = longParameterName;
+            this.ShortParameterName = shortParameterName;
             this.CheckParameterSpecificationForValidity = (parameter) =>
             {
                 if (parameter.Length >= 2)

@@ -36,10 +36,15 @@ namespace FileCompressor
         /// </summary>
         private object value;
 
-        public WaitTimeParameter(string shortCommandName, string longCommandName)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WaitTimeParameter"/> class. 
+        /// </summary>
+        /// <param name="shortParameterName"> The short Parameter name for the wait time parameter.</param>
+        /// <param name="longParameterName"> The long Parameter name for the wait time parameter.</param>
+        public WaitTimeParameter(string shortParameterName, string longParameterName)
         {
-            this.LongParameterName = longCommandName;
-            this.ShortParameterName = shortCommandName;
+            this.LongParameterName = longParameterName;
+            this.ShortParameterName = shortParameterName;
             this.CheckParameterSpecificationForValidity = (parameter) =>
             {
                 if (parameter.Length >= 2)

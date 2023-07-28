@@ -12,7 +12,7 @@ namespace FileCompressor
     using System;
 
     /// <summary>
-    /// This class is used to specify wheter or not a given command should use RLE Compression. 
+    /// This class is used to specify whether or not a given command should use RLE Compression. 
     /// </summary>
     public class RLECompressionParameter : IParameter
     {
@@ -36,10 +36,15 @@ namespace FileCompressor
         /// </summary>
         private object value;
 
-        public RLECompressionParameter(string shortCommandName, string longCommandName)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RLECompressionParameter"/> class. 
+        /// </summary>
+        /// <param name="shortParameterName"> The short Parameter name for the RLE compression parameter.</param>
+        /// <param name="longParameterName"> The long Parameter name for the RLE compression parameter.</param>
+        public RLECompressionParameter(string shortParameterName, string longParameterName)
         {
-            this.LongParameterName = longCommandName;
-            this.ShortParameterName = shortCommandName;
+            this.LongParameterName = longParameterName;
+            this.ShortParameterName = shortParameterName;
             this.CheckParameterSpecificationForValidity = (parameter) =>
             {
                 if (parameter.Length == 0)

@@ -27,10 +27,16 @@ namespace FileCompressor
         /// </summary>
         private string commandShortName;
 
-       
+
 
         // dont check these strings, if there false errorcodes will be thrown in the respective commands anyways, nobody can know if a given path is valid or not before executing a command , becouse paths can change during runtime.
         // THE COMPRESSIONALGO also doesnt need validation, it is null by defoult and only changes when the given command is create so leave it as is.
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandParameters"/> class. 
+        /// </summary>
+        /// <param name="parameterList"> The parameters for a specific command.</param>
+        /// <param name="commandShortName"> The short name for the command, usually starts with '-'.</param>
         public CommandParameters(List<IParameter> parameterList, string commandShortName)
         {
             this.ParameterList = parameterList;

@@ -82,7 +82,9 @@ namespace FileCompressor
         /// </summary>
         private string helpCommandString;
 
-        
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FixedVariables"/> class.
+        /// </summary>
         public FixedVariables()
         {
             // todo ok  could add specification for the individual file headers
@@ -347,6 +349,7 @@ namespace FileCompressor
                 {
                     throw new ArgumentNullException($"{nameof(this.HelpCommandString)} cannot be null!");
                 }
+
                 this.helpCommandString = value;
             }
         }

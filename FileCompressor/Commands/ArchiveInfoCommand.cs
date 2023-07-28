@@ -22,6 +22,10 @@ namespace FileCompressor
         /// </summary>
         private string archiveSource;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArchiveInfoCommand"/> class. 
+        /// </summary>
+        /// <param name="source"> The path to the source archive from which to display information. </param>
         public ArchiveInfoCommand(string source)
         {
             this.ArchiveSource = source;

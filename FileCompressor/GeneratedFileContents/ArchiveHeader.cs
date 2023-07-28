@@ -48,6 +48,12 @@ namespace FileCompressor
         /// </summary>
         private FixedVariables fixedVariables;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArchiveHeader"/> class. 
+        /// </summary>
+        /// <param name="numberOfFilesInsideDirectory"> The sum number of files that will be inside the archive.</param>
+        /// <param name="compressionTypeCalling"> The calling for the compression used as a string.</param>
+        /// <param name="combinedSizeForAllFiles"> The combined size of all files, in uncompressed bytes, inside the archive.</param>
         public ArchiveHeader(int numberOfFilesInsideDirectory, string compressionTypeCalling, long combinedSizeForAllFiles)
         {
             this.TimeOfCreation = DateTime.Now;
@@ -58,6 +64,13 @@ namespace FileCompressor
             this.ParityByteEncoding = new ParitiyByteEncoder();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArchiveHeader"/> class. Used when appending to the archive.
+        /// </summary>
+        /// <param name="oldDate"> The date time the original Archive header was created.</param>
+        /// <param name="numberOfFilesInsideDirectory"> The sum number of files that will be inside the archive.</param>
+        /// <param name="compressionTypeCalling"> The calling for the compression used as a string.</param>
+        /// <param name="combinedSizeForAllFiles"> The combined size of all files, in uncompressed bytes, inside the archive.</param>
         public ArchiveHeader(DateTime oldDate, int numberOfFilesInsideDirectory, string compressionTypeCalling, long combinedSizeForAllFiles)
         {
             this.TimeOfCreation = oldDate;
@@ -68,6 +81,10 @@ namespace FileCompressor
             this.ParityByteEncoding = new ParitiyByteEncoder();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArchiveHeader"/> class. Used when reading from the archive.
+        /// </summary>
+        /// <param name="archiveHeaderAsBytes"> The array of bytes from which the archive header will be extracted.</param>
         public ArchiveHeader(byte[] archiveHeaderAsBytes)
         {
             // needed in all constructors
@@ -152,6 +169,7 @@ namespace FileCompressor
         }
 
         // is set as soon as the archive is beeing created
+
         /// <summary>
         /// Gets or sets the DateTime that show when the archive was created.
         /// </summary>
@@ -179,6 +197,7 @@ namespace FileCompressor
             {
                 return this.compressionTypeCalling;
             }
+
             set
             {
                 if (value is null)

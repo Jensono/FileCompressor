@@ -22,6 +22,11 @@ namespace FileCompressor
         /// The field for the path to the archive from which to extract information of the files inside.
         /// </summary>
         private string archiveSource;
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ListArchiveContentsCommand"/> class. 
+        /// </summary>
+        /// <param name="source"> The path to the Archive file from which to list information about.</param>
         public ListArchiveContentsCommand(string source)
         {
             this.ArchiveSource = source;

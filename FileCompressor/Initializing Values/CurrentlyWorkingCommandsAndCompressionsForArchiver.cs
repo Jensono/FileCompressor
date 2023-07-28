@@ -14,13 +14,16 @@ namespace FileCompressor
     using System.Threading;
 
     /// <summary>
-    /// This class is used to initzialise all the commands that are currently functioning for the program. All in one place, can be easily changed to diffrent actions and validations.
+    /// This class is used to initializes all the commands that are currently functioning for the program. All in one place, can be easily changed to different actions and validations.
     /// Available compression algorithms are also specified here.
     /// </summary>
     public class CurrentlyWorkingCommandsAndCompressionsForArchiver
     {
         // todo ok, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CurrentlyWorkingCommandsAndCompressionsForArchiver"/> class.
+        /// </summary>
         public CurrentlyWorkingCommandsAndCompressionsForArchiver()
         {
         }

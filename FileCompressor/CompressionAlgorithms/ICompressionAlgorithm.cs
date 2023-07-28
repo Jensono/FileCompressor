@@ -12,6 +12,10 @@ namespace FileCompressor
 {
     using System.IO;
 
+    /// <summary>
+    /// This class is the interface for all compression types used in the archive application. A class that implements this interface must contain ways to compress and decompress files with their respective algorithms. It also contains a name for the
+    /// compression. Additionally a method to calculate the size of the resulting file, after its compression is included.
+    /// </summary>
     public interface ICompressionAlgorithm
     {
         void Compress(string inputOriginalFilePath, string outputArchiveFilePath);

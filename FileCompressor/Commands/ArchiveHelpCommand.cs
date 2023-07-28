@@ -21,6 +21,9 @@ namespace FileCompressor
         /// </summary>
         private FixedVariables fixedVariables;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArchiveHelpCommand"/> class. 
+        /// </summary>
         public ArchiveHelpCommand()
         {
             this.FixedVariables = new FixedVariables();

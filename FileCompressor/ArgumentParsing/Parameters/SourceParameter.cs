@@ -36,10 +36,15 @@ namespace FileCompressor
         /// </summary>
         private object value;
 
-        public SourceParameter(string shortCommandName, string longCommandName)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SourceParameter"/> class. 
+        /// </summary>
+        /// <param name="shortParameterName"> The short Parameter name for the source parameter.</param>
+        /// <param name="longParameterName"> The long Parameter name for the source parameter.</param>
+        public SourceParameter(string shortParameterName, string longParameterName)
         {
-            this.LongParameterName = longCommandName;
-            this.ShortParameterName = shortCommandName;
+            this.LongParameterName = longParameterName;
+            this.ShortParameterName = shortParameterName;
             this.CheckParameterSpecificationForValidity = (parameter) =>
             {
                 if (parameter.Length >= 2)

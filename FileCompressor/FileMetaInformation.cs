@@ -37,6 +37,11 @@ namespace FileCompressor
         /// </summary>
         private string relativePathForArchive;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="FileMetaInformation"/> class. 
+        /// </summary>
+        /// <param name="fileInfo"> The file info associated with the file. </param>
+        /// <param name="relativePathOfFileInsideArchive"> The relative path of the file to another directory path.</param>
         public FileMetaInformation(FileInfo fileInfo, string relativePathOfFileInsideArchive)
         {
             this.FullName = fileInfo.FullName;

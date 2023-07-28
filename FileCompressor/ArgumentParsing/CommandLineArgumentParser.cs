@@ -29,7 +29,12 @@ namespace FileCompressor
         /// The field for the List of the <see cref="ICommandLineCommand"/> that are currently usable inside the application.
         /// </summary>
         private List<ICommandLineCommand> currentlyUsableCommands;
-               
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CommandLineArgumentParser"/> class. 
+        /// </summary>
+        /// <param name="usableCommands"> The commands that can currently be used inside of the application.</param>
+        /// <param name="givenArguments"> The arguments provided by the user in the command line. </param>
         public CommandLineArgumentParser(List<ICommandLineCommand> usableCommands, string[] givenArguments)
         {
             this.CurrentlyUsableCommands = usableCommands;
@@ -254,7 +259,7 @@ namespace FileCompressor
         /// -c -d [] -s [] ..... the list below that only contains parameters or the command itself so |-c | or |-d []| and groups them together. These logical units can later be testes for validity by themself.
         /// </summary>
         /// <param name="commandStringArrays"></param>
-        /// <returns></returns>
+        /// <returns> </returns>
         private List<List<string[]>> SplitCommandListArrayFurtherIntoParametersLogicalUnits(List<string[]> commandStringArrays)
         {
             List<List<string[]>> returnListSplitByParameter = new List<List<string[]>>();

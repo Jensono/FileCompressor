@@ -34,12 +34,17 @@ namespace FileCompressor
         /// <summary>
         /// The field for the value the parameter holds.
         /// </summary>
-        private object value;      
+        private object value;
 
-        public DestinationParameter(string shortCommandName, string longCommandName)
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DestinationParameter"/> class. 
+        /// </summary>
+        /// <param name="shortParameterName"> The short Parameter name for the destination parameter.</param>
+        /// <param name="longParameterName"> The long Parameter name for the destination parameter.</param>
+        public DestinationParameter(string shortParameterName, string longParameterName)
         {
-            this.LongParameterName = longCommandName;
-            this.ShortParameterName = shortCommandName;
+            this.LongParameterName = longParameterName;
+            this.ShortParameterName = shortParameterName;
             this.CheckParameterSpecificationForValidity = (parameter) =>
             {
                 if (parameter.Length >= 2)

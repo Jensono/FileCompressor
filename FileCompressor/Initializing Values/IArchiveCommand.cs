@@ -9,6 +9,9 @@
 //-----------------------------------------------------------------------
 namespace FileCompressor
 {
+    /// <summary>
+    /// This class acts as the interfaced used inside all archive Execution commands.
+    /// </summary>
     public interface IArchiveCommand
     {
         bool Execute();

@@ -34,7 +34,12 @@ namespace FileCompressor
         private string archiveName;
 
 
-
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArchiveFileWriter"/> class. 
+        /// </summary>
+        /// <param name="destination"> The destination path to where the archive should be written to. </param>
+        /// <param name="archiveName"> The name the archive should have as a string.</param>
+        /// <param name="compressionAlgorithm"> The compression that should be used within the archive.</param>
         public ArchiveFileWriter(string destination, string archiveName, ICompressionAlgorithm compressionAlgorithm)
         {
             this.DestinationFolder = destination;

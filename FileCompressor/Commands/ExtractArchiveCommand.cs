@@ -25,7 +25,12 @@ namespace FileCompressor
         /// The field for the path to the source (the archive) from which to extract files.
         /// </summary>
         private string archiveSource;
-              
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ExtractArchiveCommand"/> class. 
+        /// </summary>
+        /// <param name="archiveSource"> The path to the archive that should be extracted as a string.</param>
+        /// <param name="destination"> The destination folder into which the files should be decompressed.</param>
         public ExtractArchiveCommand(string archiveSource, string destination)
         {
             this.DestinationPathToDirectory = destination;

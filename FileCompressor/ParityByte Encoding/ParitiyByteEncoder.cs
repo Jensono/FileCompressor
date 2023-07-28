@@ -16,6 +16,9 @@ namespace FileCompressor
     /// </summary>
     public class ParitiyByteEncoder
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ParitiyByteEncoder"/> class.
+        /// </summary>
         public ParitiyByteEncoder()
         {
         }

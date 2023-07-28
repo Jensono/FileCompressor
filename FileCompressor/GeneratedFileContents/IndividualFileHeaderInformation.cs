@@ -47,6 +47,13 @@ namespace FileCompressor
         /// </summary>
         private int relativePathSize;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IndividualFileHeaderInformation"/> class.
+        /// </summary>
+        /// <param name="givenFileName"> The file name that the file header will contain for the file. </param>
+        /// <param name="givenFileRelativePath"> The relative path of the file.</param>
+        /// <param name="givenFileSizeOriginal"> The file size of the original file.</param>
+        /// <param name="givenFileSizeCompressed"> The file size of the file compressed inside the archive.</param>
         public IndividualFileHeaderInformation(string givenFileName, string givenFileRelativePath, long givenFileSizeOriginal, long givenFileSizeCompressed)
         {
             this.Name = givenFileName;

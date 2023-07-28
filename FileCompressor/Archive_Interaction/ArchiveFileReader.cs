@@ -34,6 +34,10 @@ namespace FileCompressor
         /// </summary>
         private ICompressionAlgorithm compressionAlgorithmUsed;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArchiveFileReader"/> class.
+        /// </summary>
+        /// <param name="source"> The path to the Archive as a string.</param>
         public ArchiveFileReader(string source)
         {
             this.ArchiveSource = source;
@@ -93,10 +97,9 @@ namespace FileCompressor
 
 
         /// <summary>
-        /// The property for the  <see cref="ICompressionAlgorithm"/> Compression Algorithm that is used in the archive.
-        /// <summary>
-        /// <value>  </value>
-        
+        /// Gets the <see cref="ICompressionAlgorithm"/> Compression Algorithm that is used in the archive.
+        /// </summary>
+        /// <value> The <see cref="ICompressionAlgorithm"/> Compression Algorithm that is used in the archive.  </value>
         public ICompressionAlgorithm CompressionAlogrithmenUsed
         {
             get
@@ -180,6 +183,18 @@ namespace FileCompressor
         }
 
         // destination needs to be a valid folder, also the drive for the ditrectory needs to have enough space to hold the files after extraction.
+
+        /// <summary>
+        /// This method takes a destination path and tries to execute the archives files found inside the archive.
+        /// </summary>
+        /// <param name="destination"> The destination folder into which to extract the found files.</param>
+        /// <exception cref="ArchiveErrorCodeException"> 
+        /// Is raised when: The Archive header is presumed corrupted.
+        ///                 A individual file header is presumed corrupted.
+        ///                 There is not enough disk space for the extracted files on the disk specified by the destination path.
+        ///                 If there already is an archive with the same name that is set to read only.
+        ///                 If a <see cref="OutOfMemoryException"/> occurs due to a corrupt file.                 
+        /// </exception>
         public void ExtractArchiveFiles(string destination)
         {
             List<string> foundFileNames = new List<string>();
@@ -251,10 +266,15 @@ namespace FileCompressor
             }
             catch (Exception e)
             {
+                // TODO REMOVE THIS SHIT
                 throw e;
             }
         }
 
+        /// <summary>
+        /// This method tries to read the Archive header from the source path and print the meta information about the archive to the console.
+        /// </summary>
+        /// <exception cref="ArchiveErrorCodeException"> Is raised when the archive header could not be read.</exception>
         public void ReadArchiveHeaderAndPrintToConsole()
         {
             ArchiveHeader header;
@@ -270,6 +290,15 @@ namespace FileCompressor
         }
 
         // Does and should not need a compression algorithm as all data is stored the same way in the archive header, is used to also find out which compression was used and rectify the class itself!.
+
+        /// <summary>
+        /// This method reads the archive header with the given source path inside the class and returns a ArchiveHeader if one was found.
+        /// </summary>
+        /// <returns> A valid Archive header if one was found, else it returns null.</returns>
+        /// <exception cref="ArchiveErrorCodeException">
+        /// Is raised if: a ArchiveError occurred while processing.
+        ///               The file was read only and could not be accessed.
+        /// </exception>
         public ArchiveHeader ReturnArchiveHeader()
         {
             ArchiveHeader header;

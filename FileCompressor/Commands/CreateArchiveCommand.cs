@@ -38,6 +38,12 @@ namespace FileCompressor
         /// </summary>
         private ICompressionAlgorithm usedCompression;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateArchiveCommand"/> class. 
+        /// </summary>
+        /// <param name="sourcePathToDirectory"> The source path to the directory from which to compress files from.</param>
+        /// <param name="destinationNameForTheFile"> The name for the resulting archive file as a string.</param>
+        /// <param name="compressionAlgorithm"> The compress algorithm used for the archive.</param>
         public CreateArchiveCommand(string sourcePathToDirectory, string destinationNameForTheFile, ICompressionAlgorithm compressionAlgorithm)
         {
             this.UsedCompression = compressionAlgorithm;

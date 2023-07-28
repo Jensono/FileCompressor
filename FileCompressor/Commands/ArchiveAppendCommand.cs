@@ -34,6 +34,11 @@ namespace FileCompressor
         /// </summary>
         private string archiveFilePath;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ArchiveAppendCommand"/> class. 
+        /// </summary>
+        /// <param name="sourcePathToDirectory"> The path to the source directory that should be appended as a string.</param>
+        /// <param name="archiveFilePath"> The path to the archive that should be appended as a string.</param>
         public ArchiveAppendCommand(string sourcePathToDirectory, string archiveFilePath)
         {
             this.ArchiveFilePath = archiveFilePath;

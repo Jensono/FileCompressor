@@ -18,6 +18,9 @@ namespace FileCompressor
     /// </summary>
     public class RLECompressionAlgorithm : ICompressionAlgorithm
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="RLECompressionAlgorithm"/> class. 
+        /// </summary>
         public RLECompressionAlgorithm()
         {
         }
