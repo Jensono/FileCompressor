@@ -16,6 +16,10 @@ namespace FileCompressor
     /// </summary>
     internal class Program
     {
+        /// <summary>
+        /// The main method and entry point for the application.
+        /// </summary>
+        /// <param name="args"> The arguments given in the command line, when executing the application from the console.</param>
         private static void Main(string[] args)
         {
             // TODO TODO TODO AFTER FINAL TESTING /////////////////////////////////////////////////////////////////////////////////////////////////////////////

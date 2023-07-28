@@ -158,6 +158,11 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method tries to parse the value for the destination parameters.
+        /// </summary>
+        /// <param name="argumentArray"> The arguments that should be parsed for the parameter specifcation.</param>
+        /// <returns> Returns true if the string array was parsable as the parameters specfications. </returns>
         public bool TryParseValueAndSetIt(string[] argumentArray)
         {
             if (this.CheckParameterSpecificationForValidity(argumentArray))
@@ -169,6 +174,10 @@ namespace FileCompressor
             return false;
         }
 
+        /// <summary>
+        /// This method makes a deep copy of the destination parameter itself.
+        /// </summary>
+        /// <returns> Returns a IParameter that is also a DestinationParameter.</returns>
         public IParameter DeepCloneSelf()
         {
             return new DestinationParameter(this.ShortParameterName, this.LongParameterName);

@@ -87,6 +87,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method turns the <see cref="CommandParameters"/> into a string that resembles the arguments that were given when executing the application.
+        /// </summary>
+        /// <returns></returns>
         public string TurnIntoCommandString()
         {
             string returnString = this.CommandShortName;

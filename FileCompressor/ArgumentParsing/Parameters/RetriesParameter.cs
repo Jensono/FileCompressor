@@ -169,6 +169,11 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method tries to parse the value for the retires parameters.
+        /// </summary>
+        /// <param name="argumentArray"> The arguments that should be parsed for the parameter specifcation.</param>
+        /// <returns> Returns true if the string array was parsable as the parameters specfications. </returns>
         public bool TryParseValueAndSetIt(string[] argumentArray)
         {
             if (!this.CheckParameterSpecificationForValidity(argumentArray))
@@ -188,6 +193,10 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method makes a deep copy of the retires parameter itself.
+        /// </summary>
+        /// <returns> Returns a IParameter that is also a retires parameter .</returns>
         public IParameter DeepCloneSelf()
         {
             return new RetriesParameter(this.ShortParameterName, this.LongParameterName);

@@ -114,8 +114,13 @@ namespace FileCompressor
             }
         }
 
-
-
+        /// <summary>
+        /// This method appends a list of files to an already existing archive.
+        /// </summary>
+        /// <param name="archiveFilePath"> The path to the Archive file.</param>
+        /// <param name="filesToBeWrittenIntoArchive"> The list of files that should be appended to the archive.</param>
+        /// <param name="newModifiedArchiveHeader"> The new archive header that needs to overwritte the old archive header. Filled with adjusted information for the append.</param>
+        /// <exception cref="ArchiveErrorCodeException"> Is raised when there is not enough disk space on the drive that contains the archive file.</exception>
         public void AppendToArchive(string archiveFilePath, List<FileMetaInformation> filesToBeWrittenIntoArchive, ArchiveHeader newModifiedArchiveHeader)
         {
             long[] expectedFileSizes = this.ReturnCompressedSizeForFilesAsArray(filesToBeWrittenIntoArchive);
@@ -134,7 +139,13 @@ namespace FileCompressor
 
             this.ChangeArchiveHeaderToNewHeader(archiveFilePath, newModifiedArchiveHeader);
         }
-        
+
+        /// <summary>
+        /// This method create a new archive file. The archive will also be in the same folder that was specified for compression.
+        /// </summary>
+        /// <param name="archiveHeader"> The archive header for the archive file.</param>
+        /// <param name="filesToBeWrittenIntoArchive"> The files that should be contained within the archive file.</param>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown when there is not enough disk space on the specified drive for the archive.</exception>
         public void CreateArchive(ArchiveHeader archiveHeader, List<FileMetaInformation> filesToBeWrittenIntoArchive)
         {
             // TODO // TODO VALIDATE THAT GIVEN ARCHIVENAME IS IN FACT NOT A PATH BUT A FILENAME that is to be created, it just worked with a path, saying that it was the same path as the destination folder.
@@ -160,6 +171,11 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method returns a list of compressed file sizes the files will have in the archive.
+        /// </summary>
+        /// <param name="fileMetaInformationList"> The files that should be checked for their compressed size.</param>
+        /// <returns> A array of long values for the assumed compressed size of the files.</returns>
         public long[] ReturnCompressedSizeForFilesAsArray(List<FileMetaInformation> fileMetaInformationList)
         {
             long[] expectedSize = new long[fileMetaInformationList.Count];
@@ -173,6 +189,12 @@ namespace FileCompressor
             return expectedSize;
         }
 
+        /// <summary>
+        /// This method modifies an archive files archive header to a new archive header.
+        /// </summary>
+        /// <param name="archiveFilePath"> The path to the archive file.</param>
+        /// <param name="newModifiedArchiveHeader"> The new adjusted archive header that should overwrite the old archive header.</param>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown when the file, with the given file path, could not be read. </exception>
         private void ChangeArchiveHeaderToNewHeader(string archiveFilePath, ArchiveHeader newModifiedArchiveHeader)
         {
             byte[] newArchiveHeaderAsBytes = newModifiedArchiveHeader.GetArchiveHeaderAsBytes();
@@ -195,6 +217,12 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method appends a <see cref="IndividualFileHeaderInformation"/> and the file itself to an existing archive.
+        /// </summary>
+        /// <param name="archiveFilePath"> The path to the archive the new data should be appended to.</param>
+        /// <param name="fileInfo"> The file info for the file that should be appended.</param>
+        /// <param name="compressedSizeOfFile"> The presumed compressed size of the file that should be appended.</param>
         private void AppendFileWithFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo, long compressedSizeOfFile)
         {
             this.WriteFileHeaderToArchive(archiveFilePath, fileInfo, compressedSizeOfFile);
@@ -204,6 +232,16 @@ namespace FileCompressor
             //////////////////////////////////REVISE THE FILEHEADER TO CONTAIN ACCURATE INFORMATION ON THE FILE
         }
 
+        /// <summary>
+        /// This Method writes the individual file header as bytes into the archive file.
+        /// </summary>
+        /// <param name="archiveFilePath"> The path to the archive file that should be written.</param>
+        /// <param name="fileInfo"> The file info of the file that the file header should be written for. </param>
+        /// <param name="compressedFileSize"> The assumed compressed size of the file in the archive.</param>
+        /// <exception cref="ArchiveErrorCodeException"> 
+        /// Is thrown when: the file, with the given file path, could not be read.
+        ///                 If an archive with the same name already exists, is read only and can not be overwriten.                 
+        /// </exception>
         private void WriteFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo, long compressedFileSize)
         {
             byte[] fileHeaderBytes;
@@ -240,6 +278,11 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method write the archive header into the archive file.
+        /// </summary>
+        /// <param name="archiveFilePath"> The file path to which to write the archive header to.</param>
+        /// <param name="archiveHeader"> The archive header that need to be written as bytes to the file.</param>
         private void WriteArchiveHeaderToFile(string archiveFilePath, ArchiveHeader archiveHeader)
         {
             try
@@ -266,6 +309,15 @@ namespace FileCompressor
         }
 
         // returns true if the destination folder contains enough space for the compression.
+
+        /// <summary>
+        /// This method checks whether or not the drive into which to append to has enough space, so that the append can be performed.
+        /// </summary>
+        /// <param name="fileMetaInformationList"> The list of filemetainformation for all the files that need to be appendend.</param>
+        /// <param name="expectedSizesForFiles"> The expected compressed size for all files that need to be appended as a long array.</param>
+        /// <returns> A boolean value indicating whether or not there is enough disk space for the planned append execution. </returns>
+        ///  <exception cref="ArchiveErrorCodeException">  Is thrown when the individual file header can not be generated for a file. Its assumed the fileinformation is corrupt.
+        /// </exception>
         private bool CheckExpectedFileSizeForAppend(List<FileMetaInformation> fileMetaInformationList, long[] expectedSizesForFiles)
         {
             long sumExpectedFileSize = 0;
@@ -297,10 +349,20 @@ namespace FileCompressor
                 sumExpectedFileSize += expectedSizesForFiles[counter];
                 counter++;
             }
+            DriveInfo driveInfo;
+            try
+            {
+                string driveLetter = Path.GetPathRoot(this.DestinationFolder).Substring(0, 1);
+                driveInfo = new DriveInfo(driveLetter);
 
-            string driveLetter = Path.GetPathRoot(this.DestinationFolder).Substring(0, 1);
-            DriveInfo driveInfo = new DriveInfo(driveLetter);
-
+            }
+            catch (Exception)
+            {
+                // drive is assumed to be non existend.
+                return false;
+                
+            }
+          
             if (driveInfo.AvailableFreeSpace > sumExpectedFileSize)
             {
                 return true;

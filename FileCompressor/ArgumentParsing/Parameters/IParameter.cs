@@ -40,8 +40,17 @@ namespace FileCompressor
         /// <value> The value of the parameter that is saved inside the class. </value>
         object Value { get; set; }
 
+        /// <summary>
+        /// This method tries to parse the value for the parameters.
+        /// </summary>
+        /// <param name="array"> The arguments that should be parsed for the parameter specifcation.</param>
+        /// <returns> Returns true if the string array was parsable as the parameters specfications. </returns>
         bool TryParseValueAndSetIt(string[] array);
 
+        /// <summary>
+        /// This method creates deep clone for the class itself.
+        /// </summary>
+        /// <returns> A deep clone of the class that executes this method.</returns>
         IParameter DeepCloneSelf();
     }
 }

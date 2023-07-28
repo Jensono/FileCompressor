@@ -149,7 +149,11 @@ namespace FileCompressor
             }
         }
 
-
+        /// <summary>
+        /// This method tries to parse the value for the RLE Compression parameters.
+        /// </summary>
+        /// <param name="array"> The arguments that should be parsed for the parameter specifcation.</param>
+        /// <returns> Returns true if the string array was parsable as the parameters specfications. </returns>
         public bool TryParseValueAndSetIt(string[] array)
         {
             if (this.CheckParameterSpecificationForValidity(array))
@@ -161,6 +165,10 @@ namespace FileCompressor
             return false;
         }
 
+        /// <summary>
+        /// This method makes a deep copy of the RLE Compression parameter itself.
+        /// </summary>
+        /// <returns> Returns a IParameter that is also a RLE Compression parameter.</returns>
         public IParameter DeepCloneSelf()
         {
             return new RLECompressionParameter(this.ShortParameterName, this.LongParameterName);

@@ -332,8 +332,17 @@ namespace FileCompressor
             }
         }
 
-        
 
+        /// <summary>
+        /// This method read the individual file header for one of the files contained in the archive and returns it.
+        /// </summary>
+        /// <param name="archiveFilestream"> The archive file stream from which the method can read the file header.</param>
+        /// <param name="currentPositionInFile"> The current index of the position for the file stream.</param>
+        /// <returns> A <see cref="IndividualFileHeaderInformation"/> object if the file header was valid.</returns>
+        /// <exception cref="ArchiveErrorCodeException">
+        /// Is raised when: A individual file header is presumed corrupted.
+        /// </exception>
+        /// <exception cref="ArgumentNullException"> If the given file stream was null. </exception>
         public IndividualFileHeaderInformation ReadIndividualFileHeader(FileStream archiveFilestream, long currentPositionInFile)
         {
             if (archiveFilestream is null)
@@ -405,6 +414,17 @@ namespace FileCompressor
             return individualFileHeader;
         }
 
+        /// <summary>
+        /// This method validates whether or not a given Archive header inside of the archive is valid or not.
+        /// </summary>
+        /// <param name="header"> The resulting Archive header out parameters, will be filled with an archive header if the archive header inside
+        /// the archive was valid.</param>
+        /// <returns> A boolean value indicating whether or not the archive header for the archive is valid.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> 
+        /// Is raised when: The file could not be accessed.
+        ///                 The file does not exists.
+        ///                 The archive did not contain a valid archive header and/or the header was corrupted.                 
+        /// </exception>
         private bool IsArchiveHeaderValid(out ArchiveHeader header)
         {
             byte[] buffer = new byte[this.FixedVariables.ArchiveHeaderLength];
@@ -426,6 +446,7 @@ namespace FileCompressor
             }
             catch (Exception e)
             {
+                // TODO REMOVE THIS SHIT
                 throw e;
             }
 
@@ -445,6 +466,7 @@ namespace FileCompressor
             }
             catch (Exception e)
             {
+                // TODO REMOVE THIS SHIT
                 throw e;
             }
         }

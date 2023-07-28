@@ -85,6 +85,15 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method tries to parse the given command line arguments, parse them and execute them one by one.
+        /// </summary>
+        /// <exception cref="ArchiveErrorCodeException"> 
+        /// Will be thrown when: There were no arguments given except those that contain white spaces.
+        ///                      A Archive error was thrown while parsing the arguments in a diffrent part of the application.
+        ///                      If not all required parameters were given for all commands.
+        ///                      If parameters were specified twice for the same command.                     
+        /// </exception>
         public void ParseCommandsAndExecute()
         {
             // remove whitespaces at the end / trailing of the string[]
@@ -147,11 +156,21 @@ namespace FileCompressor
             }
         }
 
-        private string[] RemoveWhiteSpaceEntry(string[] arguments)
+        /// <summary>
+        /// This method removes all entries from a string array, that only consist of white spaces.
+        /// </summary>
+        /// <param name="array"> The array that should be changed to not containg any more entries, only consisting of white spaces.</param>
+        /// <returns> A string array, that only contains entries that are not exclusibly made out of white spaces.</returns>
+        private string[] RemoveWhiteSpaceEntry(string[] array)
         {
-            return arguments.Where(arg => !string.IsNullOrWhiteSpace(arg)).ToArray();
+            return array.Where(arg => !string.IsNullOrWhiteSpace(arg)).ToArray();
         }
 
+        /// <summary>
+        /// This method executes all commands that were extracted from the command line, one after another as given by the user.
+        /// </summary>
+        /// <param name="readParameteSpecification"> A list with entries of <see cref="CommandParameters"/> which specify what command action with which parameters should be executed.</param>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if a Archive Error was detected during execution of any of the commands.</exception>
         private void ExecuteCommands(List<CommandParameters> readParameteSpecification)
         {
             foreach (CommandParameters commandParameters in readParameteSpecification)
@@ -178,6 +197,13 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method creats a list of Command parameter objects from a list list array of string that were premodified, but initially given by the user.
+        /// </summary>
+        /// <param name="commandsListListArray"> A list of command blocks , which each contains a list of string arrays which are the logical units of either a command or a parameter with its specification.</param>
+        /// <returns> A list of CommandParameters that could be extracted from the list of list of string arrays.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is raised when a parameter specification could not be read. For example -r 7. Here the parametetr specification for the retires parameter would be 7. </exception>
+        /// <exception cref="InvalidOperationException"> Is raised when the entry in any of the above list, first entry in the second list, meaning the parameter specification could not be read or was invalid.</exception>
         private List<CommandParameters> CreateCommandParametersFromCommandListListArray(List<List<string[]>> commandsListListArray)
         {
             List<CommandParameters> foundCommandParameters = new List<CommandParameters>();
@@ -224,6 +250,11 @@ namespace FileCompressor
             return foundCommandParameters;
         }
 
+        /// <summary>
+        /// This method combines all entries of a string array and returns the resutlung string. Used primarily with string arrays from the command line .
+        /// </summary>
+        /// <param name="array"> The array of strings that should be combined to one string.</param>
+        /// <returns> A string that combines each entry and seperates them with a space.</returns>
         private string ReverseStringArrayToString(string[] array)
         {
             string returnString = string.Empty;
@@ -236,6 +267,13 @@ namespace FileCompressor
         }
 
         // before using this method we also validated that the given first entry is a available command so no checking
+
+        /// <summary>
+        /// This method build a <see cref="IParameter"/> object for a string array that contains a composit unit of a parameter calling and it specification. All of theses are their own entries in the string array.
+        /// </summary>
+        /// <param name="stringArray">The string array containg the parameters short name, in the first entry and specification parameters and their specification in all other entries.</param>
+        /// <returns> A IParameter when the string array was a valid combination.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown when the string array was not a valid combination of parameters and parameter specifications. </exception>
         private IParameter BuildIParameterForListEntry(string[] stringArray)
         {
             List<IParameter> availableParamters = this.BuildAvailableParameterList(this.CurrentlyUsableCommands);
@@ -255,11 +293,14 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// Returns a List of List of String Arrays, inside the string arrays are string that were found between spaces when the user started the application, the first list layer groups commands together for example:
-        /// -c -d [] -s [] ..... the list below that only contains parameters or the command itself so |-c | or |-d []| and groups them together. These logical units can later be testes for validity by themself.
+        /// This method splits the initial command line arguments given, when the application is starded and splits them into logical units, for further processing.
+        /// 
         /// </summary>
-        /// <param name="commandStringArrays"></param>
-        /// <returns> </returns>
+        /// <param name="commandStringArrays"> The list of string arrays which contain all the commands followed by their parameters and speciciations.</param>
+        /// <returns> 
+        /// Returns a List of List of String Arrays, inside the string arrays are string that were found between spaces when the user started the application, the first list layer groups commands together for example:
+        /// -c -d [] -s [] ..... the list below that only contains parameters or the command itself so | -c | or |-d [] | and groups them together. These logical units can later be testes for validity by themself.
+        /// </returns>
         private List<List<string[]>> SplitCommandListArrayFurtherIntoParametersLogicalUnits(List<string[]> commandStringArrays)
         {
             List<List<string[]>> returnListSplitByParameter = new List<List<string[]>>();
@@ -303,6 +344,11 @@ namespace FileCompressor
             return returnListSplitByParameter;
         }
 
+        /// <summary>
+        /// This method checks whether or not a string is the short parameter name for a parameter.
+        /// </summary>
+        /// <param name="userInput"> The string that should be checked.</param>
+        /// <returns> Whether or not the string was a short parameter name.</returns>
         private bool IsStringParameterShortName(string userInput)
         {
             List<IParameter> currentParameters = this.BuildAvailableParameterList(this.CurrentlyUsableCommands);
@@ -318,6 +364,15 @@ namespace FileCompressor
             return false;
         }
 
+        /// <summary>
+        /// This method checks if all the required parameters were given for a command.
+        /// </summary>
+        /// <param name="commandStringArrays"> A list of string arrays, the first entry must containg a string array of length 1 which is the command short calling name itself.
+        /// The following list entries are the logical parameter grouping, in these string arrays the first string must always be the parameters short name calling and the following entries in the array the specification for this particular parameter.
+        /// </param>
+        /// <returns> Whether or not the command had all its required parameters and if none of the parameters where specified twice. </returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if: A parmater was specified twice.
+        /// </exception>
         private bool CheckForRequiredParameters(List<string[]> commandStringArrays)
         {
             for (int i = 0; i < commandStringArrays.Count; i++)
@@ -371,6 +426,11 @@ namespace FileCompressor
             return true;
         }
 
+        /// <summary>
+        /// This method checks whether or not a boolean array, only contains true values.
+        /// </summary>
+        /// <param name="foundRequiredParameters"> The array that should be checked.</param>
+        /// <returns> Returns true if all entries of the array were true. Else false.</returns>
         private bool CheckBoolArrayForAllTrues(bool[] foundRequiredParameters)
         {
             for (int i = 0; i < foundRequiredParameters.Length; i++)
@@ -384,7 +444,11 @@ namespace FileCompressor
             return true;
         }
 
-        
+        /// <summary>
+        /// This method returns a coresponding <see cref="ICommandLineCommand"/> for a given command short name calling.
+        /// </summary>
+        /// <param name="commandShortName"> The string of the command short name for which, a command line command should be returned.</param>
+        /// <returns> A command line command that is associated with the command short name. If no such command is found, null is returned. </returns>
         private ICommandLineCommand ReturnCorrespondingCommandFromShortName(string commandShortName)
         {
             foreach (var item in this.CurrentlyUsableCommands)
@@ -399,14 +463,19 @@ namespace FileCompressor
             return null;
         }
 
+        /// <summary>
+        /// This method splits a argument by the command short name callings and makes seperate list entries at the split point.
+        /// </summary>
+        /// <param name="smallNameCommands"> The command line input that was given that should be split the short command names</param>
+        /// <returns> A List of string arrays, each entry in the list is a command that should be able to execute own its own with its own parameters and parameter specifications.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown when the first entry in the given array is not a command short name, meaning the user first input was not a command name.</exception>
         private List<string[]> SplitArgumentsByCommands(string[] smallNameCommands)
         {
             List<string[]> commandsSplitInList = new List<string[]>();
 
             int currentCommandStartIndex = 0;
 
-            // TODO
-            // first string MUST BE A COMMAND or else the commandline is invalid by defoult and will not execute even one, THROW SOME SHIT
+            
             if (!this.IsStringCommandShortName(smallNameCommands[0]))
             {
                 throw new ArchiveErrorCodeException("Errorcode 1. The first argument given was no Command Short or Command Long sequence!");
@@ -437,6 +506,11 @@ namespace FileCompressor
             return commandsSplitInList;
         }
 
+        /// <summary>
+        /// This method searches a string array for command long names and turns them into command short names.
+        /// </summary>
+        /// <param name="oldArguments"> The intial array which should be modified.</param>
+        /// <returns> A string array which now contains command short names, where before there were entries with command long names.</returns>
         private string[] TurnFoundCommandNamesIntoSmallNames(string[] oldArguments)
         {
             string[] newArguments = new string[oldArguments.Length];
@@ -465,6 +539,11 @@ namespace FileCompressor
             return newArguments;
         }
 
+        /// <summary>
+        /// This method  searches a string array for parameer long names and turns them into command short names.
+        /// </summary>
+        /// <param name="oldArguments">  The intial array which should be modified. </param>
+        /// <returns> A string array which now contains parameter short names, where before there were entries with parameter long names.</returns>
         private string[] TurnFoundParameterNamesIntoSmallNames(string[] oldArguments)
         {
             string[] newArguments = new string[oldArguments.Length];
@@ -496,6 +575,11 @@ namespace FileCompressor
             return newArguments;
         }
 
+        /// <summary>
+        /// This method build a list of all the parameters for which the command line arguments given by the user can be search for. It does this by using the currently usable commands which contain all the parameter information anyway.
+        /// </summary>
+        /// <param name="currentlyUsableCommands"> The list of commands that can currently be used whit this application.</param>
+        /// <returns> A list of <see cref="IParameter"/> entries which represent every available parameter the user can use in the application.</returns>
         private List<IParameter> BuildAvailableParameterList(List<ICommandLineCommand> currentlyUsableCommands)
         {
             List<IParameter> returnListParameters = new List<IParameter>();
@@ -523,6 +607,11 @@ namespace FileCompressor
             return returnListParameters;
         }
 
+        /// <summary>
+        /// This method checks whether or not a string is the short command name calling of a command.
+        /// </summary>
+        /// <param name="stringToCheck"> The string to check.</param>
+        /// <returns> A boolean value indicating whether or not the string was the short command name of a command.</returns>
         private bool IsStringCommandShortName(string stringToCheck)
         {
             for (int i = 0; i < this.CurrentlyUsableCommands.Count; i++)
