@@ -30,7 +30,7 @@ namespace FileCompressor
         /// </summary>
         /// <param name="inputOriginalFilePath"> The source path for the file that should be compressed into the archive. </param>
         /// <param name="outputArchiveFilePath"> The output path for the compression. The archive file.</param>
-        /// <exception cref="ArchiveErrorCodeException"> Is raised if the file could not be accesed.</exception>
+        /// <exception cref="ArchiveErrorCodeException"> Is raised if the file could not be accessed.</exception>
         public void Compress(string inputOriginalFilePath, string outputArchiveFilePath)
         {
             try
@@ -168,11 +168,11 @@ namespace FileCompressor
         /// <summary>
         /// This method decompresses or extracts a File from a given archive file into a given directory.
         /// </summary>
-        /// <param name="archiveFileStream"> The archive file stream assosiated with a archive file.</param>
+        /// <param name="archiveFileStream"> The archive file stream associated with a archive file.</param>
         /// <param name="outputNewFilePath"> The output file path for the file that should be extracted.</param>
         /// <param name="decompressionStartIndexInFile"> The index in the file stream or archive file from which to start reading the file content.</param>
         /// <param name="fileHeader"> The individual file header of the file.</param>
-        /// <exception cref="ArchiveErrorCodeException"> Is thrown if something unexcpeted happens during decompresson.</exception>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if something unexpected happens during decompression.</exception>
         public void Decompress(FileStream archiveFileStream, string outputNewFilePath, long decompressionStartIndexInFile, IndividualFileHeaderInformation fileHeader)
         {
             // Writting the new file here.

@@ -12,26 +12,26 @@ namespace FileCompressor
     using System;
 
     /// <summary>
-    /// This class is used to add, validate and extract parity bytes from a byte array. The current implementation adds a parity byte for every byte giving , effectifly doubling the byte arrays length.
-    /// A parity byte and normal byte always come in pairs. The first byte is always the original byte, the second is the diffrence of 255 and the original byte.
+    /// This class is used to add, validate and extract parity bytes from a byte array. The current implementation adds a parity byte for every byte giving , effectively doubling the byte arrays length.
+    /// A parity byte and normal byte always come in pairs. The first byte is always the original byte, the second is the difference of 255 and the original byte.
     /// </summary>
     public class ParitiyByteEncoder
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParitiyByteEncoder"/> class. The current implementation adds a parity byte for every byte giving , effectifly doubling the byte arrays length.
-        /// A parity byte and normal byte always come in pairs. The first byte is always the original byte, the second is the diffrence of 255 and the original byte.
+        /// Initializes a new instance of the <see cref="ParitiyByteEncoder"/> class. The current implementation adds a parity byte for every byte giving , effectively doubling the byte arrays length.
+        /// A parity byte and normal byte always come in pairs. The first byte is always the original byte, the second is the difference of 255 and the original byte.
         /// </summary>
         public ParitiyByteEncoder()
         {
         }
 
         /// <summary>
-        /// This method adds aprity bytes to an array of bytes, and therefor expands it. The current implementation adds a parity byte for every byte giving , effectifly doubling the byte arrays length.
-        /// A parity byte and normal byte always come in pairs. The first byte is always the original byte, the second is the diffrence of 255 and the original byte.
+        /// This method adds parity bytes to an array of bytes, and therefor expands it. The current implementation adds a parity byte for every byte giving , effectively doubling the byte arrays length.
+        /// A parity byte and normal byte always come in pairs. The first byte is always the original byte, the second is the difference of 255 and the original byte.
         /// </summary>
         /// <param name="byteArray"> The byte array for which to add parity bytes.</param>
-        /// <returns> A byte array which was equiped with parity bytes, doubling its size compared to the orignal length.</returns>
-        /// <exception cref="ArgumentNullException"> Is triggerd when the parameter was null. </exception>
+        /// <returns> A byte array which was equipped with parity bytes, doubling its size compared to the original length.</returns>
+        /// <exception cref="ArgumentNullException"> Is triggered when the parameter was null. </exception>
         /// <exception cref="ArgumentOutOfRangeException"> Is triggered when the array given contains more entries then half of 2^32 .</exception>
         public byte[] AddParityBytesToByteArray(byte[] byteArray)
         {
@@ -60,7 +60,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method validates all given orignial byte - parity byte pairs inside a given byte array.
+        /// This method validates all given original byte - parity byte pairs inside a given byte array.
         /// </summary>
         /// <param name="byteArrayWithParityBytes"> The byte array which should be validated.</param>
         /// <returns> A boolean indicating whether or not the given byte arrays parity bytes were all correct.</returns>
@@ -88,12 +88,12 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method removes the parity bytes from a byte array, extracting the orignal bytes.
+        /// This method removes the parity bytes from a byte array, extracting the original bytes.
         /// </summary>
         /// <param name="byteArray"> The byte array from which to remove the parity bytes from.</param>
-        /// <returns> The orignal byte array that does not contain any parity bytes.</returns>
-        /// <exception cref="ArgumentException"> Is raised if the given byte array cant be divided by 2, meaning its not an array which was equiped with parity bytes by this algorithm or just some random array.
-        /// Per defintion all arrays with this algorithm must contain an even amount of bytes to be valid.
+        /// <returns> The original byte array that does not contain any parity bytes.</returns>
+        /// <exception cref="ArgumentException"> Is raised if the given byte array cant be divided by 2, meaning its not an array which was equipped with parity bytes by this algorithm or just some random array.
+        /// Per definition all arrays with this algorithm must contain an even amount of bytes to be valid.
         /// </exception>
         public byte[] RemoveParityBytesFromArray(byte[] byteArray)
         {

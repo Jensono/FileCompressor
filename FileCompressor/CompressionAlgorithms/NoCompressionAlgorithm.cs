@@ -27,7 +27,7 @@ namespace FileCompressor
         // In theory a compress is just a append, because right now i dont need to compress at any other place other then
 
         /// <summary>
-        /// This method compresses a file, from a given source path into an archive file with a destination path, with no compression at all.It just copys the files bytes into the archive file.
+        /// This method compresses a file, from a given source path into an archive file with a destination path, with no compression at all.It just copies the files bytes into the archive file.
         /// </summary>
         /// <param name="inputOriginalFilePath"> The source path to the file which should be compressed.</param>
         /// <param name="outputArchiveFilePath"> The destination path to the archive into which the file should be written.</param>
@@ -81,11 +81,11 @@ namespace FileCompressor
         /// <summary>
         /// This method decompresses or extracts a File from a given archive file into a given directory.
         /// </summary>
-        /// <param name="archiveFilestream"> The archive file stream assosiated with a archive file.</param>
+        /// <param name="archiveFilestream"> The archive file stream associated with a archive file.</param>
         /// <param name="outputNewFilePath"> The output file path for the file that should be extracted.</param>
         /// <param name="archiveDecompressionStartPoint"> The index in the file stream or archive file from which to start reading the file content.</param>
         /// <param name="fileHeader"> The individual file header of the file.</param>
-        /// <exception cref="ArchiveErrorCodeException"> Is thrown if something unexcpeted happens during decompresson.</exception>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if something unexpected happens during decompression.</exception>
         public void Decompress(FileStream archiveFilestream, string outputNewFilePath, long archiveDecompressionStartPoint, IndividualFileHeaderInformation fileHeader)
         {
             // Writting the new file here.

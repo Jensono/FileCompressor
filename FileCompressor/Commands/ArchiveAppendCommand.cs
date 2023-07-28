@@ -113,8 +113,8 @@ namespace FileCompressor
         /// <summary>
         /// This method executes the append process with the parameters given when creating the class.
         /// </summary>
-        /// <returns> A boolean value indicating whether or not the execution succeded.</returns>
-        /// <exception cref="ArchiveErrorCodeException"> Is thrown when there way a Archive error thrown during the excecution process.</exception>
+        /// <returns> A boolean value indicating whether or not the execution succeeded.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown when there way a Archive error thrown during the execution process.</exception>
         public bool Execute()
         {
             // TODO WHEN OVERWRITTING a file first needs to be safed under some kind of temporary name, if while the file should be overwritten there is an error both are lost!!!!!

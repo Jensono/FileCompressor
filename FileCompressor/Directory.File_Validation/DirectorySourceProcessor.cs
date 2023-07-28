@@ -109,8 +109,7 @@ namespace FileCompressor
         /// <exception cref="ArchiveErrorCodeException"> 
         /// Is raised when: The given source is inside the class is not valid.
         ///                 A file in the given directory could not be processes for various reasons.
-        ///                 A directory could not be processed for multiple reasons.
-        ///                 
+        ///                 A directory could not be processed for multiple reasons.         
         /// </exception>
         public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(string[] filePathsToSkip)
         {
@@ -198,11 +197,11 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method is used check the drive, in which the source directory resids, contains more disk space in bytes then given in the parameter.
+        /// This method is used check the drive, in which the source directory resides, contains more disk space in bytes then given in the parameter.
         /// </summary>
         /// <param name="minimumRequiredSpace"> The space in bytes for which the disk should be checked.</param>
         /// <returns> A boolean indicating whether or not the disk contains more space than the given long.</returns>
-        /// <exception cref="ArchiveErrorCodeException"> Is thrown when there isnt enough disk space for a new creation. Or if disk could not be checked for many reasons. </exception>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown when there is not enough disk space for a new creation. Or if disk could not be checked for many reasons. </exception>
         public bool CheckForEnoughDriveSpace(long minimumRequiredSpace)
         {
             try
@@ -227,7 +226,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method procudes a relative path given two paths. One directly to a file, another to a directory in which the file lies in some way.
+        /// This method produces a relative path given two paths. One directly to a file, another to a directory in which the file lies in some way.
         /// </summary>
         /// <param name="directoryPath"> The directory path in which the file can be deeply buried.</param>
         /// <param name="filePath"> The path to the file for which to create a relativ path for.</param>

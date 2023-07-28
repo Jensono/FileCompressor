@@ -90,7 +90,7 @@ namespace FileCompressor
         /// </summary>
         /// <exception cref="ArchiveErrorCodeException"> 
         /// Will be thrown when: There were no arguments given except those that contain white spaces.
-        ///                      A Archive error was thrown while parsing the arguments in a diffrent part of the application.
+        ///                      A Archive error was thrown while parsing the arguments in a different part of the application.
         ///                      If not all required parameters were given for all commands.
         ///                      If parameters were specified twice for the same command.                     
         /// </exception>
@@ -159,7 +159,7 @@ namespace FileCompressor
         /// <summary>
         /// This method removes all entries from a string array, that only consist of white spaces.
         /// </summary>
-        /// <param name="array"> The array that should be changed to not containg any more entries, only consisting of white spaces.</param>
+        /// <param name="array"> The array that should be changed to not containing any more entries, only consisting of white spaces.</param>
         /// <returns> A string array, that only contains entries that are not exclusibly made out of white spaces.</returns>
         private string[] RemoveWhiteSpaceEntry(string[] array)
         {
@@ -198,11 +198,11 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method creats a list of Command parameter objects from a list list array of string that were premodified, but initially given by the user.
+        /// This method creates a list of Command parameter objects from a list list array of string that were premodified, but initially given by the user.
         /// </summary>
         /// <param name="commandsListListArray"> A list of command blocks , which each contains a list of string arrays which are the logical units of either a command or a parameter with its specification.</param>
         /// <returns> A list of CommandParameters that could be extracted from the list of list of string arrays.</returns>
-        /// <exception cref="ArchiveErrorCodeException"> Is raised when a parameter specification could not be read. For example -r 7. Here the parametetr specification for the retires parameter would be 7. </exception>
+        /// <exception cref="ArchiveErrorCodeException"> Is raised when a parameter specification could not be read. For example -r 7. Here the parameter specification for the retires parameter would be 7. </exception>
         /// <exception cref="InvalidOperationException"> Is raised when the entry in any of the above list, first entry in the second list, meaning the parameter specification could not be read or was invalid.</exception>
         private List<CommandParameters> CreateCommandParametersFromCommandListListArray(List<List<string[]>> commandsListListArray)
         {
@@ -251,7 +251,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method combines all entries of a string array and returns the resutlung string. Used primarily with string arrays from the command line .
+        /// This method combines all entries of a string array and returns the resulting string. Used primarily with string arrays from the command line .
         /// </summary>
         /// <param name="array"> The array of strings that should be combined to one string.</param>
         /// <returns> A string that combines each entry and seperates them with a space.</returns>
@@ -271,7 +271,7 @@ namespace FileCompressor
         /// <summary>
         /// This method build a <see cref="IParameter"/> object for a string array that contains a composit unit of a parameter calling and it specification. All of theses are their own entries in the string array.
         /// </summary>
-        /// <param name="stringArray">The string array containg the parameters short name, in the first entry and specification parameters and their specification in all other entries.</param>
+        /// <param name="stringArray">The string array containing the parameters short name, in the first entry and specification parameters and their specification in all other entries.</param>
         /// <returns> A IParameter when the string array was a valid combination.</returns>
         /// <exception cref="ArchiveErrorCodeException"> Is thrown when the string array was not a valid combination of parameters and parameter specifications. </exception>
         private IParameter BuildIParameterForListEntry(string[] stringArray)
@@ -293,10 +293,9 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method splits the initial command line arguments given, when the application is starded and splits them into logical units, for further processing.
-        /// 
+        /// This method splits the initial command line arguments given, when the application is started and splits them into logical units, for further processing.
         /// </summary>
-        /// <param name="commandStringArrays"> The list of string arrays which contain all the commands followed by their parameters and speciciations.</param>
+        /// <param name="commandStringArrays"> The list of string arrays which contain all the commands followed by their parameters and specifications.</param>
         /// <returns> 
         /// Returns a List of List of String Arrays, inside the string arrays are string that were found between spaces when the user started the application, the first list layer groups commands together for example:
         /// -c -d [] -s [] ..... the list below that only contains parameters or the command itself so | -c | or |-d [] | and groups them together. These logical units can later be testes for validity by themself.
@@ -367,11 +366,11 @@ namespace FileCompressor
         /// <summary>
         /// This method checks if all the required parameters were given for a command.
         /// </summary>
-        /// <param name="commandStringArrays"> A list of string arrays, the first entry must containg a string array of length 1 which is the command short calling name itself.
+        /// <param name="commandStringArrays"> A list of string arrays, the first entry must containing a string array of length 1 which is the command short calling name itself.
         /// The following list entries are the logical parameter grouping, in these string arrays the first string must always be the parameters short name calling and the following entries in the array the specification for this particular parameter.
         /// </param>
         /// <returns> Whether or not the command had all its required parameters and if none of the parameters where specified twice. </returns>
-        /// <exception cref="ArchiveErrorCodeException"> Is thrown if: A parmater was specified twice.
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown if: A parameter was specified twice.
         /// </exception>
         private bool CheckForRequiredParameters(List<string[]> commandStringArrays)
         {
@@ -464,7 +463,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method splits a argument by the command short name callings and makes seperate list entries at the split point.
+        /// This method splits a argument by the command short name callings and seperates the  list entries at the split point.
         /// </summary>
         /// <param name="smallNameCommands"> The command line input that was given that should be split the short command names.</param>
         /// <returns> A List of string arrays, each entry in the list is a command that should be able to execute own its own with its own parameters and parameter specifications.</returns>
@@ -539,7 +538,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method  searches a string array for parameer long names and turns them into command short names.
+        /// This method searches a string array for parameter long names and turns them into command short names.
         /// </summary>
         /// <param name="oldArguments">  The intial array which should be modified. </param>
         /// <returns> A string array which now contains parameter short names, where before there were entries with parameter long names.</returns>

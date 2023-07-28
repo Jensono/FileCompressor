@@ -238,7 +238,7 @@ namespace FileCompressor
         /// <param name="compressedFileSize"> The assumed compressed size of the file in the archive.</param>
         /// <exception cref="ArchiveErrorCodeException"> 
         /// Is thrown when: the file, with the given file path, could not be read.
-        ///                 If an archive with the same name already exists, is read only and can not be overwriten.                 
+        ///                 If an archive with the same name already exists, is read only and can not be overwritten.                 
         /// </exception>
         private void WriteFileHeaderToArchive(string archiveFilePath, FileMetaInformation fileInfo, long compressedFileSize)
         {
@@ -311,10 +311,10 @@ namespace FileCompressor
         /// <summary>
         /// This method checks whether or not the drive into which to append to has enough space, so that the append can be performed.
         /// </summary>
-        /// <param name="fileMetaInformationList"> The list of filemetainformation for all the files that need to be appendend.</param>
+        /// <param name="fileMetaInformationList"> The list of file meta information for all the files that need to be appended.</param>
         /// <param name="expectedSizesForFiles"> The expected compressed size for all files that need to be appended as a long array.</param>
         /// <returns> A boolean value indicating whether or not there is enough disk space for the planned append execution. </returns>
-        ///  <exception cref="ArchiveErrorCodeException">  Is thrown when the individual file header can not be generated for a file. Its assumed the fileinformation is corrupt.
+        ///  <exception cref="ArchiveErrorCodeException">  Is thrown when the individual file header can not be generated for a file. Its assumed the file information is corrupt.
         /// </exception>
         private bool CheckExpectedFileSizeForAppend(List<FileMetaInformation> fileMetaInformationList, long[] expectedSizesForFiles)
         {

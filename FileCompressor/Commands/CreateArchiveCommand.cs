@@ -118,11 +118,11 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method executes the create command. It create a new archive file or overwrites the old fiel if it is not read only, and compressed all the given files into the archive. A archive consists of 3 
-        /// major components. The Archive header, containg all the meta information about the contents of the archive etc., the individual file header for a file, detailing the name of the file, its size and path, and finally
-        /// the file data itself. The archive header is only at the top and is the same for all compression types. After that follows indivual file header - file content- individual file header - file content ... and so forth.
+        /// This method executes the create command. It create a new archive file or overwrites the old file if it is not read only, and compressed all the given files into the archive. A archive consists of 3 
+        /// major components. The Archive header, containing all the meta information about the contents of the archive etc., the individual file header for a file, detailing the name of the file, its size and path, and finally
+        /// the file data itself. The archive header is only at the top and is the same for all compression types. After that follows individual file header - file content- individual file header - file content ... and so forth.
         /// </summary>
-        /// <returns> A boolean value indicating whether or not the execution was succesful.</returns>
+        /// <returns> A boolean value indicating whether or not the execution was successful.</returns>
         /// <exception cref="ArchiveErrorCodeException"> Is thrown if a Archive error is thrown during execution.</exception>
         public bool Execute()
         {

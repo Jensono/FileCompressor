@@ -161,8 +161,8 @@ namespace FileCompressor
         /// <summary>
         /// This method tries to parse the value for the destination parameters.
         /// </summary>
-        /// <param name="argumentArray"> The arguments that should be parsed for the parameter specifcation.</param>
-        /// <returns> Returns true if the string array was parsable as the parameters specfications. </returns>
+        /// <param name="argumentArray"> The arguments that should be parsed for the parameter specifications.</param>
+        /// <returns> Returns true if the string array was able to be parsed as the parameters specifications. </returns>
         public bool TryParseValueAndSetIt(string[] argumentArray)
         {
             if (this.CheckParameterSpecificationForValidity(argumentArray))

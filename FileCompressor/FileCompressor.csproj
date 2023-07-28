@@ -69,7 +69,6 @@
     <Compile Include="Initializing Values\IArchiveCommand.cs" />
     <Compile Include="ParityByte Encoding\ParitiyByteEncoder.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CompressionAlgorithms\RLECompressionAlgorithm.cs" />
     <Compile Include="ArgumentParsing\Parameters\RLECompressionParameter.cs" />
     <Compile Include="ArgumentParsing\Parameters\RetriesParameter.cs" />
@@ -79,6 +78,8 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
