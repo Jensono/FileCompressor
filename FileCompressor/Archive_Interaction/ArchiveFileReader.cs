@@ -95,7 +95,6 @@ namespace FileCompressor
             }
         }
 
-
         /// <summary>
         /// Gets the <see cref="ICompressionAlgorithm"/> Compression Algorithm that is used in the archive.
         /// </summary>
@@ -331,7 +330,6 @@ namespace FileCompressor
                 return null;
             }
         }
-
 
         /// <summary>
         /// This method read the individual file header for one of the files contained in the archive and returns it.

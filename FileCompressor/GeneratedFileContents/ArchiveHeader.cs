@@ -231,7 +231,6 @@ namespace FileCompressor
             }
         }
 
-
         /// <summary>
         /// Gets or sets the  <see cref="FixedVariables"/>Fixed Variables class used inside.
         /// </summary>
@@ -254,11 +253,14 @@ namespace FileCompressor
             }
         }
 
-        
-
         // this constructor is used for appending files to a archive, and to modfiy the existing  ArchiveHeader
 
-
+        /// <summary>
+        /// This method returns the Archive Header as a byte array so it can be written to files.
+        /// </summary>
+        /// <returns> The given archive header as a byte array. First comes the datetime (8 bytes) then the compression calling name (10 bytes with filler bytes if the name is not long enough).
+        /// Then comes the number of files as a long (8 Bytes) and finally the sum number of all files uncompressed as a long (8 bytes). Then a Parity Byte encoding is used to encode the byte array further.
+        /// The class used for this is <see cref="ParitiyByteEncoder"/>.</returns>
         public byte[] GetArchiveHeaderAsBytes()
         {
             // !IMPORTANT! header length is dynamically defined in the fixed variables class, if changes need to occur, first make them in that class.
@@ -304,7 +306,11 @@ namespace FileCompressor
         // from 0-255 to reach a sum of 255 from the normal byte and the parity byt
 
        
-
+        /// <summary>
+        /// This method is used to print a archive header to the console.
+        /// </summary>
+        /// <param name="archiveName"> The archives name as a string.</param>
+        /// <param name="archivePath"> The path to the archive as a string.</param>
         public void PrintArchiveHeaderToConsole(string archiveName, string archivePath)
         {
             Console.WriteLine($"Archive Name: {archiveName} ");

@@ -53,9 +53,9 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// 
+        /// This method appends extera information to the error code.
         /// </summary>
-        /// <param name="additionalInformation"></param>
+        /// <param name="additionalInformation"> The string which should be appended to the error code.</param>
         public void AppendErrorCodeInformation(string additionalInformation)
         {
             this.ErrorCode += additionalInformation;

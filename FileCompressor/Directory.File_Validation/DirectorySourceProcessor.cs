@@ -43,8 +43,15 @@ namespace FileCompressor
             }
 
             this.GivenSourceDirectory = sourceDirectory;
-
-            this.CheckForDirectoryValidity();
+            try
+            {
+                this.CheckForDirectoryValidity();
+            }
+            catch (ArchiveErrorCodeException e)
+            {
+                throw e;
+            }
+           
             if (!this.IsSourceValid)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Given Path  {sourceDirectory} does not exist ");
@@ -92,14 +99,30 @@ namespace FileCompressor
 
         // TODO WTF HAPPENS HERE maybe remove all the returning nulls
 
-        public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(ICompressionAlgorithm compressionAlgorithm, string[] filePathsToSkip)
+        /// <summary>
+        /// This method creates a list of <see cref="FileMetaInformation"/> that is contained in the given directory.
+        /// </summary> 
+        /// <param name="filePathsToSkip"> A list of file paths that should be skipped , or for which not to generate a <see cref="FileMetaInformation"/> object. </param>
+        /// <returns> A list of file meta information containing all the files (recursive search) in the given directory, excluding those which had 
+        /// the same path as any of the excluded paths.
+        /// </returns>
+        /// <exception cref="ArchiveErrorCodeException"> 
+        /// Is raised when: The given source is inside the class is not valid.
+        ///                 A file in the given directory could not be processes for various reasons.
+        ///                 A directory could not be processed for multiple reasons.
+        ///                 
+        /// </exception>
+        public List<FileMetaInformation> CreateFileMetaInfoListForDirectory(string[] filePathsToSkip)
         {
-            this.CheckForDirectoryValidity();
-            if (!this.IsSourceValid)
+            try
             {
-                throw new ArchiveErrorCodeException("Errorcode 1. Given Source is not valid!");
+                this.CheckForDirectoryValidity();
             }
-
+            catch (ArchiveErrorCodeException e)
+            {
+                throw e;
+            }
+          
             List<FileMetaInformation> fileInfoList = new List<FileMetaInformation>();
 
             try
@@ -144,6 +167,9 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method is used to verify the validity of the given directory source inside the class.
+        /// </summary>
         public void CheckForDirectoryValidity()
         {
             if (Directory.Exists(this.GivenSourceDirectory))
@@ -158,8 +184,7 @@ namespace FileCompressor
                 }
                 catch (UnauthorizedAccessException)
                 {
-                    Console.WriteLine($"Directory at {this.GivenSourceDirectory} is not accessible");
-                    this.IsSourceValid = false;
+                    throw new ArchiveErrorCodeException($"Directory at {this.GivenSourceDirectory} is not accessible");   
                 }
                 catch (Exception e)
                 {
@@ -172,6 +197,12 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method is used check the drive, in which the source directory resids, contains more disk space in bytes then given in the parameter.
+        /// </summary>
+        /// <param name="minimumRequiredSpace"> The space in bytes for which the disk should be checked.</param>
+        /// <returns> A boolean indicating whether or not the disk contains more space than the given long.</returns>
+        /// <exception cref="ArchiveErrorCodeException"> Is thrown when there isnt enough disk space for a new creation. Or if disk could not be checked for many reasons. </exception>
         public bool CheckForEnoughDriveSpace(long minimumRequiredSpace)
         {
             try
@@ -195,6 +226,13 @@ namespace FileCompressor
             }
         }
 
+        /// <summary>
+        /// This method procudes a relative path given two paths. One directly to a file, another to a directory in which the file lies in some way.
+        /// </summary>
+        /// <param name="directoryPath"> The directory path in which the file can be deeply buried.</param>
+        /// <param name="filePath"> The path to the file for which to create a relativ path for.</param>
+        /// <returns> The relative path of the given file in relation to the diretory.</returns>
+        /// <exception cref="ArgumentException"> Is raised when the directory path is not a sub sequence of the file path.</exception>
         public string GetRelativePath(string directoryPath, string filePath)
         {
             // could be better: if (!filePath.StartsWith(directoryPath, StringComparison.OrdinalIgnoreCase)) but we never learned this i think . TODO!! ASK IN FORUM

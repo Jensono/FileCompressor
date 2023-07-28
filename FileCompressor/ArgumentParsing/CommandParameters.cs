@@ -27,8 +27,6 @@ namespace FileCompressor
         /// </summary>
         private string commandShortName;
 
-
-
         // dont check these strings, if there false errorcodes will be thrown in the respective commands anyways, nobody can know if a given path is valid or not before executing a command , becouse paths can change during runtime.
         // THE COMPRESSIONALGO also doesnt need validation, it is null by defoult and only changes when the given command is create so leave it as is.
 
@@ -90,7 +88,7 @@ namespace FileCompressor
         /// <summary>
         /// This method turns the <see cref="CommandParameters"/> into a string that resembles the arguments that were given when executing the application.
         /// </summary>
-        /// <returns></returns>
+        /// <returns> The string that looks like the command line.</returns>
         public string TurnIntoCommandString()
         {
             string returnString = this.CommandShortName;

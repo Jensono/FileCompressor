@@ -12,22 +12,32 @@ namespace FileCompressor
     using System;
 
     /// <summary>
-    /// This class is used to add, validate and extract parity bytes from a byte array.
+    /// This class is used to add, validate and extract parity bytes from a byte array. The current implementation adds a parity byte for every byte giving , effectifly doubling the byte arrays length.
+    /// A parity byte and normal byte always come in pairs. The first byte is always the original byte, the second is the diffrence of 255 and the original byte.
     /// </summary>
     public class ParitiyByteEncoder
     {
         /// <summary>
-        /// Initializes a new instance of the <see cref="ParitiyByteEncoder"/> class.
+        /// Initializes a new instance of the <see cref="ParitiyByteEncoder"/> class. The current implementation adds a parity byte for every byte giving , effectifly doubling the byte arrays length.
+        /// A parity byte and normal byte always come in pairs. The first byte is always the original byte, the second is the diffrence of 255 and the original byte.
         /// </summary>
         public ParitiyByteEncoder()
         {
         }
 
+        /// <summary>
+        /// This method adds aprity bytes to an array of bytes, and therefor expands it. The current implementation adds a parity byte for every byte giving , effectifly doubling the byte arrays length.
+        /// A parity byte and normal byte always come in pairs. The first byte is always the original byte, the second is the diffrence of 255 and the original byte.
+        /// </summary>
+        /// <param name="byteArray"> The byte array for which to add parity bytes.</param>
+        /// <returns> A byte array which was equiped with parity bytes, doubling its size compared to the orignal length.</returns>
+        /// <exception cref="ArgumentNullException"> Is triggerd when the parameter was null. </exception>
+        /// <exception cref="ArgumentOutOfRangeException"> Is triggered when the array given contains more entries then half of 2^32 .</exception>
         public byte[] AddParityBytesToByteArray(byte[] byteArray)
         {
             if (byteArray == null)
             {
-                throw new ArgumentException($"{nameof(byteArray)} must be a valid byte array, not null!");
+                throw new ArgumentNullException($"{nameof(byteArray)} must be a valid byte array, not null!");
             }
 
             if (byteArray.Length > int.MaxValue / 2)
@@ -49,6 +59,11 @@ namespace FileCompressor
             return returnByteArray;
         }
 
+        /// <summary>
+        /// This method validates all given orignial byte - parity byte pairs inside a given byte array.
+        /// </summary>
+        /// <param name="byteArrayWithParityBytes"> The byte array which should be validated.</param>
+        /// <returns> A boolean indicating whether or not the given byte arrays parity bytes were all correct.</returns>
         public bool CheckByteArrayForParityBytes(byte[] byteArrayWithParityBytes)
         {
             // If the array is not dividable by two it cant be checked for parity bytes
@@ -72,6 +87,14 @@ namespace FileCompressor
             return true;
         }
 
+        /// <summary>
+        /// This method removes the parity bytes from a byte array, extracting the orignal bytes.
+        /// </summary>
+        /// <param name="byteArray"> The byte array from which to remove the parity bytes from.</param>
+        /// <returns> The orignal byte array that does not contain any parity bytes.</returns>
+        /// <exception cref="ArgumentException"> Is raised if the given byte array cant be divided by 2, meaning its not an array which was equiped with parity bytes by this algorithm or just some random array.
+        /// Per defintion all arrays with this algorithm must contain an even amount of bytes to be valid.
+        /// </exception>
         public byte[] RemoveParityBytesFromArray(byte[] byteArray)
         {
             // byte array length must be even, else there is a problem

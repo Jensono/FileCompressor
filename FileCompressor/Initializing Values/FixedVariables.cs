@@ -202,7 +202,6 @@ namespace FileCompressor
             }
         }
 
-
         /// <summary>
         /// Gets the index of the first byte of the number of files attribute inside the archive header.
         /// </summary>
@@ -355,7 +354,11 @@ namespace FileCompressor
         }
 
         
-
+        /// <summary>
+        /// This method returns the corresponding compression algorithm from a string that represents the compression calling or acronym.
+        /// </summary>
+        /// <param name="calling"> The acronym or calling of the compression.</param>
+        /// <returns> The corresponding <see cref="ICompressionAlgorithm"/> assosiated with the calling. If no such algorithm exists it returns null.</returns>
         public ICompressionAlgorithm GetCompressionAlgorithmFromCalling(string calling)
         {
             CurrentlyWorkingCommandsAndCompressionsForArchiver currentlyWorkingCommandsAndCompressionsForArchiver = new CurrentlyWorkingCommandsAndCompressionsForArchiver();

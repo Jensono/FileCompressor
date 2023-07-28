@@ -203,8 +203,16 @@ namespace FileCompressor
                 this.relativePathSize = value;
             }
         }
-        
 
+        /// <summary>
+        /// This method returns the Individual file header as a byte array. It consists of a long (8 bytes) detailing the size of name of the file. Then the file name (x bytes long). 
+        /// What follows is the size of the relative path of the file as a long (8 bytes) and then the path itself  (x bytes long). Lastly the uncompressed byte count of the file (8 bytes) and the compressed byte
+        /// count of the file in the archive (8 bytes).
+        /// </summary>
+        /// <returns> A byte array containg the individual file header information. It consists of a long (8 bytes) detailing the size of name of the file. Then the file name (x bytes long). 
+        /// What follows is the size of the relative path of the file as a long (8 bytes) and then the path itself  (x bytes long). Lastly the uncompressed byte count of the file (8 bytes) and the compressed byte
+        /// count of the file in the archive (8 bytes).
+        /// </returns>
         public byte[] GetFileHeaderAsByteArray()
         {
             // fileSIzeName(int)+ filename + filepathsize(INT) + FileRelativePath + filesizeoriginal (long) + filesizecompressed (long)

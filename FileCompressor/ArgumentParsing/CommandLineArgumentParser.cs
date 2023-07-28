@@ -466,7 +466,7 @@ namespace FileCompressor
         /// <summary>
         /// This method splits a argument by the command short name callings and makes seperate list entries at the split point.
         /// </summary>
-        /// <param name="smallNameCommands"> The command line input that was given that should be split the short command names</param>
+        /// <param name="smallNameCommands"> The command line input that was given that should be split the short command names.</param>
         /// <returns> A List of string arrays, each entry in the list is a command that should be able to execute own its own with its own parameters and parameter specifications.</returns>
         /// <exception cref="ArchiveErrorCodeException"> Is thrown when the first entry in the given array is not a command short name, meaning the user first input was not a command name.</exception>
         private List<string[]> SplitArgumentsByCommands(string[] smallNameCommands)
@@ -475,7 +475,6 @@ namespace FileCompressor
 
             int currentCommandStartIndex = 0;
 
-            
             if (!this.IsStringCommandShortName(smallNameCommands[0]))
             {
                 throw new ArchiveErrorCodeException("Errorcode 1. The first argument given was no Command Short or Command Long sequence!");

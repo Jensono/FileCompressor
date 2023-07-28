@@ -66,7 +66,6 @@ namespace FileCompressor
             this.RequiredParamters = requiredOptionalParameters;
         }
 
-
         /// <summary>
         /// Gets or sets the Action that tries to execute the given command.
         /// </summary>

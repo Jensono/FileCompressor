@@ -25,6 +25,12 @@ namespace FileCompressor
         {
         }
 
+        /// <summary>
+        /// This method compresses a given file from its source path into a destination path archive file with RLE Compression.
+        /// </summary>
+        /// <param name="inputOriginalFilePath"> The source path for the file that should be compressed into the archive. </param>
+        /// <param name="outputArchiveFilePath"> The output path for the compression. The archive file.</param>
+        /// <exception cref="ArchiveErrorCodeException"> Is raised if the file could not be accesed.</exception>
         public void Compress(string inputOriginalFilePath, string outputArchiveFilePath)
         {
             try

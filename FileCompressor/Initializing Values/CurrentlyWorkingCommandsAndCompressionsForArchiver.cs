@@ -28,6 +28,10 @@ namespace FileCompressor
         {
         }
 
+        /// <summary>
+        /// This method returns the currently working Compression algoithms for the programm.
+        /// </summary>
+        /// <returns> A list of <see cref="ICompressionAlgorithm"/> that only contain algorithms which can be used in the programm right now.</returns>
         public List<ICompressionAlgorithm> ReturnCurrentlyWorkingCompressionAlgorithms()
         {
             NoCompressionAlgorithm noCompressionAlgorithm = new NoCompressionAlgorithm();
@@ -36,6 +40,10 @@ namespace FileCompressor
             return new List<ICompressionAlgorithm> { noCompressionAlgorithm, rleCompressionAlgorithm };
         }
 
+        /// <summary>
+        /// This method returns all the commands that are currently working for a application. It first sets all the parameters needed for the command inside this class the returns the list.
+        /// </summary>
+        /// <returns> The currently usable commands as a list of <see cref="ICommandLineCommand"/>. </returns>
         public List<ICommandLineCommand> ReturnCurrentlyWokringCommandList()
         {
             // Create all the functions that are used inside the ParameterInformation

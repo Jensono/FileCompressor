@@ -51,7 +51,6 @@ namespace FileCompressor
             }
         }
 
-       
         /// <summary>
         /// This method executes the help command, it prints the help string to the console which contains all the information needed to operate the application.
         /// </summary>

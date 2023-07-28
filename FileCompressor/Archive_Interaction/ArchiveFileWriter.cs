@@ -33,7 +33,6 @@ namespace FileCompressor
         /// </summary>
         private string archiveName;
 
-
         /// <summary>
         /// Initializes a new instance of the <see cref="ArchiveFileWriter"/> class. 
         /// </summary>
@@ -90,7 +89,6 @@ namespace FileCompressor
                 this.archiveName = value;
             }
         }
-
 
         /// <summary>
         /// Gets or sets the compression algorithm used to compress files.
@@ -349,6 +347,7 @@ namespace FileCompressor
                 sumExpectedFileSize += expectedSizesForFiles[counter];
                 counter++;
             }
+
             DriveInfo driveInfo;
             try
             {
@@ -356,11 +355,11 @@ namespace FileCompressor
                 driveInfo = new DriveInfo(driveLetter);
 
             }
+
             catch (Exception)
             {
                 // drive is assumed to be non existend.
                 return false;
-                
             }
           
             if (driveInfo.AvailableFreeSpace > sumExpectedFileSize)
@@ -370,6 +369,5 @@ namespace FileCompressor
 
             return false;
         }
-
     }
 }

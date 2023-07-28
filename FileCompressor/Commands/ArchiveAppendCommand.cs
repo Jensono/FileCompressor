@@ -12,7 +12,6 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
 
-
     // BIG ASS TODO this command needs to first create a copy of the file that needs to be appended and then delete the original file after the append happend. Otherwise the weirdest shit could happen while appending.
     // the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
 
@@ -130,7 +129,7 @@ namespace FileCompressor
                 // for now just add the archivename itself, so it doesnt try to copy itself when using this command
                 string[] fileNamesToSkip = new string[] { this.ArchiveFilePath };
 
-                List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(compressionAlgorithm, fileNamesToSkip);
+                List<FileMetaInformation> fileMetaInfoList = directorySourceProcessor.CreateFileMetaInfoListForDirectory(fileNamesToSkip);
 
                 ArchiveHeader currentArchiveHeader = new ArchiveHeader(fileMetaInfoList.Count, compressionAlgorithm.ReturnCompressionTypeCalling(), this.GetSumOfSizeForAllFilesCompressed(fileMetaInfoList));
                 ArchiveFileWriter archiveFileWriter = new ArchiveFileWriter(this.SourcePathToDirectory, this.ArchiveFilePath, compressionAlgorithm);

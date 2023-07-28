@@ -55,7 +55,7 @@ namespace FileCompressor
         }
 
         /// <summary>
-        /// This method executes the list content command. It reads all individual file header in the archive, makes a list of the names and prints them to the console
+        /// This method executes the list content command. It reads all individual file header in the archive, makes a list of the names and prints them to the console.
         /// </summary>
         /// <returns> A boolean value indicating whether or not the execution was succesful. </returns>
         /// <exception cref="ArchiveErrorCodeException"> Is thrown if , during execution a archive error was caught.</exception>

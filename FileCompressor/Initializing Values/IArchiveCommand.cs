@@ -14,6 +14,10 @@ namespace FileCompressor
     /// </summary>
     public interface IArchiveCommand
     {
+        /// <summary>
+        /// Every Archive must be executable so the command can be executed.
+        /// </summary>
+        /// <returns> A boolean value indicating whether or not the execution was succeful.</returns>
         bool Execute();
     }
 }
