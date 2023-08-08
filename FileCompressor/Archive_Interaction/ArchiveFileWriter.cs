@@ -299,6 +299,10 @@ namespace FileCompressor
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read part of the Filepath: {archiveFilePath}. Does given directory already exist?.");
             }
+            catch (IOException e)
+            {
+                throw new ArchiveErrorCodeException($"Errorcode 1. Could not read part of the Filepath: {archiveFilePath}. A File might already be in use.");
+            }
             catch (Exception e)
             {            // todo Specify more
 
