@@ -205,13 +205,9 @@ namespace FileCompressor
                     fs.Write(newArchiveHeaderAsBytes, 0, newArchiveHeaderAsBytes.Length);
                 }
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath} .");
-            }
-            catch (Exception e)
-            {            // TODO Specify more
-                throw e;
             }
         }
 
@@ -265,14 +261,9 @@ namespace FileCompressor
                     archiveFileStream.Write(fileHeaderBytes, 0, fileHeaderBytes.Length);
                 }
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}. File may be read only.");
-            }
-            catch (Exception e)
-            {            // todo Specify more
-
-                throw e;
             }
         }
 
@@ -291,22 +282,17 @@ namespace FileCompressor
                     archiveFileStream.Write(archiveHeaderBytes, 0, archiveHeaderBytes.Length);
                 }
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read file with filepath: {archiveFilePath}. File may be read only.");
             }
-            catch (DirectoryNotFoundException e)
+            catch (DirectoryNotFoundException)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read part of the Filepath: {archiveFilePath}. Does given directory already exist?.");
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not read part of the Filepath: {archiveFilePath}. A File might already be in use.");
-            }
-            catch (Exception e)
-            {            // todo Specify more
-
-                throw e;
             }
         }
 
@@ -357,7 +343,6 @@ namespace FileCompressor
             {
                 string driveLetter = Path.GetPathRoot(this.DestinationFolder).Substring(0, 1);
                 driveInfo = new DriveInfo(driveLetter);
-
             }
             catch (Exception)
             {

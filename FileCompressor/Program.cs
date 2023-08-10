@@ -22,28 +22,20 @@ namespace FileCompressor
         /// <param name="args"> The arguments given in the command line, when executing the application from the console.</param>
         private static void Main(string[] args)
         {
-            // TODO TODO TODO AFTER FINAL TESTING /////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            // change to the args of the main method TODOTODO ///////////////
-            // TODO TODO CHANGE ALL TRY-CATCH(Exceptions) to at least throw a ARCHIVEERROR not a normal one.
-            // TODO change all internals to public or private !
-            // check all the todos!
-            // todo PRINT HELP COMMAND IF ARCHIVE ERROR HAPPENDED AND ITS USER FOULT
-            while (true)
+            FixedVariables fixedVariables = new FixedVariables();
+            CurrentlyWorkingCommandsAndCompressionsForArchiver currentlyWorkingCommandsForArchiver = new CurrentlyWorkingCommandsAndCompressionsForArchiver();
+            try
             {
-                string readShit = Console.ReadLine();
-                string[] FAKEARGUMENTS = readShit.Split(' ');
+                CommandLineArgumentParser parser = new CommandLineArgumentParser(currentlyWorkingCommandsForArchiver.ReturnCurrentlyWokringCommandList(), args);
 
-                CurrentlyWorkingCommandsAndCompressionsForArchiver currentlyWorkingCommandsForArchiver = new CurrentlyWorkingCommandsAndCompressionsForArchiver();
-                try
-                {
-                    CommandLineArgumentParser parser = new CommandLineArgumentParser(currentlyWorkingCommandsForArchiver.ReturnCurrentlyWokringCommandList(), FAKEARGUMENTS);
+                parser.ParseCommandsAndExecute();
+            }
+            catch (ArchiveErrorCodeException e)
+            {
+                Console.WriteLine(e.ErrorCode);
 
-                    parser.ParseCommandsAndExecute();
-                }
-                catch (ArchiveErrorCodeException e)
-                {
-                    Console.WriteLine(e.ErrorCode);
-                }
+                // writes the help command to the console so the user understands how to use the application.
+                Console.WriteLine(fixedVariables.HelpCommandString);
             }
         }
     }

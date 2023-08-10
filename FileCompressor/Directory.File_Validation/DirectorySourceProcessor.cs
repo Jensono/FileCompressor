@@ -145,7 +145,7 @@ namespace FileCompressor
 
                         fileInfoList.Add(new FileMetaInformation(fileInfo, relativePathForFile));
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         throw new ArchiveErrorCodeException($"Errorcode 1. Could not process file: {file} ");
                     }
@@ -157,7 +157,7 @@ namespace FileCompressor
             {
                 throw e;
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 // therse a lot of exception for Directory.GetFiles
                 // this global try catch prevents weird shit like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.

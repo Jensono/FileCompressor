@@ -255,19 +255,14 @@ namespace FileCompressor
                 e.AppendErrorCodeInformation($" Filepath: {this.ArchiveSource}");
                 throw e;
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1. Could not access file with Path: {this.ArchiveSource}");
             }           
-            catch (OutOfMemoryException e)
+            catch (OutOfMemoryException)
             { // had this exception once when i was messing with the individual file headers, should be fixed now with the archiverror that is given when the filename or the path is too long.
                 throw new ArchiveErrorCodeException($"Errorcode 1. Archive at {this.ArchiveSource} is possibly corrupted");
-            }
-            catch (Exception e)
-            {
-                // TODO REMOVE THIS SHIT
-                throw e;
-            }
+            }            
         }
 
         /// <summary>
@@ -311,14 +306,10 @@ namespace FileCompressor
                 e.AppendErrorCodeInformation($"Source File: {this.ArchiveSource} ");
                 throw e;
             }           
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             { // can happen if somebody sets a folder for extraction
                 throw new ArchiveErrorCodeException("Errorcode 1. Could not acess given file." + $"Source File: {this.ArchiveSource} ");
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
+            }            
 
             if (wasArchiveHeaderReadable)
             {
@@ -434,19 +425,14 @@ namespace FileCompressor
                     fs.Read(buffer, 0, buffer.Length);
                 }
             }
-            catch (UnauthorizedAccessException e)
+            catch (UnauthorizedAccessException)
             {
                 throw new ArchiveErrorCodeException($"Errocode 1. Given FileName could not be accesed: {this.ArchiveSource}");
             }
-            catch (FileNotFoundException e)
+            catch (FileNotFoundException)
             {
                 throw new ArchiveErrorCodeException($"Errocode 1. Given FileName does not exist : {this.ArchiveSource}");
-            }
-            catch (Exception e)
-            {
-                // TODO REMOVE THIS SHIT
-                throw e;
-            }
+            }           
 
             try
             {
@@ -454,19 +440,14 @@ namespace FileCompressor
                 header = foundArchiveHeader;
                 return true;
             }
-            catch (ArgumentNullException e)
+            catch (ArgumentNullException)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1.The source file {this.ArchiveSource} did not contain a valid header");
             }
-            catch (ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1.The source file {this.ArchiveSource} did not contain a valid header");
-            }
-            catch (Exception e)
-            {
-                // TODO REMOVE THIS SHIT
-                throw e;
-            }
+            }           
         }
     }
 }

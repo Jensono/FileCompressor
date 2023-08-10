@@ -111,48 +111,13 @@ namespace FileCompressor
 
                 // TODO specify exceptions - //todo copy it also to no compresison algo
             }
-            catch (IOException e)
+            catch (IOException)
             {
                 throw new ArchiveErrorCodeException($"Errorcode 1, could not access the Files Inside the source");
             }
-            catch (Exception e)
+            catch (UnauthorizedAccessException)
             {
-                // todo ok specify possbile exception more,even though they are probably not going to happen!
-
-                ////catch (UnauthorizedAccessException e)
-                ////{
-                ////    // Handle permission errors.
-                ////}
-                ////catch (ArgumentException e)
-                ////{
-                ////    // Handle invalid argument errors.
-                ////}
-                ////catch (PathTooLongException e)
-                ////{
-                ////    // Handle Path Too Long errors.
-                ////}
-                ////catch (DirectoryNotFoundException e)
-                ////{
-                ////    // Handle directory not found errors.
-                ////}
-                ////catch (NotSupportedException e)
-                ////{
-                ////    // Handle Not Supported errors.
-                ////}
-                ////catch (FileNotFoundException e)
-                ////{
-                ////    // Handle file not found errors.
-                ////}
-                ////catch (SecurityException e)
-                ////{
-                ////    // Handle security errors.
-                ////}
-                ////catch (Exception e)
-                ////{
-                ////    // Handle any other exception
-                ////    throw;
-                ////}
-                throw e;
+                throw new ArchiveErrorCodeException($"Errorcode 1, could not access the Files Inside the source");
             }
         }
 
