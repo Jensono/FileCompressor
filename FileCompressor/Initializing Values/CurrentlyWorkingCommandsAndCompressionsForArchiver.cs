@@ -130,7 +130,7 @@ namespace FileCompressor
                 // set the default values for this action
                 string sourceString = string.Empty;
                 string destinationString = string.Empty;
-                int waitTimeInteger = 0;
+                int waitTimeInteger = 1;
                 int retriesInteger = 0;
                 ICompressionAlgorithm usedCompressionType = new NoCompressionAlgorithm();
 
@@ -195,6 +195,7 @@ namespace FileCompressor
                             throw e;
                         }
 
+                        Console.WriteLine($"Retrying Create Command for Source: {sourceString} , Destination: {destinationString}. Encountered Error: {e.ErrorCode}");
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }
@@ -205,7 +206,7 @@ namespace FileCompressor
                 // set the default values for this action
                 string sourceString = string.Empty;
                 string destinationString = string.Empty;
-                int waitTimeInteger = 0;
+                int waitTimeInteger = 1;
                 int retriesInteger = 0;
 
                 foreach (IParameter param in parameter)
@@ -262,6 +263,7 @@ namespace FileCompressor
                             throw e;
                         }
 
+                        Console.WriteLine($"Retrying Append Command for Source: {sourceString} , Destination: {destinationString}. Encountered Error: {e.ErrorCode}");
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }
@@ -272,7 +274,7 @@ namespace FileCompressor
                 // set the default values for this action
                 string sourceString = string.Empty;
                 string destinationString = string.Empty;
-                int waitTimeInteger = 0;
+                int waitTimeInteger = 1;
                 int retriesInteger = 0;
 
                 foreach (IParameter param in parameter)
@@ -331,6 +333,7 @@ namespace FileCompressor
                             throw e;
                         }
 
+                        Console.WriteLine($"Retrying Extraction Command for Source: {sourceString} , Destination: {destinationString}. Encountered Error: {e.ErrorCode}");
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }
@@ -340,7 +343,7 @@ namespace FileCompressor
             {
                 // set the default values for this action
                 string sourceString = string.Empty;
-                int waitTimeInteger = 0;
+                int waitTimeInteger = 1;
                 int retriesInteger = 0;
                 foreach (IParameter param in parameter)
                 {
@@ -392,6 +395,7 @@ namespace FileCompressor
                             throw e;
                         }
 
+                        Console.WriteLine($"Retrying Info Command for Source: {sourceString} . Encountered Error: {e.ErrorCode}");
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }
@@ -401,7 +405,7 @@ namespace FileCompressor
             {
                 // set the default values for this action
                 string sourceString = string.Empty;
-                int waitTimeInteger = 0;
+                int waitTimeInteger = 1;
                 int retriesInteger = 0;
                 foreach (IParameter param in parameter)
                 {
@@ -451,6 +455,7 @@ namespace FileCompressor
                             throw e;
                         }
 
+                        Console.WriteLine($"Retrying List Command for Source: {sourceString} . Encountered Error: {e.ErrorCode}");
                         Thread.Sleep(1000 * waitTimeInteger);
                     }
                 }
