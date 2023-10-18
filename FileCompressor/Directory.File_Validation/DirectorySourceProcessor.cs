@@ -97,7 +97,7 @@ namespace FileCompressor
             }
         }
 
-        // TODO WTF HAPPENS HERE maybe remove all the returning nulls
+        
 
         /// <summary>
         /// This method creates a list of <see cref="FileMetaInformation"/> that is contained in the given directory.
@@ -126,7 +126,6 @@ namespace FileCompressor
 
             try
             {
-                // WHAT THE FUCK HAPPENS IF YOU GIVE IT A DIRECTORY WITH MORE THAN int.max FILES????
                 // with this option all files will be put into the string array - "*.*" just means that all types of files and all names are valid.
                 string[] fileArray = Directory.GetFiles(this.GivenSourceDirectory, "*.*", SearchOption.AllDirectories);
 
@@ -160,7 +159,7 @@ namespace FileCompressor
             catch (Exception)
             {
                 // therse a lot of exception for Directory.GetFiles
-                // this global try catch prevents weird shit like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.
+                // this global try catch prevents weird excpetions taht could happen like for example the possibility of a directory that (it and its subdirectories) contains more than 2^32 files, which would result in an integer overflow inside that method.
                 // the documentation does not mention this possibility which is kinda fishy.
                 throw new ArchiveErrorCodeException($"Errorcode 1. Given directory: {this.GivenSourceDirectory} could not be processed");
             }
@@ -234,7 +233,7 @@ namespace FileCompressor
         /// <exception cref="ArgumentException"> Is raised when the directory path is not a sub sequence of the file path.</exception>
         public string GetRelativePath(string directoryPath, string filePath)
         {
-            // could be better: if (!filePath.StartsWith(directoryPath, StringComparison.OrdinalIgnoreCase)) but we never learned this i think . TODO!! ASK IN FORUM
+           
             if (!filePath.Contains(directoryPath))
             {
                 throw new ArgumentException($"{filePath} is not in {directoryPath}");

@@ -143,7 +143,7 @@ namespace FileCompressor
             }
 
             set
-            { // todo there MUST be checks to validate that a new values is either null or the object that resides in these classes - string, int etc.
+            { 
                 if (value is null)
                 {
                     throw new ArgumentNullException($"{nameof(this.value)} can not be null!");

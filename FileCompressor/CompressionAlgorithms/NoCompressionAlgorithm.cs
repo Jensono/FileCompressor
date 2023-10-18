@@ -42,8 +42,8 @@ namespace FileCompressor
                     {
                         int standartBufferLength = 1048576; // 1MB buffer
                         var buffer = new byte[standartBufferLength];
-
-                        // TODO look closer as how this actually functions.
+                       
+                        //small todo: analyse the inner workings of these functions...
                         int bytesRead;
 
                         while ((bytesRead = originalFileFileStream.Read(buffer, 0, buffer.Length)) > 0)
@@ -61,8 +61,7 @@ namespace FileCompressor
                 throw new ArchiveErrorCodeException($"Errorcode 1, could not access the Files Inside the source");
             }
             catch (Exception e)
-            {
-                // TODO REMOVE
+            {               
                 throw e;
             }
         }
@@ -128,8 +127,7 @@ namespace FileCompressor
                 return fileInfo.Length;
             }
             catch (Exception e)
-            {
-                // TODO SPECIFIY EXCEPTION
+            {                
                 throw e;
             }
         }

@@ -155,7 +155,7 @@ namespace FileCompressor
                     {
                         IndividualFileHeaderInformation fileHeader = this.ReadIndividualFileHeader(filestream, currentPositionInFile);
 
-                        // skip the file , we dont need that shit, we only need the information
+                        // skip the file , we only need the information
                         filestream.Seek(fileHeader.SizeCompressed, SeekOrigin.Current);
 
                         foundFileInformationList.Add(fileHeader);
@@ -316,8 +316,7 @@ namespace FileCompressor
                 return header;
             }
             else
-            {
-                // THIS SHOULD NEVER EVER HAPPEN TODO
+            {               
                 return null;
             }
         }

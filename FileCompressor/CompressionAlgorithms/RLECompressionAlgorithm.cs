@@ -42,7 +42,7 @@ namespace FileCompressor
                         int standartBufferLength = 1048576; // 1MB buffer
                         var rawBuffer = new byte[standartBufferLength];
 
-                        // TODO look closer as how this actually functions.
+                        // todo small: refractor for readability.
                         int bytesRead;
 
                         byte transferByteFromLastLoop = 0;
@@ -108,8 +108,7 @@ namespace FileCompressor
                         }
                     }
                 }
-
-                // TODO specify exceptions - //todo copy it also to no compresison algo
+                               
             }
             catch (IOException)
             {
@@ -194,7 +193,7 @@ namespace FileCompressor
                     int standartBufferLength = 1048576; // 1MB buffer
                     var rawBuffer = new byte[standartBufferLength];
 
-                    // TODO ok look closer as how this actually functions.
+                    // small todo: Refractor code for readability
                     int bytesRead;
 
                     byte transferByteFromLastLoop = 0;
@@ -256,8 +255,7 @@ namespace FileCompressor
                 }
             }           
             catch (Exception e)
-            {
-                // TODO specify exceptions
+            {              
                 throw e;
             }
 

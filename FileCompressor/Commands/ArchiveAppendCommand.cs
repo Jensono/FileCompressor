@@ -10,13 +10,7 @@
 namespace FileCompressor
 {
     using System;
-    using System.Collections.Generic;
-
-    // BIG ASS TODO this command needs to first create a copy of the file that needs to be appended and then delete the original file after the append happend. Otherwise the weirdest shit could happen while appending.
-    // the destination for the create command is only the foldername and file ending eg.: archive.dat, archive.jth
-
-    // TODO TODO check the parameter properties source and destination can not be null compression can be
-    // OR - IF THE REQUIRED PARAMETERS ARE THERE ARE ALREADY CHECKED IN THE PROCESS OUTSIDE; BUT THEY DONT WANT THAT NORMALLY.
+    using System.Collections.Generic;    
 
     /// <summary>
     /// This class is the append command. When executed it appends files inside a given directory to an archive file, and modifies the archives main header to reflect changes.
@@ -117,7 +111,7 @@ namespace FileCompressor
         /// <exception cref="ArchiveErrorCodeException"> Is thrown when there way a Archive error thrown during the execution process.</exception>
         public bool Execute()
         {
-            // TODO WHEN OVERWRITTING a file first needs to be safed under some kind of temporary name, if while the file should be overwritten there is an error both are lost!!!!!
+            // todo : a File could first hold a temporary name before overwritting another one, for the moment this wouldnt be a problem though.
             try
             {
                 ArchiveFileReader archiveFileReader = new ArchiveFileReader(this.ArchiveFilePath);

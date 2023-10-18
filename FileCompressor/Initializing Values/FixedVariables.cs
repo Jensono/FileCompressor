@@ -13,8 +13,6 @@ namespace FileCompressor
     using System;
     using System.Collections.Generic;
 
-    // TODO ok THIS NEEDS TO CHANGE TO SOMETHING ELse, ITS IMPORTANT THAT I have all of the information in somekind of class but its kinda retarded
-
     /// <summary>
     /// This class contains information on fixed variables that are used in many different parts of the program.
     /// Is currently used as a "dictionary" to save values that should remain consistent throughout the program but still able
@@ -101,7 +99,7 @@ namespace FileCompressor
             this.CompressionCallingTypeRLECompression = "RLE";
             this.ArchiveHeaderCompressionCallingFillerByte = 0;
 
-            // bruh if a path or the name of a file is longer than 5000 utf-8 bytes that shit is corrupted. Paths in windows can only be 255 long. Same with Filenames. Even in Linux filepaths can only be 4096 charachters long
+            // if a path or the name of a file is longer than 5000 utf-8 bytes, that just means something was corrupted. Paths in windows can only be 255 long. Same with Filenames. Even in Linux filepaths can only be 4096 charachters long
             this.AbsoluteLimitBytesForFileNameAndPath = 5000;
 
             this.HelpCommandString =

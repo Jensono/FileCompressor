@@ -146,7 +146,7 @@ namespace FileCompressor
         /// <exception cref="ArchiveErrorCodeException"> Is thrown when there is not enough disk space on the specified drive for the archive.</exception>
         public void CreateArchive(ArchiveHeader archiveHeader, List<FileMetaInformation> filesToBeWrittenIntoArchive)
         {
-            // TODO // TODO VALIDATE THAT GIVEN ARCHIVENAME IS IN FACT NOT A PATH BUT A FILENAME that is to be created, it just worked with a path, saying that it was the same path as the destination folder.
+           
             string archiveFilePath = Path.Combine(this.DestinationFolder, this.ArchiveName);
 
             long[] expectedFileSizes = this.ReturnCompressedSizeForFilesAsArray(filesToBeWrittenIntoArchive);

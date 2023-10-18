@@ -19,7 +19,7 @@ namespace FileCompressor
     /// </summary>
     public class CurrentlyWorkingCommandsAndCompressionsForArchiver
     {
-        // todo ok, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
+        // small todo ok, split this class into more componentns that make it up, but as it is its prob. easier to understands what it does.
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CurrentlyWorkingCommandsAndCompressionsForArchiver"/> class.
@@ -123,8 +123,7 @@ namespace FileCompressor
             List<IParameter> helpCommandRequiredParameters = new List<IParameter>() { };
 
             List<ICommandLineCommand> commandLineCommands = new List<ICommandLineCommand>();
-
-            // add this shit into the actions , inside the actions we will filter
+           
             Action<List<IParameter>> createAction = (parameter) =>
             {
                 // set the default values for this action
@@ -139,7 +138,7 @@ namespace FileCompressor
                     switch (param)
                     {
                         case SourceParameter foundSourceParam:
-                            // disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            //todo there needs to be a better way to do this without casting, this switch case is also not optiomal for extension of the program if there were ever other parameters.
                             sourceString = (string)foundSourceParam.Value;
                             break;
 
@@ -214,7 +213,7 @@ namespace FileCompressor
                     switch (param)
                     {
                         case SourceParameter foundSourceParam:
-                            // disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            //todo there needs to be a better way to do this without casting, this switch case is also not optiomal for extension of the program if there were ever other parameters.
                             sourceString = (string)foundSourceParam.Value;
                             break;
 
@@ -282,7 +281,7 @@ namespace FileCompressor
                     switch (param)
                     {
                         case SourceParameter foundSourceParam:
-                            // disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            //todo there needs to be a better way to do this without casting, this switch case is also not optiomal for extension of the program if there were ever other parameters.
                             sourceString = (string)foundSourceParam.Value;
                             break;
 
@@ -350,7 +349,7 @@ namespace FileCompressor
                     switch (param)
                     {
                         case SourceParameter foundSourceParam:
-                            // disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            //todo there needs to be a better way to do this without casting, this switch case is also not optiomal for extension of the program if there were ever other parameters.
                             sourceString = (string)foundSourceParam.Value;
                             break;
 
@@ -412,7 +411,7 @@ namespace FileCompressor
                     switch (param)
                     {
                         case SourceParameter foundSourceParam:
-                            // disgusting ass shit, there must be a better way right?  todo FIX THIS UGLY ASS SHIT CASTING
+                            //todo there needs to be a better way to do this without casting, this switch case is also not optiomal for extension of the program if there were ever other parameters.
                             sourceString = (string)foundSourceParam.Value;
                             break;
 
@@ -443,7 +442,6 @@ namespace FileCompressor
                     try
                     {
                         infoArchiveCommand.Execute();
-
                         // break the loop after one succeful retry
                         break;
                     }

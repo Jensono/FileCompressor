@@ -21,7 +21,7 @@ namespace FileCompressor
     public class CreateArchiveCommand : IArchiveCommand
     {
         // source and destination, source is a path to a directory that should be compressed. Destination is just a file name that needs a ending. but maybe one should just be able to sepcify a name only
-        // TODO BOTH NEED TO BE CHECKED BEFORE STARTING THE CREATION PROCESS
+       
 
         /// <summary>
         /// The field for the path to the directory from which to compress files into an archive.
@@ -146,8 +146,7 @@ namespace FileCompressor
 
             return true;
 
-            // TODO WHEN OVERWRITTING a file first needs to be safed under some kind of temporary name, if while the file should be overwritten there is an error both are lost!!!!!
-            // the system right now could by itself produce corrupted files, but it would require major user interfirance in the programm or the process itself.
+            
         }
 
         /// <summary>
